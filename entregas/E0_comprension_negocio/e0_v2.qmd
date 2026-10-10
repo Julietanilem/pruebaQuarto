@@ -105,7 +105,7 @@ con streams sale del historial semanal de Kworb, que coincide al stream con Kagg
   mes a nivel nacional, y por entidad y año como estimación.
 - **Entregable técnico 2:** un análisis de correlación entre ese índice y los indicadores oficiales, a nivel
   nacional mensual y por entidad y año.
-- **Alineación temporal:** los charts diarios se suman al mes, que es el grano del SESNSP.
+- **Alineación temporal:** el chart semanal (viernes a jueves) se reparte entre meses según los días de cada semana que caen en cada mes; el mes es el grano del SESNSP.
 
 ### 6. Plan del proyecto
 

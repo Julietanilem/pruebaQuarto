@@ -20,6 +20,8 @@ title: "F17. México Evalúa — Índice de impunidad por entidad (Hallazgos 202
 
 ![Página de Hallazgos 2023](../img/origen_mexicoevalua.png){width=55% fig-align="center"}
 
+![Valores por entidad dentro del reporte (impunidad en desaparición y en secuestro, 2023)](../img/vista_mexicoevalua.png){width=75% fig-align="center"}
+
 
 ## Problemas anticipados para la integración
 

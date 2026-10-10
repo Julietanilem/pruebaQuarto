@@ -19,8 +19,8 @@ parcialmente** y cada limitación se dice en la matriz.
 
 | Dimensión | Preguntas | Para qué se usa |
 |---|---|---|
-| `dim_fecha` | P1, P2, P3 | Serie mensual de consumo y de violencia; subtotales por año en P1; marcos de 12 meses en P3; etapa de la pandemia como control en P2 y P3. |
-| `dim_entidad` | P1, P2 | Proporción misógina estimada por entidad; panel entidad-año de P2. |
+| `dim_fecha` | P1, P2, P3 | Serie mensual de consumo y de violencia; subtotales por año en P1; marcos de 12 meses en P3; propuesta nacional de restricción musical, para el criterio de éxito de E0. |
+| `dim_entidad` | P1, P2 | Proporción misógina estimada por entidad y por región del Banco de México; panel entidad-año de P2. |
 | `dim_cancion` | P1, P2, P3, P4 | Clasificación de cada canción y su origen (MiSonGyny o clasificador), su género y macrogénero, y el término de búsqueda que define su peso por entidad. |
 | `dim_tipo_violencia` | P2, P3, P4 | Tipos de violencia comparables entre la música y las fuentes oficiales. |
 | `dim_contexto_entidad` | P1, P2, P4 | Usuarios de internet para el peso (P1); población de mujeres y variables de control (P2); prevalencias de la ENDIREH (P4); propuestas estatales de restricción musical, para el criterio de éxito de E0. |
@@ -32,12 +32,14 @@ Ninguna dimensión queda sin pregunta.
 | Métrica | Hecho | Preguntas | Vista del DataMart |
 |---|---|---|---|
 | `streams_estimados` | `fact_consumo_musical` | P1, P2, P3, P4 | Todas las vistas de consumo |
-| `peso_entidad` | `fact_consumo_musical` | P1 | Base de las medidas estimadas; se revisa en la preparación |
+| `peso_entidad` | `fact_consumo_musical` | P1 | Base de las medidas estimadas; se audita con `interes_busqueda` y `origen_peso` |
 | `interes_busqueda` | `fact_consumo_musical` | P1 | Dato de origen del peso, para auditarlo |
 | `semanas_en_chart_nacional` | `fact_consumo_musical` | P1 | `p1_proporcion_misogina_genero` |
 | `mejor_posicion_nacional` | `fact_consumo_musical` | P3 | `p3_tendencia_tipo_violencia` |
 | `carpetas` | `fact_violencia` | P2, P3, P4 | `p2_serie_mensual_nacional`, `p2_panel_entidad_anio`, `p4_tipos_musica_vs_oficial` |
 | `victimas_mujeres` | `fact_violencia` | P2 | `p2_serie_mensual_nacional`, `p2_panel_entidad_anio` |
+| `victimas_mujeres_menores` | `fact_violencia` | P2 | `p2_panel_entidad_anio` (parte de víctimas menores de edad) |
+| `victimas_hombres` | `fact_violencia` | P2 | `p2_panel_entidad_anio` (tasa de comparación) |
 
 Las columnas `fuente` y `origen_peso` no son métricas: guardan de qué fuente sale cada fila y de dónde salió el
 peso, que es la trazabilidad a la fuente que pide el criterio de éxito de E0.

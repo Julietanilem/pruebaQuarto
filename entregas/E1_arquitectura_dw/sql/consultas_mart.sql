@@ -98,8 +98,7 @@ FROM indicadores;
 
 -- ---------------------------------------------------------------------
 -- P2a. Serie mensual nacional: proporción misógina del consumo frente a
---      las tasas por 100 mil mujeres de cada tipo de violencia, con la
---      etapa de la pandemia como control.
+--      las tasas por 100 mil mujeres de cada tipo de violencia.
 -- ---------------------------------------------------------------------
 CREATE OR REPLACE VIEW misoginia_mart.p2_serie_mensual_nacional AS
 WITH musica AS (
@@ -132,7 +131,6 @@ SELECT
   d.fecha,
   d.anio,
   d.mes,
-  d.etapa_covid,
   d.evento_restriccion_musical,
   vi.tipo_lgamvlv,
   vi.es_control,
@@ -151,23 +149,21 @@ LEFT JOIN musica AS mu ON mu.fecha_key = vi.fecha_key;
 
 -- ---------------------------------------------------------------------
 -- P2b. Coeficiente de correlación nacional por tipo de violencia, con el
---      número de meses que entran, y la misma correlación sin los meses
---      de confinamiento.
+--      número de meses que entran.
 -- ---------------------------------------------------------------------
 CREATE OR REPLACE VIEW misoginia_mart.p2_correlacion_nacional AS
 SELECT
   tipo_lgamvlv,
   es_control,
   COUNTIF(proporcion_misogina IS NOT NULL AND tasa_indicador_100k_mujeres IS NOT NULL) AS n_meses,
-  CORR(proporcion_misogina, tasa_indicador_100k_mujeres) AS correlacion_pearson,
-  CORR(IF(etapa_covid = 'confinamiento', NULL, proporcion_misogina),
-       IF(etapa_covid = 'confinamiento', NULL, tasa_indicador_100k_mujeres)) AS correlacion_sin_confinamiento
+  CORR(proporcion_misogina, tasa_indicador_100k_mujeres) AS correlacion_pearson
 FROM misoginia_mart.p2_serie_mensual_nacional
 GROUP BY tipo_lgamvlv, es_control;
 
 -- ---------------------------------------------------------------------
 -- P2c. Panel entidad-año: proporción misógina estimada frente a tasas
---      oficiales, con variables de control. CORR como función de ventana:
+--      oficiales, con variables de control, la tasa de víctimas hombres para
+--      comparar y la parte de víctimas menores de edad. CORR como función de ventana:
 --      entre estados para cada año y con todos los años juntos.
 -- ---------------------------------------------------------------------
 CREATE OR REPLACE VIEW misoginia_mart.p2_panel_entidad_anio AS
@@ -177,8 +173,10 @@ WITH violencia AS (
     e.cve_ent,
     t.tipo_lgamvlv,
     v.contexto_key,
-    SUM(v.carpetas)         AS carpetas,
-    SUM(v.victimas_mujeres) AS victimas_mujeres
+    SUM(v.carpetas)                 AS carpetas,
+    SUM(v.victimas_mujeres)         AS victimas_mujeres,
+    SUM(v.victimas_mujeres_menores) AS victimas_mujeres_menores,
+    SUM(v.victimas_hombres)         AS victimas_hombres
   FROM misoginia_dw.fact_violencia AS v
   JOIN misoginia_dw.dim_fecha          AS d ON d.fecha_key = v.fecha_key
   JOIN misoginia_dw.dim_entidad        AS e ON e.entidad_key = v.entidad_key
@@ -196,6 +194,8 @@ panel AS (
     SAFE_DIVIDE(vi.carpetas, ctx.poblacion_mujeres) * 100000         AS tasa_carpetas_100k_mujeres,
     SAFE_DIVIDE(vi.victimas_mujeres, ctx.poblacion_mujeres) * 100000 AS tasa_victimas_100k_mujeres,
     SAFE_DIVIDE(COALESCE(vi.carpetas, vi.victimas_mujeres), ctx.poblacion_mujeres) * 100000 AS tasa_indicador_100k_mujeres,
+    SAFE_DIVIDE(vi.victimas_hombres, ctx.poblacion_hombres) * 100000 AS tasa_victimas_100k_hombres,
+    SAFE_DIVIDE(vi.victimas_mujeres_menores, vi.victimas_mujeres)     AS pct_victimas_menores,
     ctx.pct_usuarios_internet,
     ctx.pct_pobreza,
     ctx.indice_impunidad,
@@ -214,6 +214,8 @@ SELECT
   tasa_carpetas_100k_mujeres,
   tasa_victimas_100k_mujeres,
   tasa_indicador_100k_mujeres,
+  tasa_victimas_100k_hombres,
+  pct_victimas_menores,
   pct_usuarios_internet,
   pct_pobreza,
   indice_impunidad,
@@ -236,7 +238,6 @@ WITH mensual AS (
   SELECT
     d.fecha,
     d.indice_mes,
-    d.etapa_covid,
     t.tipo_lgamvlv,
     SUM(f.streams_estimados) AS streams,
     -- El dato nacional se repite igual en las 32 entidades: el promedio no cambia
@@ -246,7 +247,7 @@ WITH mensual AS (
   JOIN misoginia_dw.dim_cancion        AS c ON c.cancion_key = f.cancion_key
   JOIN misoginia_dw.dim_tipo_violencia AS t ON t.tipo_violencia_key = f.tipo_violencia_key
   WHERE c.es_misogina IS NOT NULL
-  GROUP BY d.fecha, d.indice_mes, d.etapa_covid, t.tipo_lgamvlv
+  GROUP BY d.fecha, d.indice_mes, t.tipo_lgamvlv
 ),
 participacion AS (
   SELECT
@@ -256,7 +257,6 @@ participacion AS (
 )
 SELECT
   fecha,
-  etapa_covid,
   tipo_lgamvlv,
   streams,
   posicion_promedio,

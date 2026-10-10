@@ -89,7 +89,7 @@ cada fuente, porque la carga desde la consola de BigQuery admite archivos de has
 | `stg_conapo_poblacion` | [F3](fuentes/f03_conapo.qmd): 00_Pob_Mitad_1950_2070.csv, 45.2 MB | Archivo completo. |
 | `stg_kworb_mx_semanal` | [F4](fuentes/f04_kworb.qmd): historial semanal de México de cada canción, de 5,146 páginas, más la lista `mx_weekly_totals` | Una fila por canción y semana con la celda tal como aparece (`posición (streams)`) y la fecha de descarga. La muestra son las 300 canciones con más streams. |
 | `stg_kaggle_charts_mx` | [F5](fuentes/f05_kaggle.qmd): charts.csv, filas de México, 60.8 MB | Solo para validar a Kworb en 2017–2021. El archivo global de 3.48 GB excede el límite; se carga la parte de México. |
-| `stg_trends_<termino>_<periodo>` | [F11](fuentes/f11_google_trends.qmd): un CSV por término y periodo, < 1 KB cada uno | Una tabla por descarga, sin modificar. La muestra son los cuatro archivos de "reguetón" y artistas de la [página de pivote](pivote.qmd#evidencia-trends). |
+| `stg_trends_<tema>_<anio>` | [F11](fuentes/f11_google_trends.qmd): un CSV por tema (o término) y año, < 1 KB cada uno | Una tabla por descarga, sin modificar. La muestra son las descargas de 2021 de la [página de pivote](pivote.qmd#evidencia-trends), en `datos/trends/`. |
 | `stg_rnpdno` | [F13](fuentes/f13_rnpdno.qmd): versión pública del RNPDNO, 13 MB | Sin las columnas de nombres, por ser datos personales. |
 | `stg_censo_iter` | [F14](fuentes/f14_censo_iter.qmd): conjunto_de_datos_iter_00CSV20.csv, 150 MB | Excede el límite de la consola; se carga desde Cloud Storage o una muestra de filas por entidad. |
 | `stg_coneval_pobreza` | [F15](fuentes/f15_coneval.qmd): anexo estadístico entidades 2022, 318 KB | BigQuery no carga Excel; se carga cada hoja como CSV. |
@@ -116,13 +116,13 @@ la siguiente entrega; aquí quedan definidas sus tablas y las reglas que deben c
 
 | Tabla silver | Grano | Entradas | Qué se hace | Alimenta en gold |
 |---|---|---|---|---|
-| `slv_cat_entidades` | Una fila por entidad y forma de escribirla | Nombres de SESNSP, CONAPO, ENDIREH, RNPDNO, Trends (español e inglés) y Natural Earth | Catálogo de equivalencias de cada nombre a la clave INEGI | `dim_entidad` |
+| `slv_cat_entidades` | Una fila por entidad y forma de escribirla | Nombres de SESNSP, CONAPO, ENDIREH, RNPDNO, Trends (español e inglés) y Natural Earth | Catálogo de equivalencias de cada nombre a la clave INEGI, con su región del Banco de México | `dim_entidad` |
 | `slv_charts_mes` | Canción y mes, nacional | `stg_kworb_mx_semanal`; `stg_kaggle_charts_mx` para validar | Separar posición y streams de cada celda; repartir cada semana entre meses según sus días; contar semanas en el chart y mejor posición | `fact_consumo_musical`, antes del reparto por entidad |
-| `slv_canciones` | Canción | `slv_charts_mes`, `stg_musicbrainz_tags`, Last.fm, letras de LRCLIB, `stg_misongyny` | Clave normalizada; género y país validados; etiqueta directa de MiSonGyny o del clasificador | `dim_cancion` y el `tipo_violencia_key` del hecho |
-| `slv_pesos_trends` | Término, entidad y periodo | `stg_trends_*`, `slv_cat_entidades`, `slv_contexto_entidad_anio` | Llevar nombres a clave INEGI; escalar por usuarios de internet; elegir el nivel de respaldo ([fórmula](estrella.qmd#estimacion)) | `peso_entidad`, `interes_busqueda`, `origen_peso` |
-| `slv_violencia_mes` | Entidad, delito o registro y mes | `stg_sesnsp_delitos`, `stg_sesnsp_victimas`, `stg_rnpdno` | Pasar el SESNSP de una columna por mes a una fila por mes; víctimas mujeres; contar mujeres desaparecidas por mes de desaparición | `fact_violencia` |
+| `slv_canciones` | Canción | `slv_charts_mes`, `stg_musicbrainz_tags`, Last.fm, letras de LRCLIB, `stg_misongyny` | Clave normalizada; género y país validados; etiquetas crudas; macrogénero agrupando las etiquetas más frecuentes; etiqueta directa de MiSonGyny o del clasificador | `dim_cancion` y el `tipo_violencia_key` del hecho |
+| `slv_pesos_trends` | Tema, entidad y año | `stg_trends_*`, `slv_cat_entidades`, `slv_contexto_entidad_anio` | Llevar nombres a clave INEGI; escalar por usuarios de internet; elegir el nivel de respaldo ([fórmula](estrella.qmd#estimacion)) | `peso_entidad`, `interes_busqueda`, `origen_peso` |
+| `slv_violencia_mes` | Entidad, delito o registro y mes | `stg_sesnsp_delitos`, `stg_sesnsp_victimas`, `stg_rnpdno` | Pasar el SESNSP de una columna por mes a una fila por mes; víctimas mujeres, mujeres menores de edad y hombres; contar mujeres desaparecidas por mes de desaparición y estatus | `fact_violencia` |
 | `slv_tipos_violencia` | Delito o categoría | Delitos del SESNSP, categorías del clasificador, RNPDNO | Mapeo a la LGAMVLV ([tabla de mapeo](estrella.qmd#mapeo-inicial-a-la-lgamvlv)) | `dim_tipo_violencia` |
-| `slv_contexto_entidad_anio` | Entidad y año | CONAPO, ENDUTIH, Censo, CONEVAL, México Evalúa, ENDIREH | Población; usuarios de internet; prevalencias con el factor de expansión de la ENDIREH; propuestas de restricción | `dim_contexto_entidad` |
+| `slv_contexto_entidad_anio` | Entidad y año | CONAPO, ENDUTIH, Censo, CONEVAL, México Evalúa, ENDIREH | Población total, de mujeres y de hombres; usuarios de internet; prevalencias con el factor de expansión de la ENDIREH; propuestas de restricción | `dim_contexto_entidad` |
 
 `dim_fecha` no pasa por silver: es un calendario que se genera directamente en gold.
 
@@ -174,9 +174,9 @@ vacías.
 |---|---|---|
 | `p1_proporcion_misogina_genero` | P1 | `GROUP BY ROLLUP` por año, macrogénero y género, con `GROUPING` para marcar los subtotales; reporta qué parte está etiquetada por personas (MiSonGyny). |
 | `p1_proporcion_misogina_entidad` | P1 | `RANK` de entidades por año y diferencia contra el promedio estatal con `AVG() OVER`. |
-| `p2_serie_mensual_nacional` | P2 | Serie mensual de proporción misógina y tasas por 100 mil mujeres por tipo de violencia, con la etapa de la pandemia como control. |
+| `p2_serie_mensual_nacional` | P2 | Serie mensual de proporción misógina y tasas por 100 mil mujeres por tipo de violencia. |
 | `p2_correlacion_nacional` | P2 | `CORR` por tipo de violencia, con el número de meses. |
-| `p2_panel_entidad_anio` | P2 | `CORR` como función de ventana: entre entidades de cada año y con todos los años juntos; variables de control. |
+| `p2_panel_entidad_anio` | P2 | `CORR` como función de ventana: entre entidades de cada año y con todos los años juntos; variables de control, tasa de víctimas hombres y parte de víctimas menores de edad. |
 | `p3_tendencia_tipo_violencia` | P3 | Participación mensual con `SUM() OVER`, media móvil de 12 meses y cambio anual con marcos `RANGE`, que cuentan meses de calendario aunque falte alguno. |
 | `p4_tipos_musica_vs_oficial` | P4 | `UNPIVOT` de las prevalencias de la ENDIREH y `RANK` de cada tipo en la música, el SESNSP y la ENDIREH. |
 
@@ -293,8 +293,7 @@ FROM indicadores;
 
 -- ---------------------------------------------------------------------
 -- P2a. Serie mensual nacional: proporción misógina del consumo frente a
---      las tasas por 100 mil mujeres de cada tipo de violencia, con la
---      etapa de la pandemia como control.
+--      las tasas por 100 mil mujeres de cada tipo de violencia.
 -- ---------------------------------------------------------------------
 CREATE OR REPLACE VIEW misoginia_mart.p2_serie_mensual_nacional AS
 WITH musica AS (
@@ -327,7 +326,6 @@ SELECT
   d.fecha,
   d.anio,
   d.mes,
-  d.etapa_covid,
   d.evento_restriccion_musical,
   vi.tipo_lgamvlv,
   vi.es_control,
@@ -346,23 +344,21 @@ LEFT JOIN musica AS mu ON mu.fecha_key = vi.fecha_key;
 
 -- ---------------------------------------------------------------------
 -- P2b. Coeficiente de correlación nacional por tipo de violencia, con el
---      número de meses que entran, y la misma correlación sin los meses
---      de confinamiento.
+--      número de meses que entran.
 -- ---------------------------------------------------------------------
 CREATE OR REPLACE VIEW misoginia_mart.p2_correlacion_nacional AS
 SELECT
   tipo_lgamvlv,
   es_control,
   COUNTIF(proporcion_misogina IS NOT NULL AND tasa_indicador_100k_mujeres IS NOT NULL) AS n_meses,
-  CORR(proporcion_misogina, tasa_indicador_100k_mujeres) AS correlacion_pearson,
-  CORR(IF(etapa_covid = 'confinamiento', NULL, proporcion_misogina),
-       IF(etapa_covid = 'confinamiento', NULL, tasa_indicador_100k_mujeres)) AS correlacion_sin_confinamiento
+  CORR(proporcion_misogina, tasa_indicador_100k_mujeres) AS correlacion_pearson
 FROM misoginia_mart.p2_serie_mensual_nacional
 GROUP BY tipo_lgamvlv, es_control;
 
 -- ---------------------------------------------------------------------
 -- P2c. Panel entidad-año: proporción misógina estimada frente a tasas
---      oficiales, con variables de control. CORR como función de ventana:
+--      oficiales, con variables de control, la tasa de víctimas hombres para
+--      comparar y la parte de víctimas menores de edad. CORR como función de ventana:
 --      entre estados para cada año y con todos los años juntos.
 -- ---------------------------------------------------------------------
 CREATE OR REPLACE VIEW misoginia_mart.p2_panel_entidad_anio AS
@@ -372,8 +368,10 @@ WITH violencia AS (
     e.cve_ent,
     t.tipo_lgamvlv,
     v.contexto_key,
-    SUM(v.carpetas)         AS carpetas,
-    SUM(v.victimas_mujeres) AS victimas_mujeres
+    SUM(v.carpetas)                 AS carpetas,
+    SUM(v.victimas_mujeres)         AS victimas_mujeres,
+    SUM(v.victimas_mujeres_menores) AS victimas_mujeres_menores,
+    SUM(v.victimas_hombres)         AS victimas_hombres
   FROM misoginia_dw.fact_violencia AS v
   JOIN misoginia_dw.dim_fecha          AS d ON d.fecha_key = v.fecha_key
   JOIN misoginia_dw.dim_entidad        AS e ON e.entidad_key = v.entidad_key
@@ -391,6 +389,8 @@ panel AS (
     SAFE_DIVIDE(vi.carpetas, ctx.poblacion_mujeres) * 100000         AS tasa_carpetas_100k_mujeres,
     SAFE_DIVIDE(vi.victimas_mujeres, ctx.poblacion_mujeres) * 100000 AS tasa_victimas_100k_mujeres,
     SAFE_DIVIDE(COALESCE(vi.carpetas, vi.victimas_mujeres), ctx.poblacion_mujeres) * 100000 AS tasa_indicador_100k_mujeres,
+    SAFE_DIVIDE(vi.victimas_hombres, ctx.poblacion_hombres) * 100000 AS tasa_victimas_100k_hombres,
+    SAFE_DIVIDE(vi.victimas_mujeres_menores, vi.victimas_mujeres)     AS pct_victimas_menores,
     ctx.pct_usuarios_internet,
     ctx.pct_pobreza,
     ctx.indice_impunidad,
@@ -409,6 +409,8 @@ SELECT
   tasa_carpetas_100k_mujeres,
   tasa_victimas_100k_mujeres,
   tasa_indicador_100k_mujeres,
+  tasa_victimas_100k_hombres,
+  pct_victimas_menores,
   pct_usuarios_internet,
   pct_pobreza,
   indice_impunidad,
@@ -431,7 +433,6 @@ WITH mensual AS (
   SELECT
     d.fecha,
     d.indice_mes,
-    d.etapa_covid,
     t.tipo_lgamvlv,
     SUM(f.streams_estimados) AS streams,
     -- El dato nacional se repite igual en las 32 entidades: el promedio no cambia
@@ -441,7 +442,7 @@ WITH mensual AS (
   JOIN misoginia_dw.dim_cancion        AS c ON c.cancion_key = f.cancion_key
   JOIN misoginia_dw.dim_tipo_violencia AS t ON t.tipo_violencia_key = f.tipo_violencia_key
   WHERE c.es_misogina IS NOT NULL
-  GROUP BY d.fecha, d.indice_mes, d.etapa_covid, t.tipo_lgamvlv
+  GROUP BY d.fecha, d.indice_mes, t.tipo_lgamvlv
 ),
 participacion AS (
   SELECT
@@ -451,7 +452,6 @@ participacion AS (
 )
 SELECT
   fecha,
-  etapa_covid,
   tipo_lgamvlv,
   streams,
   posicion_promedio,
@@ -547,7 +547,7 @@ capturas no deben mostrar llaves ni credenciales.
 | Tiempo | SESNSP por mes; RNPDNO por fecha de desaparición; Kworb por semana (de viernes a jueves); Kaggle por día; Trends por el periodo que se descargue; contexto por año | Cada semana de Kworb se reparte entre meses según sus días; Trends se descarga por año (y por mes si se puede); el contexto entra por entidad y año en `dim_contexto_entidad`. |
 | ID de canción de Spotify | Kworb y Kaggle *Spotify Charts* | Unión exacta, pero una misma canción puede tener otro ID en Kaggle: de las canciones de 2021 de la prueba, 58 coincidieron por ID. |
 | Artista y título | Charts, MiSonGyny y LRCLIB | Se normalizan en `clave_cancion` para unir consumo, etiquetas de referencia y letras. |
-| Artista | Charts, MusicBrainz, Last.fm y Google Trends | Asigna el género y el término de búsqueda (`termino_trends`). |
+| Artista | Charts, MusicBrainz, Last.fm y Google Trends | Asigna el género, las etiquetas y el tema de Trends (`termino_trends`). |
 | Tipo de violencia | SESNSP y el clasificador | Se mapean a la LGAMVLV en `dim_tipo_violencia`. |
 
 ### Diferencias de granularidad y problemas anticipados
@@ -555,14 +555,14 @@ capturas no deben mostrar llaves ni credenciales.
 | Tema | Problema | Cómo se maneja |
 |---|---|---|
 | Consumo por entidad | Ninguna fuente abierta da reproducciones por entidad. | Se estima con Google Trends ([pivote](pivote.qmd)); toda salida por entidad lo indica. |
-| Escala de Trends | Cada descarga se normaliza por separado (la entidad con más interés vale 100). Varios términos en una descarga suman 100 por entidad. | Un término por descarga; el peso solo usa el reparto entre entidades dentro de cada descarga. |
-| Texto del término | Una descarga usó `regueton` y otra `Reguetón`. | El texto exacto se guarda en `termino_trends` y se usa siempre igual. |
-| Volumen bajo en periodos cortos | Tones And I tiene valor en 29 estados en 2021 y solo en 7 en tres meses de 2026. | Respaldo con el peso del género o de los usuarios de internet, marcado en `origen_peso`. |
+| Escala de Trends | Cada descarga se normaliza por separado (la entidad con más interés vale 100). Varios términos en una descarga suman 100 por entidad. | Un tema por descarga; el peso solo usa el reparto entre entidades dentro de cada descarga. |
+| Escritura del término | "Reguetón" con acento da 17 estados con valor y "Regueton" sin acento 32, con otro orden. | Se descarga el tema de Trends, que reúne todas las escrituras; es estable entre descargas (correlación de 0.99). |
+| Volumen bajo en periodos cortos | Tones And I tiene valor en 29 estados en 2021 y solo en 7 en tres meses de 2026. | Descargas por año; si un artista tiene menos de 28 estados con valor, se usa el tema del género, marcado en `origen_peso`. |
 | Periodos | Kaggle solo cubre 2017–2021 y le faltan 34 días, casi todos de diciembre de 2021. | Kworb semanal es la fuente para toda la ventana 2015–2025; Kaggle solo valida. |
 | Semanas que cruzan meses | Una semana de viernes a jueves puede caer en dos meses. | Se reparte por días; se supone consumo parejo dentro de la semana. |
 | Tipos de violencia | El SESNSP no coincide uno a uno con la LGAMVLV y no mide violencia económica, patrimonial ni mediática. | Mapeo en `dim_tipo_violencia`, con los tipos sin delito visibles en P4. |
 | Coincidencia en MusicBrainz | La búsqueda que toma el primer resultado asignó a Sebastián Yatra las etiquetas de un compositor clásico alemán. | Validar país, tipo de artista y puntaje de la búsqueda; revisar a mano los casos dudosos. |
-| Nombres ambiguos en Trends | Artistas como Matisse, Aleman o Intocable comparten nombre con palabras o con otras personas, lo que infla el interés. | Revisar el término de cada artista y, si es ambiguo, usar el tema de artista de Trends o el peso del género. |
+| Nombres ambiguos en Trends | Artistas como Matisse, Aleman o Intocable comparten nombre con palabras o con otras personas. | El tema identifica a la persona o al grupo, no la palabra; si no hay tema, se usa el peso del género. |
 | RNPDNO escaso | Solo 3,311 registros de mujeres con fecha entre 2017 y 2023, y termina en agosto de 2023. | Se usa solo agregado a año en P2. |
 | Sexo de la víctima | El archivo de delitos no dice el sexo; el de víctimas solo cubre algunos delitos. | Dos medidas separadas: `carpetas` y `victimas_mujeres`. |
 | Contexto incompleto | CONEVAL es de años pares, la ENDIREH tiene un levantamiento en la ventana y el Censo solo 2020. | Se guardan en el año que corresponde y se dejan vacíos los demás. |

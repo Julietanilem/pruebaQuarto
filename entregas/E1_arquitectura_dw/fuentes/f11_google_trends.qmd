@@ -8,7 +8,7 @@ title: "F11. Google Trends — interés de búsqueda por estado"
 |---|---|
 | **Nombre y dueño** | Google Trends, servicio de Google LLC que publica el interés relativo de búsqueda por región y periodo. |
 | **URL** | <https://trends.google.com/trends/explore?geo=MX> |
-| **Acceso** | Descarga de CSV desde el sitio, un término por descarga, con el sitio en español (verificado el 9 y el 10 de octubre de 2026; ver [pivote](../pivote.qmd#evidencia-trends)). También con la biblioteca `pytrends`, que no es oficial; Google limita el número de consultas. |
+| **Acceso** | Descarga de CSV desde el sitio, un **tema** por descarga ("Bad Bunny — Cantante", "Reguetón — Género musical"); si no hay tema, el término más común, con el sitio en español (ver la verificación en el [pivote](../pivote.qmd#evidencia-trends)). También con la biblioteca `pytrends`, que no es oficial; Google limita el número de consultas. |
 | **Formato y tamaño** | Tablas pequeñas por consulta: 32 filas por estado o una fila por periodo. |
 | **Grano** | Interés por estado: una fila por estado y término, para todo el periodo consultado. Interés en el tiempo: una fila por mes y término, a nivel nacional. |
 | **Cobertura** | Desde 2004 hasta hoy. Prueba: "corridos tumbados", 2017–2025, 108 meses. |
@@ -16,6 +16,8 @@ title: "F11. Google Trends — interés de búsqueda por estado"
 | **Licencia y restricciones** | Datos públicos de Google; se cita "Fuente: Google Trends". El acceso con `pytrends` no es una API oficial. |
 | **Llaves de integración** | Estado: nombre o código ISO (`MX-ZAC`), que se relaciona con la clave INEGI de la entidad. Periodo: mes o año, que se relaciona con la fecha de SESNSP y de los charts. Término: género o artista, que se relaciona con MusicBrainz y con los charts. |
 | **Preguntas de E0** | P1, P2. |
+
+![Consulta en el sitio: México, 2021, interés por subregión y botón de descarga](../img/origen_trends.png){width=70% fig-align="center"}
 
 ![Interés por estado de "corridos tumbados", 2017–2025](../img/vista_trends_region.png){width=70% fig-align="center"}
 
@@ -25,11 +27,12 @@ title: "F11. Google Trends — interés de búsqueda por estado"
 ## Problemas anticipados para la integración
 
 - Los valores son relativos, de 0 a 100, y se recalculan en cada consulta, por lo que dos consultas distintas no pueden compararse directamente.
-- El interés por estado se obtiene para todo el periodo consultado y no mes por mes.
+- Cada descarga da un solo valor por estado para todo el periodo consultado; para tener un valor por año hay que hacer una descarga por año.
 - Mide búsquedas en Google, no reproducciones de música.
 - Algunos nombres de estados no coinciden con los del catálogo del INEGI, y cambian con el idioma del sitio ("Mexico City" en inglés, "Ciudad de México" en español).
 - Si una descarga trae varios términos, en la vista por estado los valores de cada estado suman 100 entre los términos y ya no se pueden comparar estados.
 - En periodos cortos, los artistas con poco volumen quedan en cero en muchos estados.
 - Algunos nombres de artistas son también palabras comunes o nombres de otras personas (Matisse, Aleman, Intocable).
+- Un mismo término con y sin acento da resultados distintos ("reguetón" y "regueton"). Descargar el **tema** del artista o del género, y no el término, resuelve la ortografía y la ambigüedad; el término más común queda solo como respaldo cuando no hay tema.
 
 [← Volver a fuentes de datos](../fuentes.qmd)

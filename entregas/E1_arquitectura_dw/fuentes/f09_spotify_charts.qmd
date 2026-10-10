@@ -13,11 +13,14 @@ Portal oficial de Spotify y única fuente con consumo musical por ciudad. Se ace
 | **Grano** | Una fila por canción y semana en cada ciudad: posición, pico, posición previa y racha. |
 | **Cobertura** | Semanal. |
 | **Información de México** | El equipo verificó el chart semanal de la Ciudad de México (semana del 7 de agosto de 2025). |
-| **Licencia y restricciones** | Términos de uso: solo uso personal; prohíben *scraping* o cualquier medio automatizado, copiar, redistribuir o mostrar públicamente el contenido. |
+| **Licencia y restricciones** | Charts pide iniciar sesión con la cuenta de Spotify, así que aplican las [Directrices de usuario de Spotify](https://www.spotify.com/mx/legal/user-guidelines/), que prohíben "el 'rastreo' o la 'extracción', ya sea por medios manuales o automatizados". |
 | **Llaves de integración** | Ciudad, semana, artista y título. |
+| **Preguntas de E0** | P1, como referencia para contrastar la estimación por entidad en las ciudades disponibles. |
 | **Decisión** | **Aceptada con limitaciones:** cumple los criterios C1, C2 y C3. Cumple C4 solo de forma parcial, porque sus términos de uso permiten consultar los charts en pantalla para uso personal, pero prohíben extraer, copiar o redistribuir su contenido. Por eso se usa únicamente como referencia de consulta y sus datos no se cargan al almacén. |
 
 ![Chart semanal de la Ciudad de México: sin descarga ni columna de streams](../img/equipo_spotify_cdmx.png){width=60% fig-align="center"}
+
+No hay vista previa de datos porque esta fuente no se descarga ni se carga al almacén.
 
 
 ## Problemas anticipados para la integración

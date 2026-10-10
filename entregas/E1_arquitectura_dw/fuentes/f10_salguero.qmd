@@ -8,7 +8,7 @@ Mapa ciudadano de feminicidios reportados por la prensa. Se acepta como **contra
 |---|---|
 | **Nombre y dueño** | "Feminicidios en México", Mapa Nacional de Feminicidios en México reportados por la prensa. Elaborado por la geofísica María Salguero, a partir de notas de prensa desde 2016 [[4]](../referencias.qmd). |
 | **URL** | <https://www.google.com/maps/d/viewer?mid=174IjBzP-fl_6wpRHg5pkGSj2egE> |
-| **Acceso** | Visualización en Google My Maps; sin exportación de datos. |
+| **Acceso** | Visualización en Google My Maps; la descarga está restringida. Se intentaron tres vías: el menú del mapa no ofrece descarga; en Google Earth, "Exportar como archivo KML" no descarga nada; y el enlace de exportación de My Maps responde 403 (acceso denegado). El sitio de la autora (feminicidios.mx) ya no responde. |
 | **Formato y tamaño** | Mapa con un punto por caso. |
 | **Grano** | Un feminicidio reportado en prensa (ubicación y descripción). |
 | **Cobertura** | Capas anuales de 2016 a 2020; publicado el 18 de febrero de 2023. |
@@ -19,6 +19,14 @@ Mapa ciudadano de feminicidios reportados por la prensa. Se acepta como **contra
 | **Decisión** | **Aceptada con limitaciones:** cumple los criterios C1 y C3. Cumple C2 solo de forma parcial, porque sus datos de 2016 a 2020 se cruzan con la ventana del proyecto únicamente de 2017 a 2020. Cumple C4 solo de forma parcial, porque los datos son públicos pero no tienen una licencia declarada; se usan con fines académicos y citando a la autora. |
 
 ![Mapa en Google My Maps con capas por año](../img/origen_salguero.png){width=60% fig-align="center"}
+
+::: {layout-ncol=2}
+![El mapa en Google Earth: "Exportar como archivo KML" no descarga](../img/origen_salguero_earth.png)
+
+![Enlace de exportación de My Maps: acceso denegado (403)](../img/origen_salguero_403.png)
+:::
+
+No hay vista previa de datos porque el mapa no se puede descargar; por eso la fuente queda fuera del almacén.
 
 ## Problemas anticipados para la integración
 

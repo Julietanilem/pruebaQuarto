@@ -21,3 +21,6 @@ subtitle: "Entrega E1"
 
 5. Google. *Preguntas frecuentes sobre los datos de Google Trends*. Ayuda de Google Trends. Consultado el 10 de
    octubre de 2026. <https://support.google.com/trends/answer/4365533?hl=es>
+
+6. Banco de México. *Reporte sobre las Economías Regionales, abril–junio de 2018*, nota de regionalización.
+   <https://www.banxico.org.mx/publicaciones-y-prensa/reportes-sobre-las-economias-regionales/%7BDDC667DE-8FB9-7D44-588D-1A054ECD4DA2%7D.pdf>

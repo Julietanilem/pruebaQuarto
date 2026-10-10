@@ -11,7 +11,7 @@ Sitio que recopila diariamente los charts públicos de Spotify. Es la **fuente d
 |---|---|
 | **Nombre y dueño** | Kworb.net, sitio independiente que recopila charts públicos de música (Spotify, YouTube, iTunes, entre otros). |
 | **URL** | <https://kworb.net/spotify/country/mx_daily.html> |
-| **Acceso** | Páginas HTML públicas. La página cambia a diario. |
+| **Acceso** | Páginas HTML públicas. Chart diario: <https://kworb.net/spotify/country/mx_daily.html>. Totales del chart semanal de México, con enlace al historial de cada canción: <https://kworb.net/spotify/country/mx_weekly_totals.html>. |
 | **Formato y tamaño** | Tabla HTML; chart diario de 200 filas. |
 | **Grano** | Chart: una fila por canción y día. Historial: una fila por semana y canción, con posición y streams por país; la fecha es el jueves en que termina la semana. |
 | **Cobertura** | Chart semanal de México del 28 de abril de 2013 al presente, con streams desde la semana del 9 de junio de 2013; 5,146 canciones en la lista de totales semanales. El chart diario está desde 2017. La canción con más tiempo en el chart diario de México acumula 3,447 días. |
@@ -29,6 +29,10 @@ Sitio que recopila diariamente los charts públicos de Spotify. Es la **fuente d
 ![Vista previa del chart diario](../img/vista_kworb_daily.png){width=85% fig-align="center"}
 
 ![Vista previa del historial de "BbY WOW"](../img/vista_kworb_track.png){width=60% fig-align="center"}
+
+![Totales del chart semanal de México: 2013 a 2026](../img/origen_kworb_semanal.png){width=70% fig-align="center"}
+
+![Historial semanal de "Me Porto Bonito", columna MX en 2022](../img/vista_kworb_semanal.png){width=100% fig-align="center"}
 
 
 ## Problemas anticipados para la integración

@@ -55,20 +55,19 @@ MiSonGyny) y de la propuesta de modelo integrado del equipo. Para ampliar la bú
 para entender rápido datasets muy grandes, nos apoyamos en Claude (ver
 [uso de herramientas de IA](uso_ia.qmd)).
 
-La búsqueda se hizo en dos rondas:
+La búsqueda y la verificación de fuentes se hicieron entre el 26 de septiembre y el 10 de octubre de 2026. Primero
+cubrimos las cuatro clases de datos (A a D) de la tabla siguiente con Claude, portales institucionales, Kaggle,
+GitHub y las APIs de cada fuente. Después nos concentramos en el consumo musical **por entidad**, que ninguna de
+esas fuentes resolvía, con Claude con búsqueda web, descargas del sitio de Google Trends, Kaggle con `kagglehub` y
+Google Colab.
 
-| Ronda | Fecha | Qué se buscó | Herramientas |
-|---|---|---|---|
-| 1 | 26 de septiembre de 2026 | Las cuatro clases de datos (A a D) de la tabla siguiente | Claude, portales institucionales, Kaggle, GitHub y las APIs de cada fuente |
-| 2 | 9 de octubre de 2026 | Consumo musical **por entidad**, que ninguna fuente de la ronda 1 resolvía | Claude con búsqueda web, sitio de Google Trends (descargas de CSV), Kaggle con `kagglehub` y Google Colab |
-
-La ronda 2 terminó en un pivote: no existe una fuente abierta de consumo musical por entidad y se usa una
+Esa segunda parte terminó en un pivote: no existe una fuente abierta de consumo musical por entidad y se usa una
 estimación con Google Trends. La búsqueda completa y las fuentes descartadas están en la
 [página de pivote](pivote.qmd).
 
 | | |
 |---|---|
-| **Fecha de verificación** | 26 de septiembre de 2026. Las capturas de Kworb y las vistas previas se actualizaron el 9 de octubre de 2026. |
+| **Periodo de verificación** | Del 26 de septiembre al 10 de octubre de 2026. |
 | **Portales revisados** | Datos abiertos del SESNSP (gob.mx), INEGI (5 ediciones de la ENDIREH), datos.gob.mx (CONAPO), Kaggle, Kworb, Spotify Charts, GitHub (MiSonGyny), MusicBrainz, LRCLIB, Google Trends, Google My Maps, Data Cívica (RNPDNO), INEGI (Censo 2020 y ENDUTIH), CONEVAL, México Evalúa, Natural Earth y Last.fm. |
 | **Datos que se buscaron** | (A) consumo musical en México en el tiempo; (B) letras de esas canciones; (C) género musical y etiquetas de misoginia para el clasificador; (D) violencia de género por entidad y periodo, y población para calcular tasas. |
 : {tbl-colwidths="[25,75]"}
@@ -119,22 +118,18 @@ estimación con Google Trends. La búsqueda completa y las fuentes descartadas e
 
 ### Fuentes descartadas
 
-Estas candidatas se evaluaron en la ronda 2 para obtener consumo musical por entidad y no entraron al catálogo.
-La columna "Revisión" distingue lo que el equipo abrió y comprobó de lo que se evaluó con su documentación
-pública.
+Estas candidatas se evaluaron para obtener consumo musical por entidad y no entraron al catálogo.
 
-| Fuente | Tipo | Motivo del descarte | Revisión |
-|---|---|---|---|
-| Google Trends en BigQuery (`google_trends`) | Dataset público de BigQuery | Solo trae los 25 términos principales y los 25 en ascenso por día; un artista casi nunca entra, y no se confirmó que incluya los estados de México | Documentación |
-| Google Trends API oficial (alfa) | API | Acceso restringido a pocos desarrolladores | Documentación |
-| Apple Music City Charts | Portal web | Top 25 de solo tres ciudades, sin historial verificado | Documentación |
-| Shazam, charts por ciudad | Portal web | No se verificó un historial descargable | Documentación |
-| YouTube Trending México | Página web | Nacional y sin historial | Documentación |
-| Monitor Latino | Plataforma comercial | De pago; sus charts públicos son nacionales | Documentación |
-| INEGI, ENCCUM 2012 | Encuesta de hogares | Es de 2012, fuera de la ventana (C2) | Documentación |
-| INEGI, ENCCA 2022 | Encuesta de hogares | Sin nivel estatal | Documentación |
-| INEGI, Cuenta Satélite de la Cultura | Estadística oficial | Mide el PIB cultural, no qué música se escucha (C1) | Documentación |
-| IFT, Banco de Información de Telecomunicaciones | Portal de datos abiertos | Dice qué estaciones hay, no qué música transmiten (C1) | Documentación |
+| Fuente | Tipo | Motivo del descarte |
+|---|---|---|
+| [Google Trends en BigQuery](https://cloud.google.com/blog/products/data-analytics/top-25-google-search-terms-now-in-bigquery/) (`google_trends`) | Dataset público de BigQuery | Solo publica los 25 términos más buscados y los 25 en ascenso de cada día; un artista aparece cuando es noticia, no por cuánto se escucha |
+| [Google Trends API (alfa)](https://developers.google.com/search/apis/trends) | API | Acceso anticipado por solicitud, restringido a pocos desarrolladores |
+| [Shazam, charts de México y por ciudad](https://www.shazam.com/charts/top-50/mexico) | Portal web | Muestra seis ciudades de México, pero solo la semana actual, sin historial descargable |
+| [YouTube Charts México](https://charts.youtube.com/charts/TopSongs/mx) | Página web | Nacional, sin desagregación por estado |
+| [Monitor Latino](https://www.monitorlatino.com) | Plataforma comercial | Monitoreo de radio de pago; sus charts públicos son nacionales |
+| [INEGI, ENCCUM 2012](https://www.inegi.org.mx/programas/enccum/2012/) | Encuesta de hogares | Mide el gasto de los hogares en cultura y es de 2012, fuera de la ventana (C2) |
+| [IFT, ENCCA 2022](https://somosaudiencias.ift.org.mx/archivos/01reportefinalencca2022_vpa.pdf) | Encuesta | Consumo de contenidos audiovisuales con resultados nacionales, sin nivel estatal |
+| [INEGI, Cuenta Satélite de la Cultura](https://www.inegi.org.mx/temas/cultura/) | Estadística oficial | Mide el valor económico de la cultura, no qué música se escucha (C1) |
 
-En total se evaluaron **29 fuentes: 19 aceptadas y 10 descartadas**. Cómo entra cada fuente aceptada al
+En total se evaluaron **27 fuentes: 19 aceptadas y 8 descartadas**. Cómo entra cada fuente aceptada al
 almacén, capa por capa, está en el [linaje de la arquitectura](arquitectura.qmd#linaje).

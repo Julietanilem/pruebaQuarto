@@ -1,0 +1,66 @@
+Using Colab cache for faster access to the 'spotify-charts' dataset.
+Filas de México, Top 200: 358343
+Parte de los streams del Top 200 que explican los artistas principales de cada año
+
+2017   Top 50: 66.4%   Top 100: 87.0%
+2018   Top 50: 69.9%   Top 100: 88.1%
+2019   Top 50: 67.3%   Top 100: 86.7%
+2020   Top 50: 73.9%   Top 100: 90.6%
+2021   Top 50: 72.1%   Top 100: 89.3%
+Con etiquetas: 48 de 50
+Sin etiquetas: ['León Larregui', 'Cartel De Santa']
+Bad Bunny ['reggaeton', 'trap latino', 'latin', 'latin trap', 'hip hop', 'pop', 'spanish', 'english']
+J Balvin ['reggaeton', 'hip hop', 'latin', 'pop', 'latin pop', 'spanish', 'columbia', 'kolumbien']
+Maluma ['reggaeton', 'latin', 'latin urban', 'latin pop', 'trap latino', 'spanish', 'pop rock', 'english']
+Christian Nodal ['ranchera', 'latin', 'mariachi', 'regional mexicano', 'vivo en el 6']
+Ozuna ['reggaeton', 'trap latino', 'latin', 'latin urban', 'latin trap']
+Rauw Alejandro ['latin urban', 'latin', 'hip hop', 'reggaeton', 'trap latino']
+Piso 21 ['latin pop', 'reggaeton', 'latin']
+KAROL G ['reggaeton', 'spanish', 'latin urban', 'latin', 'r&b', 'pop', 'english']
+Luis Miguel ['pop', 'latin ballad', 'mexican', 'ballad', 'latin', 'bolero', 'ranchera', 'national folk']
+Sebastian Yatra ['classical', 'baroque', 'composer', 'german', 'european', 'gramophone selection', 'instrumental', 'german composer']
+
+Sebastian Yatra: ['classical', 'baroque', 'composer', 'german', 'european', 'gramophone selection', 'instrumental', 'german composer']
+Canciones en la lista semanal de México: 5146
+Primera semana con streams: 2013-06-09
+
+Posiciones 1-50 recuperadas por semana (300 canciones), por año:
+        min  median  max
+semana                  
+2013      1     1.0    2
+2014      1     1.0    1
+2015      1     1.0    3
+2016      1     2.0    4
+2017      1     3.0    6
+2018      3     4.0    8
+2019      4     9.0   18
+2020      8    13.0   18
+2021      9    12.0   19
+2022     21    28.5   38
+2023     27    35.5   40
+2024     24    34.0   39
+2025     30    37.5   43
+2026     25    33.0   38
+
+Semanas de enero 2022 a septiembre 2023 con datos: 91 de 91
+        semana  posicion       kworb  kaggle_7_dias  coincide
+0   2021-12-02         1   4189546.0      2995788.0     False
+1   2021-12-09         1   4088899.0            0.0     False
+2   2021-10-14         1   5502139.0      5502139.0      True
+3   2021-10-21         1   4641543.0      4641543.0      True
+4   2021-04-29         1  16850065.0     16850065.0      True
+5   2021-05-06         1  10331714.0     10331714.0      True
+6   2021-01-28         1   6151122.0      6151122.0      True
+7   2021-11-18         1   3768468.0      3768468.0      True
+8   2021-12-16         1   4128448.0            0.0     False
+9   2021-08-12         2   5175937.0      5175937.0      True
+10  2021-08-05         2   5560767.0      5560767.0      True
+11  2021-12-30         2   3977114.0            0.0     False
+12  2021-01-21         2   6077094.0      6077094.0      True
+13  2021-01-07         2   6295036.0      6295036.0      True
+14  2021-01-07         3   3727314.0      3727314.0      True
+15  2021-12-23         3   3924777.0            0.0     False
+16  2021-01-21         3   3838373.0      3838373.0      True
+17  2021-06-24         4   4508684.0      4508684.0      True
+18  2021-05-13         4   4257941.0      4257941.0      True
+19  2021-11-18         4   3309312.0      3309312.0      True

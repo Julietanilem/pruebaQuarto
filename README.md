@@ -18,7 +18,7 @@ Pages.
 | Entrega | Fase CRISP-DM | Contenido |
 |---|---|---|
 | **E0 — Comprensión del negocio** | 1. Comprensión del negocio | Bitácora del stakeholder, Business Understanding Canvas, preguntas de investigación, criterio de éxito, riesgos y supuestos, uso de IA. |
-| **E1 — Arquitectura del DW** | 2. Comprensión de los datos | **Fuentes de datos:** criterios de selección, búsqueda en dos rondas, 29 fuentes evaluadas (19 aceptadas, de 14 tipos distintos) y catálogo con una página por fuente. **Arquitectura** medallion en BigQuery (bronze/staging, silver/preparación, gold/DW y DataMart) con linaje y reglas de calidad. **Esquema estrella** con dos hechos (consumo musical por canción, entidad y mes; violencia por entidad, delito y mes) y cinco dimensiones, DDL y siete vistas del DataMart. Matriz de trazabilidad, pivote (consumo por entidad estimado con Google Trends), E0 v2, uso de IA y referencias. |
+| **E1 — Arquitectura del DW** | 2. Comprensión de los datos | **Fuentes de datos:** criterios de selección, búsqueda documentada, 27 fuentes evaluadas (19 aceptadas, de 14 tipos distintos, y 8 descartadas) y catálogo con una página por fuente. **Arquitectura** medallion en BigQuery (bronze/staging, silver/preparación, gold/DW y DataMart) con linaje y reglas de calidad. **Esquema estrella** con dos hechos (consumo musical por canción, entidad y mes; violencia por entidad, delito y mes) y cinco dimensiones, DDL y siete vistas del DataMart. Matriz de trazabilidad, pivote (consumo por entidad estimado con Google Trends), E0 v2, uso de IA y referencias. |
 
 ## Estructura del repositorio
 

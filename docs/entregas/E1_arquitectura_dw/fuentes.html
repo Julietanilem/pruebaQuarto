@@ -336,38 +336,8 @@ ul.task-list li input[type="checkbox"] {
 <section id="proceso-de-búsqueda" class="level2">
 <h2 class="anchored" data-anchor-id="proceso-de-búsqueda">Proceso de búsqueda</h2>
 <p>Partimos de las fuentes que ya habíamos identificado en E0 (Kworb, SESNSP, ENDIREH, mapa de Salguero, MiSonGyny) y de la propuesta de modelo integrado del equipo. Para ampliar la búsqueda y, sobre todo, para entender rápido datasets muy grandes, nos apoyamos en Claude (ver <a href="../../entregas/E1_arquitectura_dw/uso_ia.html">uso de herramientas de IA</a>).</p>
-<p>La búsqueda se hizo en dos rondas:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Ronda</th>
-<th>Fecha</th>
-<th>Qué se buscó</th>
-<th>Herramientas</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>1</td>
-<td>26 de septiembre de 2026</td>
-<td>Las cuatro clases de datos (A a D) de la tabla siguiente</td>
-<td>Claude, portales institucionales, Kaggle, GitHub y las APIs de cada fuente</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>9 de octubre de 2026</td>
-<td>Consumo musical <strong>por entidad</strong>, que ninguna fuente de la ronda 1 resolvía</td>
-<td>Claude con búsqueda web, sitio de Google Trends (descargas de CSV), Kaggle con <code>kagglehub</code> y Google Colab</td>
-</tr>
-</tbody>
-</table>
-<p>La ronda 2 terminó en un pivote: no existe una fuente abierta de consumo musical por entidad y se usa una estimación con Google Trends. La búsqueda completa y las fuentes descartadas están en la <a href="../../entregas/E1_arquitectura_dw/pivote.html">página de pivote</a>.</p>
+<p>La búsqueda y la verificación de fuentes se hicieron entre el 26 de septiembre y el 10 de octubre de 2026. Primero cubrimos las cuatro clases de datos (A a D) de la tabla siguiente con Claude, portales institucionales, Kaggle, GitHub y las APIs de cada fuente. Después nos concentramos en el consumo musical <strong>por entidad</strong>, que ninguna de esas fuentes resolvía, con Claude con búsqueda web, descargas del sitio de Google Trends, Kaggle con <code>kagglehub</code> y Google Colab.</p>
+<p>Esa segunda parte terminó en un pivote: no existe una fuente abierta de consumo musical por entidad y se usa una estimación con Google Trends. La búsqueda completa y las fuentes descartadas están en la <a href="../../entregas/E1_arquitectura_dw/pivote.html">página de pivote</a>.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 25%">
@@ -375,8 +345,8 @@ ul.task-list li input[type="checkbox"] {
 </colgroup>
 <tbody>
 <tr class="odd">
-<td><strong>Fecha de verificación</strong></td>
-<td>26 de septiembre de 2026. Las capturas de Kworb y las vistas previas se actualizaron el 9 de octubre de 2026.</td>
+<td><strong>Periodo de verificación</strong></td>
+<td>Del 26 de septiembre al 10 de octubre de 2026.</td>
 </tr>
 <tr class="even">
 <td><strong>Portales revisados</strong></td>
@@ -653,86 +623,59 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="fuentes-descartadas" class="level3">
 <h3 class="anchored" data-anchor-id="fuentes-descartadas">Fuentes descartadas</h3>
-<p>Estas candidatas se evaluaron en la ronda 2 para obtener consumo musical por entidad y no entraron al catálogo. La columna “Revisión” distingue lo que el equipo abrió y comprobó de lo que se evaluó con su documentación pública.</p>
+<p>Estas candidatas se evaluaron para obtener consumo musical por entidad y no entraron al catálogo.</p>
 <table class="caption-top table">
-<colgroup>
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-</colgroup>
 <thead>
 <tr class="header">
 <th>Fuente</th>
 <th>Tipo</th>
 <th>Motivo del descarte</th>
-<th>Revisión</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Google Trends en BigQuery (<code>google_trends</code>)</td>
+<td><a href="https://cloud.google.com/blog/products/data-analytics/top-25-google-search-terms-now-in-bigquery/">Google Trends en BigQuery</a> (<code>google_trends</code>)</td>
 <td>Dataset público de BigQuery</td>
-<td>Solo trae los 25 términos principales y los 25 en ascenso por día; un artista casi nunca entra, y no se confirmó que incluya los estados de México</td>
-<td>Documentación</td>
+<td>Solo publica los 25 términos más buscados y los 25 en ascenso de cada día; un artista aparece cuando es noticia, no por cuánto se escucha</td>
 </tr>
 <tr class="even">
-<td>Google Trends API oficial (alfa)</td>
+<td><a href="https://developers.google.com/search/apis/trends">Google Trends API (alfa)</a></td>
 <td>API</td>
-<td>Acceso restringido a pocos desarrolladores</td>
-<td>Documentación</td>
+<td>Acceso anticipado por solicitud, restringido a pocos desarrolladores</td>
 </tr>
 <tr class="odd">
-<td>Apple Music City Charts</td>
+<td><a href="https://www.shazam.com/charts/top-50/mexico">Shazam, charts de México y por ciudad</a></td>
 <td>Portal web</td>
-<td>Top 25 de solo tres ciudades, sin historial verificado</td>
-<td>Documentación</td>
+<td>Muestra seis ciudades de México, pero solo la semana actual, sin historial descargable</td>
 </tr>
 <tr class="even">
-<td>Shazam, charts por ciudad</td>
-<td>Portal web</td>
-<td>No se verificó un historial descargable</td>
-<td>Documentación</td>
-</tr>
-<tr class="odd">
-<td>YouTube Trending México</td>
+<td><a href="https://charts.youtube.com/charts/TopSongs/mx">YouTube Charts México</a></td>
 <td>Página web</td>
-<td>Nacional y sin historial</td>
-<td>Documentación</td>
+<td>Nacional, sin desagregación por estado</td>
 </tr>
-<tr class="even">
-<td>Monitor Latino</td>
+<tr class="odd">
+<td><a href="https://www.monitorlatino.com">Monitor Latino</a></td>
 <td>Plataforma comercial</td>
-<td>De pago; sus charts públicos son nacionales</td>
-<td>Documentación</td>
-</tr>
-<tr class="odd">
-<td>INEGI, ENCCUM 2012</td>
-<td>Encuesta de hogares</td>
-<td>Es de 2012, fuera de la ventana (C2)</td>
-<td>Documentación</td>
+<td>Monitoreo de radio de pago; sus charts públicos son nacionales</td>
 </tr>
 <tr class="even">
-<td>INEGI, ENCCA 2022</td>
+<td><a href="https://www.inegi.org.mx/programas/enccum/2012/">INEGI, ENCCUM 2012</a></td>
 <td>Encuesta de hogares</td>
-<td>Sin nivel estatal</td>
-<td>Documentación</td>
+<td>Mide el gasto de los hogares en cultura y es de 2012, fuera de la ventana (C2)</td>
 </tr>
 <tr class="odd">
-<td>INEGI, Cuenta Satélite de la Cultura</td>
+<td><a href="https://somosaudiencias.ift.org.mx/archivos/01reportefinalencca2022_vpa.pdf">IFT, ENCCA 2022</a></td>
+<td>Encuesta</td>
+<td>Consumo de contenidos audiovisuales con resultados nacionales, sin nivel estatal</td>
+</tr>
+<tr class="even">
+<td><a href="https://www.inegi.org.mx/temas/cultura/">INEGI, Cuenta Satélite de la Cultura</a></td>
 <td>Estadística oficial</td>
-<td>Mide el PIB cultural, no qué música se escucha (C1)</td>
-<td>Documentación</td>
-</tr>
-<tr class="even">
-<td>IFT, Banco de Información de Telecomunicaciones</td>
-<td>Portal de datos abiertos</td>
-<td>Dice qué estaciones hay, no qué música transmiten (C1)</td>
-<td>Documentación</td>
+<td>Mide el valor económico de la cultura, no qué música se escucha (C1)</td>
 </tr>
 </tbody>
 </table>
-<p>En total se evaluaron <strong>29 fuentes: 19 aceptadas y 10 descartadas</strong>. Cómo entra cada fuente aceptada al almacén, capa por capa, está en el <a href="../../entregas/E1_arquitectura_dw/arquitectura.html#linaje">linaje de la arquitectura</a>.</p>
+<p>En total se evaluaron <strong>27 fuentes: 19 aceptadas y 8 descartadas</strong>. Cómo entra cada fuente aceptada al almacén, capa por capa, está en el <a href="../../entregas/E1_arquitectura_dw/arquitectura.html#linaje">linaje de la arquitectura</a>.</p>
 
 
 </section>

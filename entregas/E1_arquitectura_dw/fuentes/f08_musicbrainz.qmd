@@ -21,6 +21,17 @@ Enciclopedia musical abierta; aporta país y etiquetas de género de cada artist
 
 ![Prueba con los artistas del top 60 de México](../img/vista_musicbrainz.png){width=90% fig-align="center"}
 
+Prueba con los 50 artistas con más streams de 2017 a 2021 (código y salida completa en `datos/pruebas/`):
+
+```text
+Con etiquetas: 48 de 50
+Sin etiquetas: ['León Larregui', 'Cartel De Santa']
+Bad Bunny ['reggaeton', 'trap latino', 'latin', 'latin trap', 'hip hop', 'pop', 'spanish', 'english']
+Christian Nodal ['ranchera', 'latin', 'mariachi', 'regional mexicano', 'vivo en el 6']
+Luis Miguel ['pop', 'latin ballad', 'mexican', 'ballad', 'latin', 'bolero', 'ranchera', 'national folk']
+Sebastian Yatra ['classical', 'baroque', 'composer', 'german', 'european', 'gramophone selection', 'instrumental', 'german composer']
+```
+
 
 ## Problemas anticipados para la integración
 

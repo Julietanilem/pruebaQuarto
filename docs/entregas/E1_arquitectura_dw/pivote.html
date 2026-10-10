@@ -258,155 +258,115 @@ Resumen
 <h3 class="anchored" data-anchor-id="herramientas">Herramientas</h3>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
+<col style="width: 50%">
+<col style="width: 50%">
 </colgroup>
 <thead>
 <tr class="header">
 <th>Herramienta</th>
 <th>Uso</th>
-<th>Fecha</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>Claude (Anthropic), con búsqueda web</td>
 <td>Buscar fuentes de consumo musical con detalle por estado (radio, YouTube, TV, streaming, encuestas, Trends) y proponer alternativas</td>
-<td>9 de octubre de 2026</td>
 </tr>
 <tr class="even">
 <td>Google Trends (sitio web)</td>
 <td>Verificación manual: descarga de CSV por subregión</td>
-<td>9 de octubre de 2026</td>
 </tr>
 <tr class="odd">
-<td>Kaggle (<code>kagglehub</code>) y Google Colab</td>
-<td>Medir la cobertura de streams por artista</td>
-<td>9 de octubre de 2026</td>
+<td>Kaggle (<code>kagglehub</code>), Kworb y Google Colab</td>
+<td>Medir la cobertura de streams por artista y verificar el historial semanal de Kworb</td>
 </tr>
 </tbody>
 </table>
-<p>El catálogo base de fuentes se verificó el 26 de septiembre de 2026 (ver <a href="../../entregas/E1_arquitectura_dw/fuentes.html">Fuentes de datos</a>). Los prompts están en <a href="../../entregas/E1_arquitectura_dw/uso_ia.html">uso de herramientas de IA</a>.</p>
+<p>La búsqueda y la verificación de fuentes se hicieron entre el 26 de septiembre y el 10 de octubre de 2026 (ver <a href="../../entregas/E1_arquitectura_dw/fuentes.html">Fuentes de datos</a>). Los prompts están en <a href="../../entregas/E1_arquitectura_dw/uso_ia.html">uso de herramientas de IA</a>.</p>
 </section>
 <section id="fuentes-revisadas-para-el-consumo-por-entidad" class="level3">
 <h3 class="anchored" data-anchor-id="fuentes-revisadas-para-el-consumo-por-entidad">Fuentes revisadas para el consumo por entidad</h3>
-<p>La columna “Revisión” distingue lo que el equipo <strong>abrió y comprobó</strong> de lo que solo se evaluó con su documentación pública.</p>
 <table class="caption-top table">
-<colgroup>
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
-</colgroup>
 <thead>
 <tr class="header">
 <th>Fuente</th>
 <th>Tipo</th>
 <th>Qué ofrece</th>
 <th>Decisión y motivo</th>
-<th>Revisión</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Spotify Charts (Kaggle <code>dhruvildave/spotify-charts</code>)</td>
+<td><a href="../../entregas/E1_arquitectura_dw/fuentes/f05_kaggle.html">Spotify Charts en Kaggle</a> (<code>dhruvildave/spotify-charts</code>)</td>
 <td>Dataset de Kaggle</td>
 <td>Top 200 diario de México con streams, 2017–2021</td>
 <td><strong>Aceptada</strong> para validar a Kworb; es nacional</td>
-<td>Abierta y consultada</td>
 </tr>
 <tr class="even">
-<td>Kworb</td>
+<td><a href="../../entregas/E1_arquitectura_dw/fuentes/f04_kworb.html">Kworb</a></td>
 <td>Página web</td>
 <td>Charts de Spotify por país, con historial semanal por canción desde 2013</td>
-<td><strong>Aceptada</strong>: fuente de streams de la ventana, pero es nacional</td>
-<td>Abierta y consultada (sección 3)</td>
+<td><strong>Aceptada</strong>: fuente de streams de la ventana, pero es nacional (sección 3)</td>
 </tr>
 <tr class="odd">
-<td>Google Trends, sitio web</td>
+<td><a href="../../entregas/E1_arquitectura_dw/fuentes/f11_google_trends.html">Google Trends</a>, sitio web</td>
 <td>Descarga de CSV</td>
 <td>Interés de búsqueda por estado</td>
-<td><strong>Aceptada como proxy</strong></td>
-<td>Abierta y descargada (sección 2)</td>
+<td><strong>Aceptada como proxy</strong> (sección 2)</td>
 </tr>
 <tr class="even">
-<td>Google Trends en BigQuery (<code>google_trends</code>)</td>
-<td>Dataset público de BigQuery</td>
-<td>Solo los 25 términos principales y 25 en ascenso por día, con ventana móvil de unos 5 años</td>
-<td>Descartada: un artista casi nunca entra al top 25 de una región, y no se confirmó que los estados de México estén incluidos</td>
-<td>Documentación</td>
-</tr>
-<tr class="odd">
-<td>Google Trends API oficial (alfa)</td>
-<td>API</td>
-<td>Datos por región y subregión (ISO 3166-2), unos 5 años hacia atrás</td>
-<td>Descartada: acceso restringido a pocos desarrolladores</td>
-<td>Documentación</td>
-</tr>
-<tr class="even">
-<td>Spotify Charts por ciudad (F9)</td>
+<td><a href="../../entregas/E1_arquitectura_dw/fuentes/f09_spotify_charts.html">Spotify Charts por ciudad</a></td>
 <td>Portal web con cuenta</td>
 <td>Charts por ciudad</td>
-<td>Aceptada con limitaciones solo como referencia: sus términos de uso no permiten cargar los datos</td>
-<td>Abierta y consultada (ver su ficha)</td>
+<td>Aceptada con limitaciones, solo como referencia: sus directrices de uso prohíben extraer los datos</td>
 </tr>
 <tr class="odd">
-<td>Apple Music City Charts</td>
-<td>Portal web</td>
-<td>Top 25 de solo tres ciudades (Guadalajara, Ciudad de México y Monterrey)</td>
-<td>Descartada: cobertura de tres ciudades, top 25 y sin historial verificado</td>
-<td>Documentación</td>
+<td><a href="https://cloud.google.com/blog/products/data-analytics/top-25-google-search-terms-now-in-bigquery/">Google Trends en BigQuery</a></td>
+<td>Dataset público de BigQuery</td>
+<td>Los 25 términos más buscados y los 25 en ascenso por día</td>
+<td>Descartada: un artista aparece cuando es noticia, no por cuánto se escucha</td>
 </tr>
 <tr class="even">
-<td>Shazam, charts por ciudad</td>
-<td>Portal web</td>
-<td>Charts actuales por ciudad</td>
-<td>Descartada: no se verificó historial descargable</td>
-<td>Documentación</td>
+<td><a href="https://developers.google.com/search/apis/trends">Google Trends API (alfa)</a></td>
+<td>API</td>
+<td>Datos por región y subregión</td>
+<td>Descartada: acceso restringido a pocos desarrolladores</td>
 </tr>
 <tr class="odd">
-<td>YouTube Trending México</td>
+<td><a href="https://www.shazam.com/charts/top-50/mexico">Shazam</a></td>
+<td>Portal web</td>
+<td>Charts de México y de seis ciudades</td>
+<td>Descartada: solo la semana actual, sin historial</td>
+</tr>
+<tr class="even">
+<td><a href="https://charts.youtube.com/charts/TopSongs/mx">YouTube Charts México</a></td>
 <td>Página web</td>
-<td>Tendencias del día a nivel país</td>
-<td>Descartada: nacional y sin historial</td>
-<td>Documentación</td>
+<td>Canciones más vistas en el país</td>
+<td>Descartada: nacional</td>
 </tr>
-<tr class="even">
-<td>Monitor Latino</td>
+<tr class="odd">
+<td><a href="https://www.monitorlatino.com">Monitor Latino</a></td>
 <td>Plataforma comercial</td>
 <td>Monitoreo de estaciones de radio</td>
 <td>Descartada: de pago, y sus charts públicos son nacionales</td>
-<td>Documentación</td>
 </tr>
-<tr class="odd">
-<td>INEGI, ENCCUM 2012</td>
+<tr class="even">
+<td><a href="https://www.inegi.org.mx/programas/enccum/2012/">INEGI, ENCCUM 2012</a></td>
 <td>Encuesta de hogares</td>
-<td>Consumo cultural, con entidad federativa en la base</td>
+<td>Gasto de los hogares en cultura</td>
 <td>Descartada: es de 2012, fuera de la ventana</td>
-<td>Documentación</td>
-</tr>
-<tr class="even">
-<td>INEGI, ENCCA 2022</td>
-<td>Encuesta de hogares</td>
-<td>Consumo de contenidos audiovisuales, con indicadores nacionales</td>
-<td>Descartada: sin nivel estatal</td>
-<td>Documentación</td>
 </tr>
 <tr class="odd">
-<td>INEGI, Cuenta Satélite de la Cultura</td>
-<td>Estadística oficial</td>
-<td>Indicador económico por entidad</td>
-<td>Descartada: mide PIB cultural, no qué música se escucha</td>
-<td>Documentación</td>
+<td><a href="https://somosaudiencias.ift.org.mx/archivos/01reportefinalencca2022_vpa.pdf">IFT, ENCCA 2022</a></td>
+<td>Encuesta</td>
+<td>Consumo de contenidos audiovisuales</td>
+<td>Descartada: sin nivel estatal</td>
 </tr>
 <tr class="even">
-<td>IFT, Banco de Información de Telecomunicaciones</td>
-<td>Portal de datos abiertos</td>
-<td>Estaciones y cobertura de radio y TV abierta</td>
-<td>Descartada para consumo: no dice qué música se transmite</td>
-<td>Documentación</td>
+<td><a href="https://www.inegi.org.mx/temas/cultura/">INEGI, Cuenta Satélite de la Cultura</a></td>
+<td>Estadística oficial</td>
+<td>Valor económico de la cultura</td>
+<td>Descartada: no dice qué música se escucha</td>
 </tr>
 </tbody>
 </table>
@@ -414,7 +374,7 @@ Resumen
 </section>
 <section id="evidencia-trends" class="level2">
 <h2 class="anchored" data-anchor-id="evidencia-trends">2. Evidencia de la verificación de Google Trends</h2>
-<p>Se descargaron cuatro archivos desde el sitio web de Trends (país México, desglose por subregión). Los archivos se guardan en <code>datos/trends/</code> y se cargan sin cambios en staging.</p>
+<p>Se descargaron varios archivos desde el sitio de Trends (país México, desglose por subregión). Están en <code>datos/trends/</code> y se cargan sin cambios en staging.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 25%">
@@ -425,65 +385,96 @@ Resumen
 <thead>
 <tr class="header">
 <th>Archivo</th>
-<th>Términos</th>
+<th>Qué se descargó</th>
 <th>Periodo</th>
 <th>Estados con valor</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>by_region_MX_20170101-0000_20261009-2245.csv</code></td>
-<td>regueton</td>
-<td>Rango largo desde 2017</td>
-<td>32 de 32</td>
-</tr>
-<tr class="even">
-<td><code>by_region_MX_20170101-0000_20261009-2247.csv</code></td>
-<td>karol g, bad bunny, tusa</td>
-<td>Rango largo desde 2017</td>
-<td>32 de 32</td>
-</tr>
-<tr class="odd">
-<td><code>by_region_MX_20180101-0000_20261009-2250.csv</code></td>
-<td>Reguetón</td>
-<td>Año 2018</td>
+<td><code>geoMap_regueton_tema_genero_2021.csv</code></td>
+<td>Reguetón como <strong>tema</strong> (“Género musical”)</td>
+<td>2021</td>
 <td>32 de 32</td>
 </tr>
 <tr class="even">
 <td><code>by_region_MX_20210101-0000_20261009-2251.csv</code></td>
-<td>Reguetón</td>
-<td>Año 2021</td>
+<td>Reguetón, descarga anterior</td>
+<td>2021</td>
 <td>32 de 32</td>
 </tr>
 <tr class="odd">
+<td><code>geoMap_regueton_sin_acento_2021.csv</code></td>
+<td>“Regueton” como <strong>término</strong></td>
+<td>2021</td>
+<td>32 de 32</td>
+</tr>
+<tr class="even">
+<td><code>geoMap_regueton_con_acento_2021.csv</code></td>
+<td>“Reguetón” como <strong>término</strong></td>
+<td>2021</td>
+<td>17 de 32</td>
+</tr>
+<tr class="odd">
 <td><code>by_region_MX_20201231-1800_20261010-0031.csv</code></td>
-<td>Tones And I, Bobby Pulido</td>
-<td>Año 2021</td>
+<td>Tones And I y Bobby Pulido en la misma descarga</td>
+<td>2021</td>
 <td>32 de 32 (Tones And I en cero en 3)</td>
 </tr>
 <tr class="even">
 <td><code>by_region_MX_20260710-0032_20261010-0032.csv</code></td>
-<td>Tones And I, Bobby Pulido</td>
+<td>Tones And I y Bobby Pulido en la misma descarga</td>
 <td>10 de julio a 10 de octubre de 2026</td>
 <td>32 de 32 (Tones And I en cero en 25)</td>
 </tr>
 </tbody>
 </table>
+<p>Comparación de las cuatro descargas de 2021 contra la del tema:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Descarga</th>
+<th>Correlación de rangos (Spearman)</th>
+<th>Correlación de valores (Pearson)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Descarga anterior</td>
+<td>0.99</td>
+<td>0.99</td>
+</tr>
+<tr class="even">
+<td>“Regueton”, término</td>
+<td>0.60</td>
+<td>0.83</td>
+</tr>
+<tr class="odd">
+<td>“Reguetón”, término (17 estados)</td>
+<td>0.64</td>
+<td>0.39</td>
+</tr>
+</tbody>
+</table>
 <p>Lo que se concluyó:</p>
 <ul>
-<li><strong>Hay un valor por estado y término para el periodo elegido.</strong> El periodo puede ser un año o un solo mes. Para el reparto se descarga un archivo por artista y año; la descarga por mes queda como mejora opcional.</li>
-<li><strong>Con un solo término</strong>, el estado con más interés vale 100 y los demás son proporcionales. Sirve para comparar estados entre sí.</li>
-<li><strong>Con varios términos en una misma descarga</strong>, cada estado suma exactamente 100. Esos valores son un reparto entre términos dentro del estado y no permiten comparar estados. Por eso cada término se descarga por separado.</li>
-<li><strong>El patrón geográfico es estable entre archivos:</strong> el sureste (Chiapas, Tabasco, Campeche, Yucatán, Veracruz) queda arriba en todos, con una correlación de rangos de Spearman de 0.78 a 0.88 entre los tres archivos de “regueton”.</li>
-<li><strong>Cada archivo se normaliza por separado.</strong> Entre años se compara la posición relativa de un estado, no el nivel de búsquedas.</li>
-<li><strong>Con periodos cortos, un artista de poco volumen queda en cero en la mayoría de los estados.</strong> Tones And I (lugar 87 de 2021) tiene valor en 29 estados en todo 2021, pero solo en 7 en tres meses de 2026. Por eso el reparto tiene respaldos: el peso del género o el de los usuarios de internet.</li>
-<li><strong>Los nombres de los estados dependen del idioma del sitio:</strong> en inglés aparecen “Mexico City” o “State of Mexico”, y en español “Estado de México” o “Coahuila de Zaragoza”. Las descargas se hacen siempre en español y el catálogo de entidades guarda las dos versiones.</li>
-<li><strong>Hay que usar siempre el texto exacto del término</strong>: el primer archivo usó <code>regueton</code> y los siguientes <code>Reguetón</code>.</li>
+<li><strong>Hay un valor por estado para el periodo elegido</strong>, sea un año o un mes. La propia ayuda de Trends lo explica: el 100 es la ubicación con mayor frecuencia de búsquedas <em>en proporción al total de búsquedas realizadas en esa ubicación</em>; no es un conteo de búsquedas <a href="../../entregas/E1_arquitectura_dw/referencias.html">[5]</a>.</li>
+<li><strong>Con varios términos en una misma descarga</strong>, cada estado suma 100 entre ellos. Ese reparto no permite comparar estados, por eso se descarga un tema o término a la vez.</li>
+<li><strong>El término de búsqueda depende de cómo lo escribe la gente.</strong> “Reguetón” con acento y “Regueton” sin acento dan resultados muy distintos; entre las consultas relacionadas aparece “como se escribe reggaeton o regueton”.</li>
+<li><strong>El tema reúne todas las formas de escribirlo y es estable:</strong> la descarga del tema y la anterior tienen una correlación de 0.99 y difieren en 1 punto en promedio (máximo 5). La descarga anterior coincide con el tema.</li>
+<li><strong>Regla:</strong> se descarga siempre el <strong>tema</strong> del artista o del género; solo si un artista no tiene tema se usa su término más común, y queda registrado.</li>
+<li><strong>Con periodos cortos, un término de poco volumen se queda en cero:</strong> Tones And I (lugar 87 de 2021) tiene valor en 29 estados en todo 2021 y solo en 7 en tres meses de 2026. Por eso las descargas son por año.</li>
+<li><strong>Los nombres de los estados dependen del idioma del sitio:</strong> en inglés “Mexico City” o “State of Mexico”, en español “Ciudad de México” o “Estado de México”. Se descarga en español y el catálogo de entidades guarda las dos versiones.</li>
 </ul>
 </section>
 <section id="evidencia-kworb" class="level2">
 <h2 class="anchored" data-anchor-id="evidencia-kworb">3. Evidencia de Kworb: streams semanales desde 2013</h2>
-<p>Al principio de E1 creíamos que los streams históricos de México solo existían en Kaggle (2017–2021). El 10 de octubre de 2026 revisamos el historial por canción de Kworb (F4) con un script en Colab:</p>
+<p>Además de los charts diarios de Kaggle (2017–2021), revisamos el historial por canción de Kworb (F4) con un script en Colab:</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 50%">
@@ -505,7 +496,7 @@ Resumen
 <td>Posición y streams semanales desde la semana del 9 de junio de 2013</td>
 </tr>
 <tr class="odd">
-<td>Enero de 2022 a septiembre de 2023, que creíamos sin datos</td>
+<td>Enero de 2022 a septiembre de 2023, que Kaggle no cubre</td>
 <td>Las 91 semanas tienen datos</td>
 </tr>
 <tr class="even">
@@ -522,48 +513,38 @@ Resumen
 </tr>
 </tbody>
 </table>
-<p>Con esto, Kworb pasa a ser la fuente de streams de toda la ventana y Kaggle se usa para validar. Falta descargar las 5,146 páginas para confirmar que cada semana del chart queda completa; eso se hace en la fase de preparación.</p>
+<p>Fragmento de la salida del script (la salida completa y el código están en <code>datos/pruebas/</code>):</p>
+<pre class="text"><code>Canciones en la lista semanal de México: 5146
+Primera semana con streams: 2013-06-09
+
+Posiciones 1-50 recuperadas por semana (300 canciones), por año:
+        min  median  max
+2013      1     1.0    2
+2017      1     3.0    6
+2021      9    12.0   19
+2022     21    28.5   38
+2023     27    35.5   40
+2025     30    37.5   43
+
+Semanas de enero 2022 a septiembre 2023 con datos: 91 de 91
+        semana  posicion       kworb  kaggle_7_dias  coincide
+2   2021-10-14         1   5502139.0      5502139.0      True
+4   2021-04-29         1  16850065.0     16850065.0      True
+6   2021-01-28         1   6151122.0      6151122.0      True
+1   2021-12-09         1   4088899.0            0.0     False</code></pre>
+<p>Con esto, Kworb pasa a ser la fuente de streams de toda la ventana y Kaggle se usa para validar. Con 300 canciones se recuperan solo parte de las posiciones de cada semana; la descarga completa de las 5,146 páginas se hace en la preparación, y una regla de calidad de silver revisa que cada semana quede completa.</p>
 </section>
 <section id="evidencia-para-elegir-los-términos-de-búsqueda" class="level2">
 <h2 class="anchored" data-anchor-id="evidencia-para-elegir-los-términos-de-búsqueda">4. Evidencia para elegir los términos de búsqueda</h2>
-<p>El grano del consumo es la canción, pero Trends se consulta por artista: el interés de búsqueda de cada artista reparte el consumo de sus canciones. Para saber cuántos artistas consultar, con el dataset de Spotify Charts México (Top 200 diario, 2017–2021) se calculó qué porcentaje de los streams cubren los artistas más escuchados de cada año:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Año</th>
-<th>Top 50 del año</th>
-<th>Top 100 del año</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>2017</td>
-<td>66.4 %</td>
-<td>87.0 %</td>
-</tr>
-<tr class="even">
-<td>2018</td>
-<td>69.9 %</td>
-<td>88.1 %</td>
-</tr>
-<tr class="odd">
-<td>2019</td>
-<td>67.3 %</td>
-<td>86.7 %</td>
-</tr>
-<tr class="even">
-<td>2020</td>
-<td>73.9 %</td>
-<td>90.6 %</td>
-</tr>
-<tr class="odd">
-<td>2021</td>
-<td>72.1 %</td>
-<td>89.3 %</td>
-</tr>
-</tbody>
-</table>
-<p>Se consultan los <strong>50 artistas con más streams de cada año</strong>, que explican entre el 66 % y el 74 % de los streams; con 100 se llegaría al 87–91 %, pero con el doble de descargas para once años. La selección es por consumo y no por reputación del género, como pide la regla operativa de E0. Las canciones de los demás artistas se reparten con el interés del género del artista y, si tampoco hay, con los usuarios de internet de cada estado.</p>
+<p>El grano del consumo es la canción, pero Trends se consulta por el tema de cada artista: el interés de búsqueda de cada artista reparte el consumo de sus canciones. Para saber cuántos artistas consultar, con el dataset de Spotify Charts México (Top 200 diario, 2017–2021) se calculó qué porcentaje de los streams cubren los artistas más escuchados de cada año:</p>
+<pre class="text"><code>Parte de los streams del Top 200 que explican los artistas principales de cada año
+
+2017   Top 50: 66.4%   Top 100: 87.0%
+2018   Top 50: 69.9%   Top 100: 88.1%
+2019   Top 50: 67.3%   Top 100: 86.7%
+2020   Top 50: 73.9%   Top 100: 90.6%
+2021   Top 50: 72.1%   Top 100: 89.3%</code></pre>
+<p>Se consultan los <strong>50 artistas con más streams de cada año</strong>, que explican entre el 66 % y el 74 % de los streams; con 100 se llegaría al 87–91 %, pero con el doble de descargas para once años. La selección es por consumo y no por reputación del género, como pide la regla operativa de E0. Las canciones de los demás artistas se reparten con el tema del género del artista y, si tampoco hay, con los usuarios de internet de cada estado.</p>
 <p>En MusicBrainz, 48 de los 50 artistas más escuchados devolvieron etiquetas de género, pero no todas son correctas: a Sebastián Yatra la búsqueda le asignó las de un compositor clásico alemán, porque se toma el primer resultado. Las coincidencias se validan (país, tipo de artista, puntaje de la búsqueda) y los casos dudosos se completan a mano.</p>
 </section>
 <section id="pregunta-u-objetivo-afectado" class="level2">
@@ -734,11 +715,11 @@ Resumen
 <li><strong>El reparto es un supuesto.</strong> Supone que el consumo de un artista se reparte entre estados como su interés de búsqueda, escalado por los usuarios de internet.</li>
 <li><strong>Trends es relativo y se normaliza por consulta.</strong> El reparto solo usa cómo se distribuye el interés entre estados dentro de cada descarga, por eso no necesita un término ancla.</li>
 <li><strong>Usuarios de internet:</strong> el catálogo solo tiene la ENDUTIH 2024; mientras no se agreguen otras ediciones, su proporción se usa para todos los años.</li>
-<li><strong>Nombres ambiguos:</strong> artistas como Matisse, Aleman o Intocable comparten nombre con palabras o con otras personas. Se revisa el término de cada artista y, si es ambiguo, se usa el peso del género.</li>
-<li><strong>Número de descargas de Trends:</strong> una por artista y año, unas 550 para los 50 artistas principales de 2015 a 2025, más las de géneros. La descarga por mes es opcional.</li>
-<li><strong>Trends trabaja con una muestra,</strong> por lo que los valores pueden variar un poco entre descargas.</li>
-<li><strong>Artistas de menor volumen</strong> podrían salir con pocos estados con valor en un mes. Esos estados toman el peso del género y quedan marcados en <code>origen_peso</code>; todo resultado se reporta también solo con pesos observados.</li>
-<li><strong>Kworb sin licencia declarada:</strong> se usa con fines académicos, sin republicar filas crudas, y se descarga a una página cada 1.5 segundos. Falta confirmar que cada semana queda completa.</li>
+<li><strong>Nombres ambiguos:</strong> artistas como Matisse, Aleman o Intocable comparten nombre con palabras o con otras personas. El tema de Trends resuelve esto porque identifica a la persona o al grupo, no la palabra; si no hay tema, se usa el peso del género.</li>
+<li><strong>Número de descargas de Trends:</strong> una por artista y año, unas 550 para los 50 artistas principales de 2015 a 2025, más las de géneros. Trends también permite descargas por mes; no se usan porque el análisis por entidad es anual y multiplicarían las descargas por 12.</li>
+<li><strong>Trends trabaja con una muestra,</strong> por lo que los valores pueden variar entre descargas. Con el tema la variación medida fue de 1 punto en promedio; con términos fue mucho mayor (sección 2).</li>
+<li><strong>Artistas de menor volumen</strong> podrían salir con pocos estados con valor. Si tienen menos de 28, se usa el peso del género, marcado en <code>origen_peso</code>; todo resultado por entidad se reporta también solo con pesos del propio artista.</li>
+<li><strong>Kworb sin licencia declarada:</strong> se usa con fines académicos, sin republicar filas crudas, y se descarga a una página cada 1.5 segundos. La descarga completa se hace en la preparación y silver revisa que cada semana quede completa.</li>
 <li><strong>De semana a mes:</strong> cada semana se reparte entre meses según sus días; se supone consumo parejo dentro de la semana.</li>
 <li><strong>Cobertura de los artistas:</strong> los 50 artistas principales de cada año explican entre 66 % y 74 % de los streams del Top 200 (medido en 2017–2021); el resto se reparte con el peso del género. Y el Top 200 de Spotify no es todo el consumo musical del país.</li>
 <li><strong>Tipos de violencia:</strong> la clasificación del SESNSP no coincide uno a uno con la LGAMVLV.</li>
