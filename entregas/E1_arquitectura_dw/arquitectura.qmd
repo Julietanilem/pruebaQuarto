@@ -122,7 +122,6 @@ la siguiente entrega; aquí quedan definidas sus tablas y las reglas que deben c
 | `slv_pesos_trends` | Tema, entidad y año | `stg_trends_*`, `slv_cat_entidades`, `slv_contexto_entidad_anio` | Llevar nombres a clave INEGI; escalar por usuarios de internet; elegir el nivel de respaldo ([fórmula](estrella.qmd#estimacion)) | `peso_entidad`, `interes_busqueda`, `origen_peso` |
 | `slv_violencia_mes` | Entidad, delito o registro y mes | `stg_sesnsp_delitos`, `stg_sesnsp_victimas`, `stg_rnpdno` | Pasar el SESNSP de una columna por mes a una fila por mes; víctimas mujeres, mujeres menores de edad y hombres; contar mujeres desaparecidas por mes de desaparición y estatus | `fact_violencia` |
 | `slv_tipos_violencia` | Delito o categoría | Delitos del SESNSP, categorías del clasificador, RNPDNO | Mapeo a la LGAMVLV ([tabla de mapeo](estrella.qmd#mapeo-inicial-a-la-lgamvlv)) | `dim_tipo_violencia` |
-| `slv_contexto_entidad_anio` | Entidad y año | CONAPO, ENDUTIH, Censo, CONEVAL, México Evalúa, ENDIREH | Población total, de mujeres y de hombres; usuarios de internet; prevalencias con el factor de expansión de la ENDIREH; propuestas de restricción | `dim_contexto_entidad` |
 
 `dim_fecha` no pasa por silver: es un calendario que se genera directamente en gold.
 
@@ -326,7 +325,6 @@ SELECT
   d.fecha,
   d.anio,
   d.mes,
-  d.evento_restriccion_musical,
   vi.tipo_lgamvlv,
   vi.es_control,
   mu.proporcion_misogina,
@@ -393,8 +391,7 @@ panel AS (
     SAFE_DIVIDE(vi.victimas_mujeres_menores, vi.victimas_mujeres)     AS pct_victimas_menores,
     ctx.pct_usuarios_internet,
     ctx.pct_pobreza,
-    ctx.indice_impunidad,
-    ctx.propuesta_restriccion_musical
+    ctx.indice_impunidad
   FROM misoginia_mart.p1_proporcion_misogina_entidad AS m
   JOIN violencia AS vi ON vi.cve_ent = m.cve_ent AND vi.anio = m.anio
   JOIN misoginia_dw.dim_contexto_entidad AS ctx ON ctx.contexto_key = vi.contexto_key
@@ -414,7 +411,6 @@ SELECT
   pct_usuarios_internet,
   pct_pobreza,
   indice_impunidad,
-  propuesta_restriccion_musical,
   CORR(proporcion_misogina, tasa_indicador_100k_mujeres)
     OVER (PARTITION BY tipo_lgamvlv, anio) AS correlacion_entre_estados_del_anio,
   CORR(proporcion_misogina, tasa_indicador_100k_mujeres)
@@ -536,6 +532,14 @@ confirma que la consulta se creó sin errores.
 
 ![Esquema de la vista `p2_serie_mensual_nacional` del DataMart](img/bq_mart_p2_serie_mensual_nacional.png){width=70% fig-align="center"}
 
+### Esquemas de las dimensiones
+
+Las siguientes capturas muestran los esquemas actuales de las dimensiones en BigQuery.
+
+![Esquema de `dim_fecha` en `misoginia_dw`](img/bq_dim_fecha_esquema.png){width=80% fig-align="center"}
+
+![Esquema de `dim_contexto_entidad` en `misoginia_dw`](img/bq_dim_contexto_entidad_esquema.png){width=85% fig-align="center"}
+
 ### Staging cargado
 
 Cada tabla de staging se carga con todos sus campos como texto (`STRING`), tal como viene de la fuente; la
@@ -545,6 +549,9 @@ conversión de tipos corresponde a silver. La descripción de cada tabla indica 
 |---|---|---|---|
 | `stg_kworb_mx_semanal` | [F4](fuentes/f04_kworb.qmd) | 42,417 filas de 300 canciones, con las filas `Total` y `Peak` de cada una | `COUNT(*)` y `COUNT(DISTINCT track_id)` |
 | `stg_trends_regueton_tema_2021` | [F11](fuentes/f11_google_trends.qmd) | 32 estados, tema Reguetón, año 2021 | `COUNT(*)` |
+| `stg_sesnsp_delitos` | [F1](fuentes/f01_sesnsp.qmd) | 34,496 filas de delitos 2015–2025 | `COUNT(*)` |
+| `stg_sesnsp_victimas` | [F1](fuentes/f01_sesnsp.qmd) | 80,960 filas de víctimas 2015–2025 | `COUNT(*)` |
+| `stg_conapo_poblacion` | [F3](fuentes/f03_conapo.qmd) | Población por entidad, año, sexo y edad; conteo pendiente | Esquema y vista previa |
 
 ![Conteo de filas y canciones de `stg_kworb_mx_semanal`](img/bq_stg_kworb_mx_semanal_conteo.png){width=65% fig-align="center"}
 
@@ -555,6 +562,24 @@ conversión de tipos corresponde a silver. La descripción de cada tabla indica 
 ![Conteo de estados de `stg_trends_regueton_tema_2021`](img/bq_stg_trends_regueton_tema_2021_conteo.png){width=55% fig-align="center"}
 
 ![Descripción de `stg_trends_regueton_tema_2021`](img/bq_stg_trends_regueton_tema_2021_descripcion.png){width=55% fig-align="center"}
+
+
+### Evidencia adicional de cargas
+
+![Vista previa de delitos](img/bq_stg_sesnsp_delitos_vista.png){width=80% fig-align="center"}
+
+![Conteo de 34,496 filas de delitos](img/bq_stg_sesnsp_delitos_conteo.png){width=80% fig-align="center"}
+
+![Esquema de víctimas](img/bq_stg_sesnsp_victimas_esquema.png){width=80% fig-align="center"}
+
+![Vista previa de víctimas](img/bq_stg_sesnsp_victimas_vista.png){width=80% fig-align="center"}
+
+![Conteo de 80,960 filas de víctimas](img/bq_stg_sesnsp_victimas_conteo.png){width=80% fig-align="center"}
+
+![Esquema de CONAPO](img/bq_stg_conapo_poblacion_esquema.png){width=80% fig-align="center"}
+
+![Vista previa de CONAPO](img/bq_stg_conapo_poblacion_vista.png){width=80% fig-align="center"}
+
 
 <!-- Al cargar otra tabla de staging: agregar su fila a la tabla de arriba y sus capturas debajo,
      con el nombre img/bq_stg_<tabla>_<conteo|esquema|descripcion>.png -->

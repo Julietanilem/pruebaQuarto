@@ -131,7 +131,6 @@ SELECT
   d.fecha,
   d.anio,
   d.mes,
-  d.evento_restriccion_musical,
   vi.tipo_lgamvlv,
   vi.es_control,
   mu.proporcion_misogina,
@@ -198,8 +197,7 @@ panel AS (
     SAFE_DIVIDE(vi.victimas_mujeres_menores, vi.victimas_mujeres)     AS pct_victimas_menores,
     ctx.pct_usuarios_internet,
     ctx.pct_pobreza,
-    ctx.indice_impunidad,
-    ctx.propuesta_restriccion_musical
+    ctx.indice_impunidad
   FROM misoginia_mart.p1_proporcion_misogina_entidad AS m
   JOIN violencia AS vi ON vi.cve_ent = m.cve_ent AND vi.anio = m.anio
   JOIN misoginia_dw.dim_contexto_entidad AS ctx ON ctx.contexto_key = vi.contexto_key
@@ -219,7 +217,6 @@ SELECT
   pct_usuarios_internet,
   pct_pobreza,
   indice_impunidad,
-  propuesta_restriccion_musical,
   CORR(proporcion_misogina, tasa_indicador_100k_mujeres)
     OVER (PARTITION BY tipo_lgamvlv, anio) AS correlacion_entre_estados_del_anio,
   CORR(proporcion_misogina, tasa_indicador_100k_mujeres)

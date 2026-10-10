@@ -160,8 +160,6 @@ Notas de diseño:
 - **`dim_contexto_entidad` es una mini-dimensión.** Reúne los atributos de la entidad que cambian cada año. Así
   `dim_entidad` no cambia y la entidad se agrupa igual en los dos hechos. Incluye una fila nacional
   (`cve_ent = 0`) solo como referencia para las prevalencias nacionales de la ENDIREH; ningún hecho apunta a ella.
-- **Propuestas para restringir música.** `dim_fecha.evento_restriccion_musical` marca la propuesta del Senado de marzo de 2020, y
-  `dim_contexto_entidad.propuesta_restriccion_musical` la de Sinaloa en 2019, ambas citadas en la
   [bitácora de E0](../E0_comprension_negocio/bitacora.qmd). Sirven para ver si algo cambió después de cada propuesta,
   como pide el criterio de éxito de E0.
 - **Región.** `dim_entidad.region` usa las cuatro regiones del Banco de México: norte (Baja California,
@@ -258,7 +256,6 @@ erDiagram
         INT64 mes
         STRING nombre_mes
         INT64 indice_mes
-        STRING evento_restriccion_musical
     }
     DIM_ENTIDAD {
         INT64 entidad_key PK "SCD 0"
@@ -317,7 +314,6 @@ erDiagram
         FLOAT64 pct_viviendas_internet
         FLOAT64 pct_pobreza
         FLOAT64 indice_impunidad
-        STRING propuesta_restriccion_musical
         FLOAT64 prevalencia_total
         FLOAT64 prevalencia_psicologica
         FLOAT64 prevalencia_fisica
@@ -368,7 +364,6 @@ CREATE OR REPLACE TABLE misoginia_dw.dim_fecha (
   mes                  INT64  NOT NULL,
   nombre_mes           STRING,
   indice_mes           INT64  NOT NULL OPTIONS (description = 'anio * 12 + mes; ordena los meses aunque falten algunos'),
-  evento_restriccion_musical STRING OPTIONS (description = 'Propuesta nacional para restringir música en ese mes (Senado, marzo de 2020); NULL si no hubo'),
   PRIMARY KEY (fecha_key) NOT ENFORCED
 )
 OPTIONS (description = 'Tiempo a nivel mes, calendario generado. SCD tipo 0. Responde: P1, P2, P3');
@@ -439,7 +434,6 @@ CREATE OR REPLACE TABLE misoginia_dw.dim_contexto_entidad (
   pct_viviendas_internet       FLOAT64 OPTIONS (description = 'Censo 2020 ITER (F14); solo 2020'),
   pct_pobreza                  FLOAT64 OPTIONS (description = 'CONEVAL (F15); años pares'),
   indice_impunidad             FLOAT64 OPTIONS (description = 'México Evalúa (F17)'),
-  propuesta_restriccion_musical STRING OPTIONS (description = 'Propuesta estatal para restringir música en ese año (Sinaloa, 2019); NULL si no hubo'),
   prevalencia_total            FLOAT64 OPTIONS (description = 'ENDIREH (F2), % de mujeres de 15 años y más, últimos 12 meses; solo años de levantamiento'),
   prevalencia_psicologica      FLOAT64 OPTIONS (description = 'ENDIREH (F2)'),
   prevalencia_fisica           FLOAT64 OPTIONS (description = 'ENDIREH (F2)'),

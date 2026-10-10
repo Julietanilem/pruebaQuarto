@@ -19,11 +19,11 @@ parcialmente** y cada limitación se dice en la matriz.
 
 | Dimensión | Preguntas | Para qué se usa |
 |---|---|---|
-| `dim_fecha` | P1, P2, P3 | Serie mensual de consumo y de violencia; subtotales por año en P1; marcos de 12 meses en P3; propuesta nacional de restricción musical, para el criterio de éxito de E0. |
+| `dim_fecha` | P1, P2, P3 | Serie mensual de consumo y de violencia; subtotales por año en P1; marcos de 12 meses en P3. |
 | `dim_entidad` | P1, P2 | Proporción misógina estimada por entidad y por región del Banco de México; panel entidad-año de P2. |
 | `dim_cancion` | P1, P2, P3, P4 | Clasificación de cada canción y su origen (MiSonGyny o clasificador), su género y macrogénero, y el término de búsqueda que define su peso por entidad. |
 | `dim_tipo_violencia` | P2, P3, P4 | Tipos de violencia comparables entre la música y las fuentes oficiales. |
-| `dim_contexto_entidad` | P1, P2, P4 | Usuarios de internet para el peso (P1); población de mujeres y variables de control (P2); prevalencias de la ENDIREH (P4); propuestas estatales de restricción musical, para el criterio de éxito de E0. |
+| `dim_contexto_entidad` | P1, P2, P4 | Usuarios de internet para el peso (P1); población de mujeres y variables de control (P2); prevalencias de la ENDIREH (P4). |
 
 Ninguna dimensión queda sin pregunta.
 

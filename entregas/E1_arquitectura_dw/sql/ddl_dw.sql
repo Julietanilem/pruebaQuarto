@@ -33,7 +33,6 @@ CREATE OR REPLACE TABLE misoginia_dw.dim_fecha (
   mes                  INT64  NOT NULL,
   nombre_mes           STRING,
   indice_mes           INT64  NOT NULL OPTIONS (description = 'anio * 12 + mes; ordena los meses aunque falten algunos'),
-  evento_restriccion_musical STRING OPTIONS (description = 'Propuesta nacional para restringir música en ese mes (Senado, marzo de 2020); NULL si no hubo'),
   PRIMARY KEY (fecha_key) NOT ENFORCED
 )
 OPTIONS (description = 'Tiempo a nivel mes, calendario generado. SCD tipo 0. Responde: P1, P2, P3');
@@ -104,7 +103,6 @@ CREATE OR REPLACE TABLE misoginia_dw.dim_contexto_entidad (
   pct_viviendas_internet       FLOAT64 OPTIONS (description = 'Censo 2020 ITER (F14); solo 2020'),
   pct_pobreza                  FLOAT64 OPTIONS (description = 'CONEVAL (F15); años pares'),
   indice_impunidad             FLOAT64 OPTIONS (description = 'México Evalúa (F17)'),
-  propuesta_restriccion_musical STRING OPTIONS (description = 'Propuesta estatal para restringir música en ese año (Sinaloa, 2019); NULL si no hubo'),
   prevalencia_total            FLOAT64 OPTIONS (description = 'ENDIREH (F2), % de mujeres de 15 años y más, últimos 12 meses; solo años de levantamiento'),
   prevalencia_psicologica      FLOAT64 OPTIONS (description = 'ENDIREH (F2)'),
   prevalencia_fisica           FLOAT64 OPTIONS (description = 'ENDIREH (F2)'),

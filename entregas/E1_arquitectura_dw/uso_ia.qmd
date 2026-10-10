@@ -90,7 +90,7 @@ ancla, cuál es la mejor práctica para el contexto anual de cada entidad y cóm
   cortos un artista de poco volumen queda en cero en la mayoría de los estados.
 - Decidimos nosotros: grano por canción y no por artista; dejar el mapa de Salguero fuera del almacén; incluir
   las desaparecidas del RNPDNO; conservar cinco dimensiones con la mini-dimensión de contexto; usar el peso
-  anual por artista como caso principal; agregar las propuestas de restricción musical; usar las regiones del Banco de México; sacar el macrogénero de las etiquetas de las fuentes; y descargar Trends por tema y no por término, después de comparar descargas con y sin acento.
+  anual por artista como caso principal; usar las regiones del Banco de México; sacar el macrogénero de las etiquetas de las fuentes; y descargar Trends por tema y no por término, después de comparar descargas con y sin acento.
 - La prueba en Colab con MusicBrainz, hecha por el equipo, mostró una coincidencia falsa (Sebastián Yatra con
   etiquetas de un compositor clásico alemán); por eso las coincidencias se validan en silver.
 
@@ -98,3 +98,5 @@ ancla, cuál es la mejor práctica para el contexto anual de cada entidad y cóm
 
 Las decisiones de alcance, los criterios y la elección de fuentes fueron nuestras; la herramienta nos
 ayudó a hacer la búsqueda y la verificación más rápido.
+
+
