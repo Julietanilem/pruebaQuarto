@@ -552,6 +552,7 @@ conversión de tipos corresponde a silver. La descripción de cada tabla indica 
 | `stg_sesnsp_delitos` | [F1](fuentes/f01_sesnsp.qmd) | 34,496 filas de delitos 2015–2025 | `COUNT(*)` |
 | `stg_sesnsp_victimas` | [F1](fuentes/f01_sesnsp.qmd) | 80,960 filas de víctimas 2015–2025 | `COUNT(*)` |
 | `stg_conapo_poblacion` | [F3](fuentes/f03_conapo.qmd) | Población por entidad, año, sexo y edad; conteo pendiente | Esquema y vista previa |
+| `stg_kaggle_charts_mx` | [F5](fuentes/f12_kaggle_top73.qmd) | 448,832 filas, 6,515 títulos distintos, México, 2017–2021 | `COUNT(*)`, `COUNT(DISTINCT title)`, validación `region` y fechas |
 
 ![Conteo de filas y canciones de `stg_kworb_mx_semanal`](img/bq_stg_kworb_mx_semanal_conteo.png){width=65% fig-align="center"}
 
@@ -580,6 +581,13 @@ conversión de tipos corresponde a silver. La descripción de cada tabla indica 
 
 ![Vista previa de CONAPO](img/bq_stg_conapo_poblacion_vista.png){width=80% fig-align="center"}
 
+
+
+![Esquema de `stg_kaggle_charts_mx` con nueve campos de tipo `STRING`](img/bq_stg_kaggle_charts_mx_esquema.png){width=80% fig-align="center"}
+
+![Vista previa de `stg_kaggle_charts_mx`, con registros de México](img/bq_stg_kaggle_charts_mx_vista.png){width=85% fig-align="center"}
+
+![Validación de `stg_kaggle_charts_mx`: 448,832 filas, 6,515 títulos, ninguna fila fuera de México, fechas 2017-01-01 a 2021-12-31](img/bq_stg_kaggle_charts_mx_validacion.png){width=85% fig-align="center"}
 
 <!-- Al cargar otra tabla de staging: agregar su fila a la tabla de arriba y sus capturas debajo,
      con el nombre img/bq_stg_<tabla>_<conteo|esquema|descripcion>.png -->
