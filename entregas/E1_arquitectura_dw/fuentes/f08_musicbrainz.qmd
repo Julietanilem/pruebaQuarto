@@ -15,7 +15,7 @@ MusicBrainz se incorporó como fuente de referencia para contrastar nombres de a
 
 ## Carga realizada
 
-El proceso de consultas tomó como punto de partida los nombres presentes en `stg_kworb_catalogo_canciones`, sin limitar arbitrariamente la búsqueda a los doce nombres del ensayo inicial. La interfaz de BigQuery permite comprobar la existencia de `stg_musicbrainz_tags` y sus dos columnas. No se atribuye todavía un total de respuestas exitosas ni de identidades resueltas sin consultar los conteos y los errores del conjunto cargado.
+El proceso de consultas tomó como punto de partida los nombres presentes en `stg_kworb_catalogo_canciones`, sin limitar arbitrariamente la búsqueda a los doce nombres del ensayo inicial. La interfaz de BigQuery permite comprobar la existencia de `stg_musicbrainz_tags` y sus dos columnas. La consulta de control sobre la tabla cargada confirmó **112 filas**. Este resultado verifica la cantidad de respuestas almacenadas, pero no la resolución correcta de los artistas ni la ausencia de errores en la API.
 
 ![Esquema de la tabla MusicBrainz en BigQuery](../img/bq_final_mb_esquema.png){width=85% fig-align="center"}
 

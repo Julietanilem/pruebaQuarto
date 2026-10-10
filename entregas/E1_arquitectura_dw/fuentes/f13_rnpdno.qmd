@@ -9,7 +9,7 @@ La versión pública del Registro Nacional de Personas Desaparecidas y No Locali
 | **Responsable** | Comisión Nacional de Búsqueda; versión pública difundida por Data Cívica. |
 | **Procedencia** | <https://volveradesaparecer.datacivica.org/datos-abiertos>. Publicación identificada en la página como 22/09/2023; el archivo descargado se denomina `RNPDNO-22-08-2023.csv`. Ambas fechas se conservan diferenciadas. |
 | **Formato original** | CSV, 11 columnas: datos demográficos, nominales, fechas, entidad y campos administrativos. |
-| **Bronze** | `stg_rnpdno`, ocho columnas `STRING`. El proceso generó 116,945 filas; se requiere una comparación de conteo independiente con el CSV de origen para acreditar integridad de filas. |
+| **Bronze** | `stg_rnpdno`, ocho columnas `STRING`. El proceso generó 116,945 filas y la misma cifra fue confirmada por `COUNT(*)` en BigQuery. La comparación independiente con el CSV original aún no se ha documentado. |
 | **Minimización de datos** | Se excluyeron `Nombre`, `Primer Apellido` y `Segundo Apellido` antes de cargar a BigQuery por no ser necesarios para los indicadores agregados. No se aplicó eliminación automática de duplicados. |
 | **Granularidad** | Registro de la fuente pública. No se presupone que cada fila identifique una persona distinta; los campos `consecutivo_reportes_por_persona` y `consecutivo_registro` no se utilizan como identificadores únicos sin diccionario verificado. |
 | **Integración** | Fecha, sexo y entidad permitirán una lectura temporal y geográfica con limitaciones de cobertura, ausencia de datos y posible registro múltiple. |

@@ -561,9 +561,9 @@ conversión de tipos corresponde a silver. La descripción de cada tabla indica 
 | `stg_kworb_catalogo_canciones` | [F4](fuentes/f04_kworb.qmd) | Catálogo de artista y título por `track_id`; 300 registros validados en Colab; BigQuery reportó 301 antes de la corrección pendiente de confirmar | Esquema, vista previa y comprobación final pendiente |
 | `stg_endutih_usuarios` | [F16](fuentes/f16_endutih.qmd) | Usuarios ENDUTIH 2024 completos: 58,080 filas y 232 columnas; 32 entidades | Comparación de dimensiones contra DBF original, CSV y BigQuery; esquema y vista previa |
 | `stg_censo_iter` | [F14](fuentes/f14_censo_iter.qmd) | ITER 2020 nacional completo: 195,662 filas y 286 columnas; sustituyó carga inicial de 675 filas | Conteo de CSV original y carga temporal BigQuery; esquema y vista previa de tabla definitiva |
-| `stg_rnpdno` | [F13](fuentes/f13_rnpdno.qmd) | 116,945 filas y ocho columnas en CSV preparado; nombres y apellidos excluidos por minimización | Esquema y vista previa; cotejo independiente con CSV original aún no documentado |
-| `stg_musicbrainz_tags` | [F8](fuentes/f08_musicbrainz.qmd) | Búsquedas por nombres de artista del catálogo Kworb y respuestas JSON sin depurar | Esquema y vista previa; conteo y errores por comprobar en BigQuery |
-| `stg_mexico_evalua_12_indices` | [F17](fuentes/f17_mexico_evalua.qmd) | 314 filas y 12 índices extraídos del informe por delito y entidad | Validación estructural del CSV y capturas de esquema y vista; conteo de BigQuery por verificar |
+| `stg_rnpdno` | [F13](fuentes/f13_rnpdno.qmd) | 116,945 filas cargadas en BigQuery y ocho columnas; nombres y apellidos excluidos por minimización | `COUNT(*)` en BigQuery: 116,945; esquema y vista previa. La comparación independiente con el CSV original permanece sin documentar |
+| `stg_musicbrainz_tags` | [F8](fuentes/f08_musicbrainz.qmd) | 112 búsquedas por nombres de artista del catálogo Kworb y respuestas JSON sin depurar | `COUNT(*)` en BigQuery: 112; esquema y vista previa; validación semántica y errores de API pendientes |
+| `stg_mexico_evalua_12_indices` | [F17](fuentes/f17_mexico_evalua.qmd) | 314 filas y 12 índices extraídos del informe por delito y entidad | `COUNT(*)` en BigQuery: 314; revisión manual de las correspondencias con el PDF, esquema y vista previa |
 
 
 ![Conteo de filas y canciones de `stg_kworb_mx_semanal`](img/bq_stg_kworb_mx_semanal_conteo.png){width=65% fig-align="center"}
@@ -607,7 +607,7 @@ Las capturas siguientes comprueban la existencia y la estructura visible de las 
 
 ![Listado previo del dataset `misoginia_staging` con once tablas](img/bq_staging_tablas_11.png){width=85% fig-align="center"}
 
-**Estado actualizado (10 de octubre de 2026).** El dataset contiene las 16 tablas de staging previstas. La creación y el esquema de las tres cargas finales se evidencian mediante capturas; los conteos de esas tablas aún requieren una consulta de control en BigQuery.
+**Estado al cierre de E1 (10 de octubre de 2026).** El dataset `misoginia_staging` contiene las 16 tablas previstas. Se verificaron directamente en BigQuery los conteos de RNPDNO, MusicBrainz, México Evalúa, Censo ITER y ENDUTIH, mediante una consulta conjunta conservada como evidencia. Esto documenta la carga y su volumen, sin sustituir la validación semántica de las respuestas de MusicBrainz ni las transformaciones de Silver.
 Las capturas de ENDUTIH e ITER documentan sus esquemas y vistas previas. Para ITER,
 Colab confirmó 195,662 registros del CSV original y 195,662 en la carga completa temporal;
 la tabla definitiva `stg_censo_iter` se muestra después de su sustitución.
@@ -671,9 +671,25 @@ Las capturas corresponden a las tablas efectivamente creadas en el dataset. Los 
 
 ![Vista de México Evalúa: delito, entidad, año, porcentaje y unidad del índice](img/bq_final_mx_vista.png){width=85% fig-align="center"}
 
-Los 12 índices del informe *Hallazgos 2023* suman **314 observaciones en el archivo generado**. Conservamos las ausencias de cobertura señaladas en el PDF y la referencia a la página de extracción. Este indicador caracteriza el desempeño institucional, no el nivel de violencia registrado ni la probabilidad de denuncia.
+Los 12 índices del informe *Hallazgos 2023* suman **314 observaciones**, confirmadas en BigQuery. Conservamos las ausencias de cobertura señaladas en el PDF y la referencia a la página de extracción. Este indicador caracteriza el desempeño institucional, no el nivel de violencia registrado ni la probabilidad de denuncia.
 
 Para reproducir esta extracción se proporcionan [`extraer_hallazgos_2023_completo.py`](datos/staging/extraer_hallazgos_2023_completo.py) y el [`CSV extraído`](datos/staging/stg_mexico_evalua_12_indices.csv). Las doce series se verificaron mediante controles estructurales y comprobación de los valores nacionales. Adicionalmente, se realizó un cotejo manual, entrada por entrada, de los 314 registros con las gráficas originales del informe para corroborar la correspondencia entre entidad, delito y porcentaje.
+
+### Cierre y verificación de las cargas de Bronze
+
+La consulta de control ejecutada en BigQuery confirmó los siguientes volúmenes de las cinco fuentes incorporadas o corregidas al final de E1:
+
+| Tabla de staging | Filas verificadas en BigQuery |
+|---|---:|
+| `stg_rnpdno` | 116,945 |
+| `stg_musicbrainz_tags` | 112 |
+| `stg_mexico_evalua_12_indices` | 314 |
+| `stg_censo_iter` | 195,662 |
+| `stg_endutih_usuarios` | 58,080 |
+
+![Resultado de la consulta de validación de las cinco fuentes de cierre en BigQuery](img/bq_staging_validacion_final_cinco_fuentes.png){width=92% fig-align="center"}
+
+Al concluir E1, se habían creado las **16 tablas de Bronze**, las **cinco dimensiones y dos tablas de hechos** del modelo dimensional, y las **siete vistas** previstas del DataMart. La existencia de estos objetos y la carga de staging no implican que las tablas Gold estén pobladas ni que se haya realizado todavía la integración, limpieza y evaluación analítica de Silver. Esas actividades corresponden a las etapas posteriores.
 
 ### Cómo se integrarán los datos en Silver
 

@@ -507,8 +507,8 @@ flowchart LR
 <tr class="odd">
 <td><code>slv_canciones</code></td>
 <td>Canción</td>
-<td><code>slv_charts_mes</code>, <code>stg_musicbrainz_tags</code>, Last.fm, letras de LRCLIB, <code>stg_misongyny</code></td>
-<td>Clave normalizada; género y país validados; etiquetas crudas; macrogénero agrupando las etiquetas más frecuentes; etiqueta directa de MiSonGyny o del clasificador</td>
+<td>112 registros de respuesta JSON consultando textos de artistas del catálogo Kworb</td>
+<td>COUNT(*) confirmado: 112; comprobación de errores y resolución de identidades pendiente</td>
 <td><code>dim_cancion</code> y el <code>tipo_violencia_key</code> del hecho</td>
 </tr>
 <tr class="even">
@@ -633,8 +633,8 @@ flowchart LR
 <tr class="odd">
 <td><code>dim_cancion</code></td>
 <td><code>slv_canciones</code></td>
-<td><code>stg_kworb_mx_semanal</code>, <code>stg_musicbrainz_tags</code>, <code>stg_misongyny</code></td>
-<td>F4, F6, F7, F8, F19</td>
+<td>112 registros de respuesta JSON consultando textos de artistas del catálogo Kworb</td>
+<td>COUNT(*) confirmado: 112; comprobación de errores y resolución de identidades pendiente</td>
 </tr>
 <tr class="even">
 <td><code>dim_tipo_violencia</code></td>
@@ -645,8 +645,8 @@ flowchart LR
 <tr class="odd">
 <td><code>dim_contexto_entidad</code></td>
 <td><code>slv_contexto_entidad_anio</code></td>
-<td><code>stg_conapo_poblacion</code>, <code>stg_endutih_usuarios</code>, <code>stg_censo_iter</code>, <code>stg_coneval_pobreza</code>, <code>stg_mexico_evalua_12_indices_12_indices</code>, <code>stg_endireh_*</code></td>
-<td>F2, F3, F14, F15, F16, F17</td>
+<td>314 registros de los doce índices de impunidad por delito y entidad</td>
+<td>COUNT(*) confirmado: 314; cotejo manual de correspondencias con PDF</td>
 </tr>
 <tr class="even">
 <td><code>fact_consumo_musical</code></td>
@@ -660,7 +660,7 @@ flowchart LR
 <td><code>stg_sesnsp_delitos</code>, <code>stg_sesnsp_victimas</code>, <code>stg_rnpdno</code></td>
 <td>F1, F13</td>
 </tr>
-<tr><td>stg_rnpdno</td><td>F13</td><td>116,945 filas preparadas, ocho columnas; exclusión de nombre y apellidos</td><td>Esquema y vista previa; conteo en BigQuery por validar</td></tr><tr><td>stg_musicbrainz_tags</td><td>F8</td><td>Respuestas de búsqueda JSON de los artistas del catálogo Kworb</td><td>Esquema y vista previa; validar cobertura de respuestas</td></tr><tr><td>stg_mexico_evalua_12_indices_12_indices_12_indices</td><td>F17</td><td>314 filas generadas para doce índices por delito y entidad en 2023</td><td>Esquema y vista previa; 12 valores nacionales revisados</td></tr><tr><td>stg_rnpdno</td><td>F13</td><td>116,945 filas preparadas, ocho columnas; exclusión de nombre y apellidos</td><td>Esquema y vista previa; conteo en BigQuery por validar</td></tr><tr><td>stg_musicbrainz_tags</td><td>F8</td><td>Respuestas de búsqueda JSON de los artistas del catálogo Kworb</td><td>Esquema y vista previa; validar cobertura de respuestas</td></tr><tr><td>stg_mexico_evalua_12_indices_12_indices</td><td>F17</td><td>314 filas generadas para doce índices por delito y entidad en 2023</td><td>Esquema y vista previa; 12 valores nacionales revisados</td></tr></tbody>
+<tr><td>stg_rnpdno</td><td>F13</td><td>116,945 filas cargadas en BigQuery; ocho campos y exclusión de nombres/apellidos</td><td>COUNT(*) confirmado: 116,945; cotejo independiente con CSV de origen no documentado</td></tr><tr><td>stg_musicbrainz_tags</td><td>F8</td><td>112 registros de respuesta JSON consultando textos de artistas del catálogo Kworb</td><td>COUNT(*) confirmado: 112; comprobación de errores y resolución de identidades pendiente</td></tr><tr><td>stg_mexico_evalua_12_indices_12_indices_12_indices</td><td>F17</td><td>314 registros de los doce índices de impunidad por delito y entidad</td><td>COUNT(*) confirmado: 314; cotejo manual de correspondencias con PDF</td></tr><tr><td>stg_rnpdno</td><td>F13</td><td>116,945 filas cargadas en BigQuery; ocho campos y exclusión de nombres/apellidos</td><td>COUNT(*) confirmado: 116,945; cotejo independiente con CSV de origen no documentado</td></tr><tr><td>stg_musicbrainz_tags</td><td>F8</td><td>112 registros de respuesta JSON consultando textos de artistas del catálogo Kworb</td><td>COUNT(*) confirmado: 112; comprobación de errores y resolución de identidades pendiente</td></tr><tr><td>stg_mexico_evalua_12_indices_12_indices</td><td>F17</td><td>314 registros de los doce índices de impunidad por delito y entidad</td><td>COUNT(*) confirmado: 314; cotejo manual de correspondencias con PDF</td></tr></tbody>
 </table>
 <p>Cada fila de hechos guarda además su fuente en la columna <code>fuente</code>, así que el linaje se puede seguir también fila por fila.</p>
 </section>
@@ -1090,7 +1090,7 @@ flowchart LR
 <th>Comprobación</th>
 </tr>
 </thead>
-<tbody><tr class="odd"><td><code>stg_kworb_mx_semanal</code></td><td><a href="fuentes/f04_kworb.html">F4</a></td><td>42,417 filas de 300 canciones, con las filas Total y Peak de cada una</td><td>COUNT(*) y COUNT(DISTINCT track_id)</td></tr><tr class="even"><td><code>stg_trends_regueton_tema_2021</code></td><td><a href="fuentes/f11_google_trends.html">F11</a></td><td>32 estados, tema Reguetón, año 2021</td><td>COUNT(*)</td></tr><tr class="odd"><td><code>stg_sesnsp_delitos</code></td><td><a href="fuentes/f01_sesnsp.html">F1</a></td><td>34,496 filas de delitos 2015–2025</td><td>COUNT(*)</td></tr><tr class="even"><td><code>stg_sesnsp_victimas</code></td><td><a href="fuentes/f01_sesnsp.html">F1</a></td><td>80,960 filas de víctimas 2015–2025</td><td>COUNT(*)</td></tr><tr class="odd"><td><code>stg_conapo_poblacion</code></td><td><a href="fuentes/f03_conapo.html">F3</a></td><td>Población por entidad, año, sexo y edad; conteo pendiente</td><td>Esquema y vista previa</td></tr><tr class="even"><td><code>stg_kaggle_charts_mx</code></td><td><a href="fuentes/f12_kaggle_top73.html">F5</a></td><td>448,832 filas, 6,515 títulos distintos, México, 2017–2021</td><td>COUNT(*), COUNT(DISTINCT title), validación region y fechas</td></tr><tr class="odd"><td><code>stg_endireh_2021_tb_sec_iv</code></td><td><a href="fuentes/f02_endireh.html">F2</a></td><td>Sección IV de microdatos ENDIREH 2021; conteo pendiente</td><td>Esquema y vista previa; campos STRING</td></tr><tr class="even"><td><code>stg_coneval_pobreza</code></td><td><a href="fuentes/f15_coneval.html">F15</a></td><td>Tabla visible en BigQuery; contenido y conteo por verificar</td><td>Existencia de la tabla en el explorador</td></tr><tr class="odd"><td><code>stg_misongyny</code></td><td><a href="fuentes/f06_misongyny.html">F6</a></td><td>Canciones de TRAIN/TEST; el TEST mostrado contiene etiquetas nulas; conteo pendiente</td><td>Esquema y vista previa</td></tr><tr class="even"><td><code>stg_naturalearth_mx</code></td><td><a href="fuentes/f18_naturalearth.html">F18</a></td><td>Datos geográficos de México; encabezado corregido; conteo pendiente</td><td>Esquema y vista previa actualizada</td></tr><tr class="odd"><td><code>stg_kworb_catalogo_canciones</code></td><td><a href="fuentes/f04_kworb.html">F4</a></td><td>Catálogo de artista y título por track_id; 300 registros validados en Colab; BigQuery reportó 301 antes de la corrección pendiente de confirmar</td><td>Esquema, vista previa y comprobación final pendiente</td></tr><tr><td>stg_endutih_usuarios</td><td>F16</td><td>58,080 filas y 232 columnas, 32 entidades; DBF y CSV originales concuerdan en dimensiones</td><td>Validación de DBF/CSV/BigQuery y capturas</td></tr><tr><td>stg_censo_iter</td><td>F14</td><td>195,662 filas nacionales y 286 columnas, sin muestreo</td><td>Conteo CSV y carga temporal; esquema y vista previa definitivos</td></tr><tr><td>stg_rnpdno</td><td>F13</td><td>116,945 filas preparadas, ocho columnas; exclusión de nombre y apellidos</td><td>Esquema y vista previa; conteo en BigQuery por validar</td></tr><tr><td>stg_musicbrainz_tags</td><td>F8</td><td>Respuestas de búsqueda JSON de los artistas del catálogo Kworb</td><td>Esquema y vista previa; validar cobertura de respuestas</td></tr><tr><td>stg_mexico_evalua_12_indices_12_indices</td><td>F17</td><td>314 filas generadas para doce índices por delito y entidad en 2023</td><td>Esquema y vista previa; 12 valores nacionales revisados</td></tr><tr><td>stg_rnpdno</td><td>F13</td><td>116,945 filas preparadas, ocho columnas; exclusión de nombre y apellidos</td><td>Esquema y vista previa; conteo en BigQuery por validar</td></tr><tr><td>stg_musicbrainz_tags</td><td>F8</td><td>Respuestas de búsqueda JSON de los artistas del catálogo Kworb</td><td>Esquema y vista previa; validar cobertura de respuestas</td></tr><tr><td>stg_mexico_evalua_12_indices_12_indices</td><td>F17</td><td>314 filas generadas para doce índices por delito y entidad en 2023</td><td>Esquema y vista previa; 12 valores nacionales revisados</td></tr></tbody>
+<tbody><tr class="odd"><td><code>stg_kworb_mx_semanal</code></td><td><a href="fuentes/f04_kworb.html">F4</a></td><td>42,417 filas de 300 canciones, con las filas Total y Peak de cada una</td><td>COUNT(*) y COUNT(DISTINCT track_id)</td></tr><tr class="even"><td><code>stg_trends_regueton_tema_2021</code></td><td><a href="fuentes/f11_google_trends.html">F11</a></td><td>32 estados, tema Reguetón, año 2021</td><td>COUNT(*)</td></tr><tr class="odd"><td><code>stg_sesnsp_delitos</code></td><td><a href="fuentes/f01_sesnsp.html">F1</a></td><td>34,496 filas de delitos 2015–2025</td><td>COUNT(*)</td></tr><tr class="even"><td><code>stg_sesnsp_victimas</code></td><td><a href="fuentes/f01_sesnsp.html">F1</a></td><td>80,960 filas de víctimas 2015–2025</td><td>COUNT(*)</td></tr><tr class="odd"><td><code>stg_conapo_poblacion</code></td><td><a href="fuentes/f03_conapo.html">F3</a></td><td>Población por entidad, año, sexo y edad; conteo pendiente</td><td>Esquema y vista previa</td></tr><tr class="even"><td><code>stg_kaggle_charts_mx</code></td><td><a href="fuentes/f12_kaggle_top73.html">F5</a></td><td>448,832 filas, 6,515 títulos distintos, México, 2017–2021</td><td>COUNT(*), COUNT(DISTINCT title), validación region y fechas</td></tr><tr class="odd"><td><code>stg_endireh_2021_tb_sec_iv</code></td><td><a href="fuentes/f02_endireh.html">F2</a></td><td>Sección IV de microdatos ENDIREH 2021; conteo pendiente</td><td>Esquema y vista previa; campos STRING</td></tr><tr class="even"><td><code>stg_coneval_pobreza</code></td><td><a href="fuentes/f15_coneval.html">F15</a></td><td>Tabla visible en BigQuery; contenido y conteo por verificar</td><td>Existencia de la tabla en el explorador</td></tr><tr class="odd"><td><code>stg_misongyny</code></td><td><a href="fuentes/f06_misongyny.html">F6</a></td><td>Canciones de TRAIN/TEST; el TEST mostrado contiene etiquetas nulas; conteo pendiente</td><td>Esquema y vista previa</td></tr><tr class="even"><td><code>stg_naturalearth_mx</code></td><td><a href="fuentes/f18_naturalearth.html">F18</a></td><td>Datos geográficos de México; encabezado corregido; conteo pendiente</td><td>Esquema y vista previa actualizada</td></tr><tr class="odd"><td><code>stg_kworb_catalogo_canciones</code></td><td><a href="fuentes/f04_kworb.html">F4</a></td><td>Catálogo de artista y título por track_id; 300 registros validados en Colab; BigQuery reportó 301 antes de la corrección pendiente de confirmar</td><td>Esquema, vista previa y comprobación final pendiente</td></tr><tr><td>stg_endutih_usuarios</td><td>F16</td><td>58,080 filas y 232 columnas, 32 entidades; DBF y CSV originales concuerdan en dimensiones</td><td>Validación de DBF/CSV/BigQuery y capturas</td></tr><tr><td>stg_censo_iter</td><td>F14</td><td>195,662 filas nacionales y 286 columnas, sin muestreo</td><td>Conteo CSV y carga temporal; esquema y vista previa definitivos</td></tr><tr><td>stg_rnpdno</td><td>F13</td><td>116,945 filas cargadas en BigQuery; ocho campos y exclusión de nombres/apellidos</td><td>COUNT(*) confirmado: 116,945; cotejo independiente con CSV de origen no documentado</td></tr><tr><td>stg_musicbrainz_tags</td><td>F8</td><td>112 registros de respuesta JSON consultando textos de artistas del catálogo Kworb</td><td>COUNT(*) confirmado: 112; comprobación de errores y resolución de identidades pendiente</td></tr><tr><td>stg_mexico_evalua_12_indices_12_indices</td><td>F17</td><td>314 registros de los doce índices de impunidad por delito y entidad</td><td>COUNT(*) confirmado: 314; cotejo manual de correspondencias con PDF</td></tr><tr><td>stg_rnpdno</td><td>F13</td><td>116,945 filas cargadas en BigQuery; ocho campos y exclusión de nombres/apellidos</td><td>COUNT(*) confirmado: 116,945; cotejo independiente con CSV de origen no documentado</td></tr><tr><td>stg_musicbrainz_tags</td><td>F8</td><td>112 registros de respuesta JSON consultando textos de artistas del catálogo Kworb</td><td>COUNT(*) confirmado: 112; comprobación de errores y resolución de identidades pendiente</td></tr><tr><td>stg_mexico_evalua_12_indices_12_indices</td><td>F17</td><td>314 registros de los doce índices de impunidad por delito y entidad</td><td>COUNT(*) confirmado: 314; cotejo manual de correspondencias con PDF</td></tr></tbody>
 </table>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1151,7 +1151,7 @@ flowchart LR
 <img alt="Vista de México Evalúa: delito, entidad, año, porcentaje y unidad del índice" data-fig-align="center" src="img/bq_final_mx_vista.png" style="width:85.0%"/>
 <figcaption aria-hidden="true">Vista de México Evalúa: delito, entidad, año, porcentaje y unidad del índice</figcaption>
 </figure>
-<p>Los 12 índices del informe <em>Hallazgos 2023</em> suman <strong>314 observaciones en el archivo generado</strong>. Conservamos las ausencias de cobertura señaladas en el PDF y la referencia a la página de extracción. Este indicador caracteriza el desempeño institucional, no el nivel de violencia registrado ni la probabilidad de denuncia.</p>
+<p>Los 12 índices del informe <em>Hallazgos 2023</em> suman <strong>314 observaciones, confirmadas en BigQuery</strong>. Conservamos las ausencias de cobertura señaladas en el PDF y la referencia a la página de extracción. Este indicador caracteriza el desempeño institucional, no el nivel de violencia registrado ni la probabilidad de denuncia.</p>
 <p>Las doce series se verificaron mediante controles estructurales y comprobación de los valores nacionales. Adicionalmente, se realizó un cotejo manual, entrada por entrada, de los 314 registros con las gráficas originales del informe para corroborar la correspondencia entre entidad, delito y porcentaje.</p>
 <h3 id="rnpdno-musicbrainz-y-méxico-evalúa-evidencia-de-carga">RNPDNO, MusicBrainz y México Evalúa: evidencia de carga</h3>
 <p>Las capturas corresponden a las tablas efectivamente creadas en el dataset. Los esquemas presentan campos de tipo <code>STRING</code>; las vistas previas son comprobaciones de estructura y no deben confundirse con auditorías completas de calidad o cobertura.</p>
@@ -1179,8 +1179,45 @@ flowchart LR
 <img alt="Vista de México Evalúa: delito, entidad, año, porcentaje y unidad del índice" data-fig-align="center" src="img/bq_final_mx_vista.png" style="width:85.0%"/>
 <figcaption aria-hidden="true">Vista de México Evalúa: delito, entidad, año, porcentaje y unidad del índice</figcaption>
 </figure>
-<p>Los 12 índices del informe <em>Hallazgos 2023</em> suman <strong>314 observaciones en el archivo generado</strong>. Conservamos las ausencias de cobertura señaladas en el PDF y la referencia a la página de extracción. Este indicador caracteriza el desempeño institucional, no el nivel de violencia registrado ni la probabilidad de denuncia.</p>
+<p>Los 12 índices del informe <em>Hallazgos 2023</em> suman <strong>314 observaciones, confirmadas en BigQuery</strong>. Conservamos las ausencias de cobertura señaladas en el PDF y la referencia a la página de extracción. Este indicador caracteriza el desempeño institucional, no el nivel de violencia registrado ni la probabilidad de denuncia.</p>
 <p>Las doce series se verificaron mediante controles estructurales y comprobación de los valores nacionales. Adicionalmente, se realizó un cotejo manual, entrada por entrada, de los 314 registros con las gráficas originales del informe para corroborar la correspondencia entre entidad, delito y porcentaje.</p>
+<h3 id="cierre-y-verificación-de-las-cargas-de-bronze">Cierre y verificación de las cargas de Bronze</h3>
+<p>La consulta de control ejecutada en BigQuery confirmó los siguientes volúmenes de las cinco fuentes incorporadas o corregidas al final de E1:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Tabla de staging</th>
+<th style="text-align: right;">Filas verificadas en BigQuery</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>stg_rnpdno</code></td>
+<td style="text-align: right;">116,945</td>
+</tr>
+<tr class="even">
+<td><code>stg_musicbrainz_tags</code></td>
+<td style="text-align: right;">112</td>
+</tr>
+<tr class="odd">
+<td><code>stg_mexico_evalua_12_indices</code></td>
+<td style="text-align: right;">314</td>
+</tr>
+<tr class="even">
+<td><code>stg_censo_iter</code></td>
+<td style="text-align: right;">195,662</td>
+</tr>
+<tr class="odd">
+<td><code>stg_endutih_usuarios</code></td>
+<td style="text-align: right;">58,080</td>
+</tr>
+</tbody>
+</table>
+<figure>
+<img alt="Resultado de la consulta de validación de las cinco fuentes de cierre en BigQuery" data-fig-align="center" src="img/bq_staging_validacion_final_cinco_fuentes.png" style="width:92.0%"/>
+<figcaption aria-hidden="true">Resultado de la consulta de validación de las cinco fuentes de cierre en BigQuery</figcaption>
+</figure>
+<p>Al concluir E1, se habían creado las <strong>16 tablas de Bronze</strong>, las <strong>cinco dimensiones y dos tablas de hechos</strong> del modelo dimensional, y las <strong>siete vistas</strong> previstas del DataMart. La existencia de estos objetos y la carga de staging no implican que las tablas Gold estén pobladas ni que se haya realizado todavía la integración, limpieza y evaluación analítica de Silver. Esas actividades corresponden a las etapas posteriores.</p>
 <h3 id="como-se-integraran-los-datos-en-silver">Cómo se integrarán los datos en Silver</h3>
 <p>En E1 se cargan las fuentes a Bronze y se conservan sus campos originales como texto. <strong>Las relaciones siguientes son el plan de integración, no transformaciones que ya se hayan ejecutado.</strong> Silver preparará los datos por tema y Gold recibirá las dimensiones y hechos del esquema estrella.</p>
 <ol>
