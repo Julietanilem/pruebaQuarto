@@ -88,6 +88,7 @@ cada fuente, porque la carga desde la consola de BigQuery admite archivos de has
 | `stg_endireh_2021_tb_sec_iv` | [F2](fuentes/f02_endireh.qmd): TB_SEC_IV.csv, 32 MB | Una tabla por sección que se use; la muestra es la sección IV. |
 | `stg_conapo_poblacion` | [F3](fuentes/f03_conapo.qmd): 00_Pob_Mitad_1950_2070.csv, 45.2 MB | Archivo completo. |
 | `stg_kworb_mx_semanal` | [F4](fuentes/f04_kworb.qmd): historial semanal de México de cada canción, de 5,146 páginas, más la lista `mx_weekly_totals` | Una fila por canción y semana con la celda tal como aparece (`posición (streams)`) y la fecha de descarga. La muestra son las 300 canciones con más streams. |
+| `stg_kworb_catalogo_canciones` | [F4](fuentes/f04_kworb.qmd): catálogo recuperado de `mx_weekly_totals` el 10-10-2026 | Una fila por `track_id`, con artista, título, enlace de origen y fecha de consulta. La extracción de 300 canciones quedó validada en Colab; la carga en BigQuery requiere verificar un posible encabezado adicional. |
 | `stg_kaggle_charts_mx` | [F5](fuentes/f05_kaggle.qmd): charts.csv, filas de México, 60.8 MB | Solo para validar a Kworb en 2017–2021. El archivo global de 3.48 GB excede el límite; se carga la parte de México. |
 | `stg_trends_<tema>_<anio>` | [F11](fuentes/f11_google_trends.qmd): un CSV por tema (o término) y año, < 1 KB cada uno | Una tabla por descarga, sin modificar. La muestra son las descargas de 2021 de la [página de pivote](pivote.qmd#evidencia-trends), en `datos/trends/`. |
 | `stg_rnpdno` | [F13](fuentes/f13_rnpdno.qmd): versión pública del RNPDNO, 13 MB | Sin las columnas de nombres, por ser datos personales. |
@@ -118,7 +119,7 @@ la siguiente entrega; aquí quedan definidas sus tablas y las reglas que deben c
 |---|---|---|---|---|
 | `slv_cat_entidades` | Una fila por entidad y forma de escribirla | Nombres de SESNSP, CONAPO, ENDIREH, RNPDNO, Trends (español e inglés) y Natural Earth | Catálogo de equivalencias de cada nombre a la clave INEGI, con su región del Banco de México | `dim_entidad` |
 | `slv_charts_mes` | Canción y mes, nacional | `stg_kworb_mx_semanal`; `stg_kaggle_charts_mx` para validar | Separar posición y streams de cada celda; repartir cada semana entre meses según sus días; contar semanas en el chart y mejor posición | `fact_consumo_musical`, antes del reparto por entidad |
-| `slv_canciones` | Canción | `slv_charts_mes`, `stg_musicbrainz_tags`, Last.fm, letras de LRCLIB, `stg_misongyny` | Clave normalizada; género y país validados; etiquetas crudas; macrogénero agrupando las etiquetas más frecuentes; etiqueta directa de MiSonGyny o del clasificador | `dim_cancion` y el `tipo_violencia_key` del hecho |
+| `slv_canciones` | Canción | `slv_charts_mes`, `stg_kworb_catalogo_canciones`, `stg_musicbrainz_tags`, Last.fm, letras de LRCLIB, `stg_misongyny` | Clave normalizada; género y país validados; etiquetas crudas; macrogénero agrupando las etiquetas más frecuentes; etiqueta directa de MiSonGyny o del clasificador | `dim_cancion` y el `tipo_violencia_key` del hecho |
 | `slv_pesos_trends` | Tema, entidad y año | `stg_trends_*`, `slv_cat_entidades`, `slv_contexto_entidad_anio` | Llevar nombres a clave INEGI; escalar por usuarios de internet; elegir el nivel de respaldo ([fórmula](estrella.qmd#estimacion)) | `peso_entidad`, `interes_busqueda`, `origen_peso` |
 | `slv_violencia_mes` | Entidad, delito o registro y mes | `stg_sesnsp_delitos`, `stg_sesnsp_victimas`, `stg_rnpdno` | Pasar el SESNSP de una columna por mes a una fila por mes; víctimas mujeres, mujeres menores de edad y hombres; contar mujeres desaparecidas por mes de desaparición y estatus | `fact_violencia` |
 | `slv_tipos_violencia` | Delito o categoría | Delitos del SESNSP, categorías del clasificador, RNPDNO | Mapeo a la LGAMVLV ([tabla de mapeo](estrella.qmd#mapeo-inicial-a-la-lgamvlv)) | `dim_tipo_violencia` |
@@ -155,7 +156,7 @@ quedan vacías en esta entrega.
 |---|---|---|---|
 | `dim_fecha` | — (calendario generado) | — | — |
 | `dim_entidad` | `slv_cat_entidades` | `stg_naturalearth_mx` y los nombres de todas las tablas | F18 y todas las que traen entidad |
-| `dim_cancion` | `slv_canciones` | `stg_kworb_mx_semanal`, `stg_musicbrainz_tags`, `stg_misongyny` | F4, F6, F7, F8, F19 |
+| `dim_cancion` | `slv_canciones` | `stg_kworb_mx_semanal`, `stg_kworb_catalogo_canciones`, `stg_musicbrainz_tags`, `stg_misongyny` | F4, F6, F7, F8, F19 |
 | `dim_tipo_violencia` | `slv_tipos_violencia` | `stg_sesnsp_delitos`, `stg_sesnsp_victimas`, `stg_rnpdno`, `stg_misongyny` | F1, F6, F13 |
 | `dim_contexto_entidad` | `slv_contexto_entidad_anio` | `stg_conapo_poblacion`, `stg_endutih_usuarios`, `stg_censo_iter`, `stg_coneval_pobreza`, `stg_mexico_evalua`, `stg_endireh_*` | F2, F3, F14, F15, F16, F17 |
 | `fact_consumo_musical` | `slv_charts_mes`, `slv_pesos_trends` | `stg_kworb_mx_semanal`, `stg_trends_*` | F4, F11; F3 y F16 para el peso; F5 valida |
@@ -553,6 +554,12 @@ conversión de tipos corresponde a silver. La descripción de cada tabla indica 
 | `stg_sesnsp_victimas` | [F1](fuentes/f01_sesnsp.qmd) | 80,960 filas de víctimas 2015–2025 | `COUNT(*)` |
 | `stg_conapo_poblacion` | [F3](fuentes/f03_conapo.qmd) | Población por entidad, año, sexo y edad; conteo pendiente | Esquema y vista previa |
 | `stg_kaggle_charts_mx` | [F5](fuentes/f12_kaggle_top73.qmd) | 448,832 filas, 6,515 títulos distintos, México, 2017–2021 | `COUNT(*)`, `COUNT(DISTINCT title)`, validación `region` y fechas |
+| `stg_endireh_2021_tb_sec_iv` | [F2](fuentes/f02_endireh.qmd) | Sección IV de microdatos ENDIREH 2021; conteo pendiente | Esquema y vista previa; campos `STRING` |
+| `stg_coneval_pobreza` | [F15](fuentes/f15_coneval.qmd) | Hojas del anexo estadístico estatal 2022, conservadas con campos `hoja`, `fila` y `c01`–`c17`; conteo pendiente | Esquema y vista previa |
+| `stg_misongyny` | [F6](fuentes/f06_misongyny.qmd) | Canciones de TRAIN/TEST; el TEST mostrado contiene etiquetas nulas; conteo pendiente | Esquema y vista previa |
+| `stg_naturalearth_mx` | [F18](fuentes/f18_naturalearth.qmd) | Datos geográficos de México; encabezado corregido; conteo pendiente | Esquema y vista previa actualizada |
+| `stg_kworb_catalogo_canciones` | [F4](fuentes/f04_kworb.qmd) | Catálogo de artista y título por `track_id`; 300 registros validados en Colab; BigQuery reportó 301 antes de la corrección pendiente de confirmar | Esquema, vista previa y comprobación final pendiente |
+
 
 ![Conteo de filas y canciones de `stg_kworb_mx_semanal`](img/bq_stg_kworb_mx_semanal_conteo.png){width=65% fig-align="center"}
 
@@ -589,8 +596,113 @@ conversión de tipos corresponde a silver. La descripción de cada tabla indica 
 
 ![Validación de `stg_kaggle_charts_mx`: 448,832 filas, 6,515 títulos, ninguna fila fuera de México, fechas 2017-01-01 a 2021-12-31](img/bq_stg_kaggle_charts_mx_validacion.png){width=85% fig-align="center"}
 
+### Cargas nuevas de staging
+
+Las capturas siguientes comprueban la existencia y la estructura visible de las nuevas tablas. La extracción del catálogo de Kworb se validó en Colab con 300 IDs únicos, 112 textos distintos de artista, sin títulos ni artistas vacíos. En BigQuery se observó inicialmente una carga de 301 filas y 113 artistas, compatible con un encabezado cargado como dato; aún falta una nueva consulta `COUNT(*)` para confirmar su eliminación. No se atribuye a las tablas un conteo no verificado.
+
+![Vista del dataset `misoginia_staging` con once tablas](img/bq_staging_tablas_11.png){width=85% fig-align="center"}
+
+![Esquema de `stg_coneval_pobreza` con columnas de texto](img/bq_stg_coneval_pobreza_esquema.png){width=85% fig-align="center"}
+
+![Vista previa de `stg_coneval_pobreza` con filas del anexo por entidad](img/bq_stg_coneval_pobreza_vista.png){width=85% fig-align="center"}
+
+La consulta de conteos generales que se intentó ejecutar todavía no sirve como evidencia de número de filas: BigQuery devolvió un error por la referencia `misoginia_staging.INFORMATION_SCHEMA.TABLE_STORAGE`. Se conserva la captura del intento para revisar la consulta, no para atribuir conteos.
+
+![Intento de consulta de conteos con error de referencia a `INFORMATION_SCHEMA`](img/bq_staging_conteos_consulta_error.png){width=85% fig-align="center"}
+
+
+
+![Esquema de ENDIREH 2021, sección IV](img/bq_stg_endireh_2021_esquema.png){width=85% fig-align="center"}
+
+![Vista previa de ENDIREH 2021, sección IV](img/bq_stg_endireh_2021_vista.png){width=85% fig-align="center"}
+
+![Esquema de MiSonGyny](img/bq_stg_misongyny_esquema.png){width=85% fig-align="center"}
+
+![Vista previa de MiSonGyny; el archivo de prueba muestra etiquetas nulas](img/bq_stg_misongyny_vista.png){width=85% fig-align="center"}
+
+![Esquema de Natural Earth México](img/bq_stg_naturalearth_mx_esquema.png){width=85% fig-align="center"}
+
+![Vista previa de Natural Earth después de quitar la fila de encabezados](img/bq_stg_naturalearth_mx_vista_corregida.png){width=85% fig-align="center"}
+
+![Esquema del catálogo de Kworb](img/bq_stg_kworb_catalogo_esquema.png){width=85% fig-align="center"}
+
+![Vista previa del catálogo de Kworb: artistas y títulos](img/bq_stg_kworb_catalogo_vista.png){width=85% fig-align="center"}
+
 <!-- Al cargar otra tabla de staging: agregar su fila a la tabla de arriba y sus capturas debajo,
      con el nombre img/bq_stg_<tabla>_<conteo|esquema|descripcion>.png -->
+
+### Cómo se integrarán los datos en Silver
+
+En E1 se cargan las fuentes a Bronze y se conservan sus campos originales como texto. **Las relaciones siguientes son el plan de integración, no transformaciones que ya se hayan ejecutado.** Silver preparará los datos por tema y Gold recibirá las dimensiones y hechos del esquema estrella.
+
+1. **Canciones y consumo.** `stg_kworb_mx_semanal` y `stg_kworb_catalogo_canciones` se unirán por `track_id`. El catálogo recuperado de la misma página de Kworb identificó **300 canciones, 300 IDs únicos y 112 textos de artista distintos**, sin títulos ni artistas vacíos en Colab. La validación de carga en BigQuery sigue pendiente: el primer conteo mostró una fila adicional de encabezado. Kaggle servirá para contrastar charts en 2017–2021; la prueba por ID encontró **78 coincidencias exactas de 300**. La parte no coincidente no se descarta: ya tiene título y artista en el catálogo Kworb.
+2. **Artistas, géneros y letras.** Se normalizarán los textos de artistas del catálogo; un nombre puede representar una colaboración o un grupo, por lo que **112 textos no equivalen necesariamente a 112 personas o grupos independientes**. MusicBrainz aportará etiquetas y géneros cuando la correspondencia del artista sea confiable, con revisión de homónimos; Last.fm servirá de respaldo documentado. MiSonGyny aporta etiquetas de referencia y LRCLIB se consulta en memoria para clasificar, sin almacenar letras completas. Se reportará la cobertura clasificada y la procedencia de cada etiqueta.
+3. **Tiempo y entidades.** Las semanas de Kworb se distribuirán entre meses según los días que caigan en cada mes; SESNSP pasará de columnas mensuales a filas por mes. Las entidades de SESNSP, CONAPO, ENDIREH, Censo, RNPDNO, CONEVAL, ENDUTIH, Trends y Natural Earth se homologarán mediante `cve_ent` y un catálogo de equivalencias. Los indicadores anuales conservarán el año al que correspondan; no se rellenarán años faltantes sin una regla justificada.
+4. **Consumo estimado por entidad.** Google Trends no contiene reproducciones: en `slv_pesos_trends` se construyen **pesos relativos estimados** por entidad y periodo, con el respaldo indicado en el diseño. Al repartir streams nacionales se comprobará que los pesos sumen uno y que las 32 entidades conserven el total. Los resultados estatales llevarán una marca de estimación.
+5. **Violencia y contexto.** Se separarán carpetas de SESNSP, víctimas por sexo, y registros de desaparición de RNPDNO para no sumar medidas incompatibles ni duplicar personas. CONAPO proporcionará denominadores de tasas y las fuentes de contexto se integrarán por entidad y año. ENDIREH requiere factores de expansión para estimar prevalencias; porcentajes y tasas **no se sumarán** como si fueran conteos.
+
+Después de comprobar llaves, granularidad, ausencia de duplicados y cobertura, `slv_canciones` alimentará `dim_cancion`, `slv_charts_mes` y `slv_pesos_trends` alimentarán `fact_consumo_musical`, `slv_violencia_mes` alimentará `fact_violencia`, y los catálogos de entidad, tipo de violencia y contexto alimentarán sus dimensiones. Las siete vistas del DataMart consultarán estas tablas una vez pobladas.
+
+### Fragmentos de preparación de staging
+
+El archivo completo está en [`datos/staging/preparar_staging_colab.py`](datos/staging/preparar_staging_colab.py). Los extractos siguientes muestran **qué se hizo antes de subir los CSV**; la validación, el tratamiento de errores y la descarga final permanecen en el script original. No son código de Silver: aquí solo hay selección de fuente, conversiones de formato y preparación técnica de carga.
+
+**Kaggle (bloque B):** el archivo global es demasiado grande para subirlo desde la consola, así que se conserva la parte de México.
+
+```python
+for pedazo in pd.read_csv(csv_charts, chunksize=1_000_000, dtype=str):
+    partes.append(pedazo[pedazo["region"] == "Mexico"])
+kaggle_mx = pd.concat(partes, ignore_index=True)
+guardar_y_bajar(kaggle_mx, "stg_kaggle_charts_mx")
+```
+
+**CONEVAL (bloque G):** se conservan las celdas de las hojas de Excel, indicando hoja y número de fila; aún no se calcula el indicador de pobreza.
+
+```python
+for nombre, h in hojas.items():
+    h = h.copy()
+    h.insert(0, "fila", range(1, len(h) + 1))
+    h.insert(0, "hoja", nombre)
+    partes.append(h)
+coneval = pd.concat(partes, ignore_index=True)
+```
+
+**MiSonGyny (bloque H):** se juntan archivos de entrenamiento y prueba, conservando su procedencia mediante `archivo_origen`. Algunas etiquetas del conjunto TEST pueden venir vacías.
+
+```python
+for p in elegidos:
+    df = pd.read_csv(p, dtype=str, sep=None, engine="python", encoding="utf-8-sig")
+    df["archivo_origen"] = p.name
+    partes.append(df)
+misongyny = pd.concat(partes, ignore_index=True)
+```
+
+**Natural Earth (bloque F):** se filtran los registros de México y se representa la geometría como texto WKT para Bronze.
+
+```python
+mundo = gpd.read_file("ne_admin1.zip")
+mex = mundo[mundo["adm0_a3"] == "MEX"].copy()
+mex["geometry_wkt"] = mex.geometry.to_wkt()
+```
+
+**Catálogo de Kworb (extracción ejecutada en Colab):** se usó la tabla de totales semanales y se identificó cada canción a partir del enlace `../track/<ID>.html`; el artista se tomó del enlace `../artist/...` de la misma fila. El archivo generado se cruzó con los 300 `track_id` exportados de BigQuery.
+
+```python
+for fila in soup.select("tr"):
+    enlaces = fila.find_all("a", href=True)
+    enlace_cancion = next((a for a in enlaces if re.search(
+        r"(?:^|/)track/[A-Za-z0-9]{22}\.html", a["href"])), None)
+    if enlace_cancion is None:
+        continue
+    track_id = re.search(r"track/([A-Za-z0-9]{22})\.html", enlace_cancion["href"]).group(1)
+    enlace_artista = next((a for a in enlaces if re.search(
+        r"(?:^|/)artist/", a["href"])), None)
+    registros.append({"track_id": track_id,
+        "artista": enlace_artista.get_text(" ", strip=True) if enlace_artista else None,
+        "titulo": enlace_cancion.get_text(" ", strip=True)})
+```
+
+**Pendientes con bloque disponible:** el mismo script contiene RNPDNO (bloque C, retiro de columnas de nombres y revisión adicional de privacidad), Censo ITER (bloque D, muestra que conserva totales), ENDUTIH (bloque E, conversión DBF a CSV) y MusicBrainz (bloque I, *muestra técnica de doce artistas*, no cobertura definitiva). **México Evalúa todavía requiere** localizar el indicador estatal pertinente en el informe y verificar sus valores antes de preparar el CSV. Estos procedimientos no se presentan como cargas ya realizadas.
 
 ## Análisis de integración
 
@@ -600,7 +712,7 @@ conversión de tipos corresponde a silver. La descripción de cada tabla indica 
 |---|---|---|
 | Entidad | SESNSP, ENDIREH, CONAPO, Censo, ENDUTIH, CONEVAL, México Evalúa, Google Trends, Natural Earth | Todas se llevan a la clave INEGI de 1 a 32 con un catálogo de equivalencias. Trends cambia los nombres según el idioma del sitio: en inglés "Mexico City", "State of Mexico", "Yucatan"; en español "Estado de México", "Coahuila de Zaragoza", "Yucatán". Se descarga siempre en español y el catálogo guarda las dos versiones. |
 | Tiempo | SESNSP por mes; RNPDNO por fecha de desaparición; Kworb por semana (de viernes a jueves); Kaggle por día; Trends por el periodo que se descargue; contexto por año | Cada semana de Kworb se reparte entre meses según sus días; Trends se descarga por año (y por mes si se puede); el contexto entra por entidad y año en `dim_contexto_entidad`. |
-| ID de canción de Spotify | Kworb y Kaggle *Spotify Charts* | Unión exacta, pero una misma canción puede tener otro ID en Kaggle: de las canciones de 2021 de la prueba, 58 coincidieron por ID. |
+| ID de canción de Spotify | Kworb semanal, catálogo de Kworb y Kaggle *Spotify Charts* | El catálogo de Kworb relaciona los 300 IDs de la muestra con título y artista; Kaggle coincide por ID con 78 de las 300 canciones. La integración completa se prepara en silver. |
 | Artista y título | Charts, MiSonGyny y LRCLIB | Se normalizan en `clave_cancion` para unir consumo, etiquetas de referencia y letras. |
 | Artista | Charts, MusicBrainz, Last.fm y Google Trends | Asigna el género, las etiquetas y el tema de Trends (`termino_trends`). |
 | Tipo de violencia | SESNSP y el clasificador | Se mapean a la LGAMVLV en `dim_tipo_violencia`. |
