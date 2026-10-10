@@ -27,21 +27,21 @@ lo indica.
 
 ## Granos candidatos
 
-Las fuentes tienen granos muy distintos. Los charts de Spotify son diarios y nacionales (F5, F12, F4). El SESNSP es
+Las fuentes tienen granos muy distintos. Los charts de Spotify son nacionales: semanales en el historial de Kworb (F4, desde 2013) y diarios en Kaggle (F5, 2017–2021). El SESNSP es
 mensual por entidad (F1) y el RNPDNO registra la fecha y la entidad de cada desaparición (F13). Google Trends da un valor por entidad para el periodo que se descargue, sea un año o un mes (F11). CONAPO, ENDIREH y las fuentes de contexto son anuales o de un solo levantamiento.
 
 ### Consumo musical
 
 | # | Grano candidato | Qué lo sustenta | Qué permite | Qué no permite |
 |---|---|---|---|---|
-| C1 | **Una fila por canción, entidad y mes** | Streams y posiciones diarias por canción (F5, F12), agregados a mes; interés de búsqueda del artista por entidad en Trends (F11), descargado por año | P1–P4. La misoginia se mide por canción, que es lo que se clasifica, y el mes coincide con el SESNSP | Medir reproducciones reales por entidad: se estiman |
+| C1 | **Una fila por canción, entidad y mes** | Streams semanales por canción del historial de Kworb (F4), repartidos a mes; interés de búsqueda del artista por entidad en Trends (F11), descargado por año | P1–P4. La misoginia se mide por canción, que es lo que se clasifica, y el mes coincide con el SESNSP | Medir reproducciones reales por entidad: se estiman |
 | C2 | Una fila por artista, entidad y año | Los mismos datos, agregados | P1 y P2 con menos filas | Ver categorías y tipos de violencia por canción (P3, P4) y la serie mensual |
-| C3 | Una fila por canción y día, nacional | F5, F12 y F4 tal como vienen | P3 con el mayor detalle | Llegar a la entidad (P1, P2); la violencia no existe por día |
+| C3 | Una fila por canción y semana, nacional | Kworb (F4) tal como viene | P3 con el mayor detalle | Llegar a la entidad (P1, P2); el SESNSP no existe por semana |
 
 **Elegimos C1.** La letra se clasifica por canción, así que bajar a artista perdería la desagregación por tipo de
 violencia que piden P3 y P4. El mes es el grano nativo del SESNSP y de la serie nacional de streams, así que los dos
-hechos se cruzan sin convertir fechas. C3 se agrega hacia arriba en la preparación: los datos diarios se suman al
-mes.
+hechos se cruzan sin convertir fechas. C3 se agrega hacia arriba en la preparación: cada semana se reparte entre los
+meses según cuántos de sus 7 días caen en cada uno.
 
 ### Violencia
 
@@ -86,8 +86,8 @@ mes y $p$ el periodo de la descarga de Trends: el año $a$, o el mes $m$ si se d
   | `origen_peso` | De dónde sale | Cuándo se usa |
   |---|---|---|
   | `artista_mes` | Trends del artista en ese mes | Opcional, si se hizo la descarga mensual |
-  | `artista_anio` | Trends del artista en ese año | **Caso principal**: los 100 artistas con más streams de cada año |
-  | `genero_anio` | Trends del género del artista en ese año | Artistas fuera del top 100 o con menos de 28 entidades con valor |
+  | `artista_anio` | Trends del artista en ese año | **Caso principal**: los 50 artistas con más streams de cada año |
+  | `genero_anio` | Trends del género del artista en ese año | Artistas fuera de esos 50 o con menos de 28 entidades con valor |
   | `usuarios_internet` | Solo los usuarios de internet de cada entidad | Si tampoco hay dato del género |
 
   Se toma el vector completo de las 32 entidades de un solo nivel, sin mezclar niveles entre entidades, para que
@@ -101,34 +101,37 @@ California. Con los usuarios reales, la diferencia se ajusta al tamaño de cada 
 
 | Hecho | Grano | Fuentes |
 |---|---|---|
-| `fact_consumo_musical` | Una fila por canción, entidad y mes. | Kaggle *Spotify Charts* (F5), Top 73 (F12), Kworb (F4), Google Trends (F11), ENDUTIH (F16) y CONAPO (F3) para el peso. |
+| `fact_consumo_musical` | Una fila por canción, entidad y mes. | Kworb (F4), Google Trends (F11), ENDUTIH (F16) y CONAPO (F3) para el peso. Kaggle (F5) valida 2017–2021. |
 | `fact_violencia` | Una fila por entidad, delito o registro y mes. | SESNSP, archivos de delitos y de víctimas (F1); RNPDNO, mujeres desaparecidas (F13). |
 
 ### Medidas
 
 | Hecho | Medida | Descripción | Aditividad |
 |---|---|---|---|
-| `fact_consumo_musical` | `streams_estimados` | Streams nacionales del mes por el peso de la entidad. Solo 2017–2021. | Aditiva |
-| `fact_consumo_musical` | `puntos_top50_estimados` | Suma, día por día, de 51 menos la posición en el Top 50, por el peso de la entidad. Existe en 2017–2021 (F5) y desde octubre de 2023 (F12, F4), así que permite comparar todo el periodo. | Aditiva |
+| `fact_consumo_musical` | `streams_estimados` | Streams nacionales del mes (chart semanal de Kworb repartido por días) por el peso de la entidad. 2015–2025. | Aditiva |
 | `fact_consumo_musical` | `peso_entidad` | Participación estimada de la entidad en el consumo de la canción; suma 1 entre las 32. | No aditiva |
 | `fact_consumo_musical` | `interes_busqueda` | Valor de Trends, 0–100, relativo a su descarga. | No aditiva |
-| `fact_consumo_musical` | `dias_en_chart_nacional` | Días del mes en el chart nacional. | Aditiva en el tiempo y entre canciones; **no entre entidades** |
-| `fact_consumo_musical` | `mejor_posicion_nacional` | Mejor posición nacional del mes. | No aditiva |
-| `fact_consumo_musical` | `popularidad_nacional` | Promedio del índice de popularidad de Spotify en el mes (solo Top 73, F12). | No aditiva |
+| `fact_consumo_musical` | `semanas_en_chart_nacional` | Semanas del chart semanal nacional que terminan en el mes. | Aditiva en el tiempo y entre canciones; **no entre entidades** |
+| `fact_consumo_musical` | `mejor_posicion_nacional` | Mejor posición semanal nacional entre esas semanas. | No aditiva |
 | `fact_violencia` | `carpetas` | Carpetas de investigación del archivo de delitos. | Aditiva |
 | `fact_violencia` | `victimas_mujeres` | Víctimas mujeres del archivo de víctimas del SESNSP, o mujeres desaparecidas del RNPDNO; vacía donde la fuente no lo reporta. | Aditiva |
 
-Las tres medidas con terminación `_nacional` son datos del chart nacional que se repiten igual en las 32 filas de
+Las dos medidas con terminación `_nacional` son datos del chart nacional que se repiten igual en las 32 filas de
 entidad de cada canción y mes. No se reparten porque no son cantidades de consumo. Las vistas del DataMart las
 toman una sola vez por canción y mes, nunca las suman entre entidades.
 
-Además, cada hecho guarda la columna `fuente` con el código del catálogo (F1, F13, F5, F12, F4), y el consumo guarda
+Además, cada hecho guarda la columna `fuente` con el código del catálogo (F1, F13, F4), y el consumo guarda
 `origen_peso`. Son atributos degenerados: dan la trazabilidad a la fuente que pide el criterio de éxito de E0 sin
 crear una dimensión que no responde ninguna pregunta.
 
-Los puntos del Top 50 existen porque Top 73 (F12) no trae streams. Se calculan igual en todos los periodos, con
-el Top 50 también en 2017–2021, para que la serie sea comparable. Hay un hueco sin datos de enero de 2022 a
-septiembre de 2023.
+**De semanas a meses.** Cada semana del chart de Kworb termina en jueves y cubre de viernes a jueves. Sus streams
+se reparten entre los meses según cuántos de sus 7 días caen en cada uno; por ejemplo, una semana del 27 de
+febrero al 5 de marzo aporta 2/7 a febrero y 5/7 a marzo. El supuesto es que el consumo es parejo dentro de la
+semana.
+
+**Validación.** En 2021, los streams semanales de Kworb son idénticos a la suma de los 7 días correspondientes en
+Kaggle (F5) en 15 de 15 semanas comparables; las 5 semanas de diciembre que no coinciden son días que faltan en
+Kaggle. Ver la [página de pivote](pivote.qmd#evidencia-kworb).
 
 ## Dimensiones
 
@@ -136,7 +139,7 @@ Cinco dimensiones, todas con llave sustituta entera.
 
 | Dimensión | Llave sustituta | Atributos principales | Tipo de SCD y por qué |
 |---|---|---|---|
-| `dim_fecha` | `fecha_key`, AAAAMM01 | fecha, año, semestre, trimestre, mes, nombre del mes, índice del mes, periodo de datos de música, etapa de la pandemia, propuesta nacional para restringir música | **Tipo 0:** es un calendario generado que no cambia. |
+| `dim_fecha` | `fecha_key`, AAAAMM01 | fecha, año, semestre, trimestre, mes, nombre del mes, índice del mes, etapa de la pandemia, propuesta nacional para restringir música | **Tipo 0:** es un calendario generado que no cambia. |
 | `dim_entidad` | `entidad_key` | clave INEGI, nombre, nombres en Google Trends (español e inglés), código ISO, región, geometría | **Tipo 0:** las 32 entidades no cambian en la ventana. |
 | `dim_cancion` | `cancion_key` | ID de Spotify, clave normalizada, título, artistas, término de Trends, país del artista, género, macrogénero, si tiene letra, etiqueta de MiSonGyny, si es misógina, categoría, probabilidad, origen de la etiqueta (MiSonGyny o clasificador) y versión del clasificador | **Tipo 1:** al reentrenar el clasificador se reclasifica toda la historia y se sobrescribe. Las métricas de cada versión (precisión y recall por periodo) se guardan en la evaluación del modelo, no en el almacén. |
 | `dim_tipo_violencia` | `tipo_violencia_key`; -1 = no aplica | tipo según la LGAMVLV, ámbito, origen, categoría de la fuente, bien jurídico, tipo, subtipo y modalidad del delito, si lo mide el SESNSP, si es control | **Tipo 1:** el mapeo a la LGAMVLV es una regla del equipo y se corrige sobrescribiendo. |
@@ -201,12 +204,10 @@ erDiagram
         INT64 tipo_violencia_key FK
         INT64 contexto_key FK
         FLOAT64 streams_estimados "aditiva"
-        FLOAT64 puntos_top50_estimados "aditiva"
         FLOAT64 peso_entidad "no aditiva"
         INT64 interes_busqueda "no aditiva"
-        INT64 dias_en_chart_nacional "no entre entidades"
+        INT64 semanas_en_chart_nacional "no entre entidades"
         INT64 mejor_posicion_nacional "no aditiva"
-        FLOAT64 popularidad_nacional "no aditiva"
         STRING origen_peso "degenerada"
         STRING fuente "degenerada"
     }
@@ -228,7 +229,6 @@ erDiagram
         INT64 mes
         STRING nombre_mes
         INT64 indice_mes
-        STRING periodo_datos_musica
         STRING etapa_covid
         STRING evento_restriccion_musical
     }
@@ -338,7 +338,6 @@ CREATE OR REPLACE TABLE misoginia_dw.dim_fecha (
   mes                  INT64  NOT NULL,
   nombre_mes           STRING,
   indice_mes           INT64  NOT NULL OPTIONS (description = 'anio * 12 + mes; ordena los meses aunque falten algunos'),
-  periodo_datos_musica STRING OPTIONS (description = 'streams (2017-2021), sin datos (2022-01 a 2023-09), solo posiciones (2023-10 en adelante)'),
   etapa_covid          STRING OPTIONS (description = 'antes, confinamiento o después; inicio en la Jornada Nacional de Sana Distancia (marzo de 2020). Control para P2 y P3'),
   evento_restriccion_musical STRING OPTIONS (description = 'Propuesta nacional para restringir música en ese mes (Senado, marzo de 2020); NULL si no hubo'),
   PRIMARY KEY (fecha_key) NOT ENFORCED
@@ -359,7 +358,7 @@ OPTIONS (description = 'Entidad federativa. SCD tipo 0: las 32 entidades no camb
 
 CREATE OR REPLACE TABLE misoginia_dw.dim_cancion (
   cancion_key          INT64  NOT NULL OPTIONS (description = 'Llave sustituta'),
-  spotify_id           STRING OPTIONS (description = 'Llave natural: ID de Spotify (Kaggle F5, Top 73 F12, Kworb F4)'),
+  spotify_id           STRING OPTIONS (description = 'Llave natural: ID de Spotify que usa Kworb (F4); Kaggle (F5) puede tener otro ID para la misma canción'),
   clave_cancion        STRING OPTIONS (description = 'Artista y título normalizados; une con LRCLIB (F7) y MiSonGyny (F6)'),
   titulo               STRING,
   artista_principal    STRING,
@@ -428,15 +427,13 @@ CREATE OR REPLACE TABLE misoginia_dw.fact_consumo_musical (
   cancion_key             INT64 NOT NULL,
   tipo_violencia_key      INT64 NOT NULL OPTIONS (description = 'Tipo principal de la letra; -1 si no aplica'),
   contexto_key            INT64 NOT NULL OPTIONS (description = 'Contexto de la entidad en el año del mes'),
-  streams_estimados       FLOAT64 OPTIONS (description = 'Streams nacionales del mes x peso_entidad. Aditiva. Solo 2017-2021 (F5)'),
-  puntos_top50_estimados  FLOAT64 OPTIONS (description = 'Suma diaria de (51 - posición) en el Top 50 x peso_entidad. Aditiva. 2017-2021 (F5) y 2023 en adelante (F12, F4)'),
+  streams_estimados       FLOAT64 OPTIONS (description = 'Streams nacionales del mes (chart semanal de Kworb, F4, repartido por días) x peso_entidad. Aditiva. 2015-2025'),
   peso_entidad            FLOAT64 OPTIONS (description = 'Participación estimada de la entidad en el consumo de la canción; suma 1 entre las 32. No aditiva'),
   interes_busqueda        INT64   OPTIONS (description = 'Google Trends (F11): interés del término en la entidad durante el año (o el mes, si se descargó por mes), 0-100, relativo a su descarga. No aditiva'),
-  dias_en_chart_nacional  INT64   OPTIONS (description = 'Días del mes en el Top 200 o Top 50 nacional. Dato nacional repetido en las 32 entidades: no se suma entre entidades'),
-  mejor_posicion_nacional INT64   OPTIONS (description = 'Mejor posición nacional del mes. Dato nacional repetido. No aditiva'),
-  popularidad_nacional    FLOAT64 OPTIONS (description = 'Promedio del índice de popularidad de Spotify en el mes, Top 73 (F12). Dato nacional repetido. No aditiva'),
+  semanas_en_chart_nacional INT64 OPTIONS (description = 'Semanas del chart semanal nacional que terminan en el mes. Dato nacional repetido en las 32 entidades: no se suma entre entidades'),
+  mejor_posicion_nacional INT64   OPTIONS (description = 'Mejor posición semanal nacional entre las semanas que terminan en el mes. Dato nacional repetido. No aditiva'),
   origen_peso             STRING  OPTIONS (description = 'De dónde salió el peso, en orden de preferencia: artista_mes, artista_anio, genero_anio o usuarios_internet'),
-  fuente                  STRING  OPTIONS (description = 'Código del catálogo de la fila de consumo: F5, F12 o F4'),
+  fuente                  STRING  OPTIONS (description = 'Código del catálogo de la fila de consumo: F4 (Kworb)'),
   PRIMARY KEY (fecha_key, entidad_key, cancion_key) NOT ENFORCED,
   FOREIGN KEY (fecha_key) REFERENCES misoginia_dw.dim_fecha (fecha_key) NOT ENFORCED,
   FOREIGN KEY (entidad_key) REFERENCES misoginia_dw.dim_entidad (entidad_key) NOT ENFORCED,

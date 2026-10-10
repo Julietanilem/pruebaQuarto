@@ -25,7 +25,7 @@ E1: se diseña aquí y se materializa en la entrega de preparación, también en
 flowchart LR
     subgraph BR["BRONZE · misoginia_staging"]
         direction TB
-        b1["Charts<br/>stg_kaggle_charts_mx<br/>stg_top73_mx · stg_kworb_mx_diario"]
+        b1["Charts<br/>stg_kworb_mx_semanal<br/>stg_kaggle_charts_mx (validación)"]
         b5["Clasificador y género<br/>stg_misongyny<br/>stg_musicbrainz_tags"]
         b2["Google Trends<br/>stg_trends_*"]
         b4["Contexto<br/>stg_conapo_poblacion · stg_endutih_usuarios<br/>stg_endireh_* · stg_censo_iter<br/>stg_coneval_pobreza · stg_mexico_evalua<br/>stg_naturalearth_mx"]
@@ -87,10 +87,9 @@ cada fuente, porque la carga desde la consola de BigQuery admite archivos de has
 | `stg_sesnsp_victimas` | [F1](fuentes/f01_sesnsp.qmd): Estatal-Víctimas-2015-2025_ago2026.csv, 12.4 MB | Archivo completo. |
 | `stg_endireh_2021_tb_sec_iv` | [F2](fuentes/f02_endireh.qmd): TB_SEC_IV.csv, 32 MB | Una tabla por sección que se use; la muestra es la sección IV. |
 | `stg_conapo_poblacion` | [F3](fuentes/f03_conapo.qmd): 00_Pob_Mitad_1950_2070.csv, 45.2 MB | Archivo completo. |
-| `stg_kworb_mx_diario` | [F4](fuentes/f04_kworb.qmd): tabla del chart diario de México, 22 KB | Tabla de la página guardada como CSV, con fecha de consulta. |
-| `stg_kaggle_charts_mx` | [F5](fuentes/f05_kaggle.qmd): charts.csv, filas de México, 60.8 MB | El archivo global de 3.48 GB excede el límite; se carga la parte de México. |
+| `stg_kworb_mx_semanal` | [F4](fuentes/f04_kworb.qmd): historial semanal de México de cada canción, de 5,146 páginas, más la lista `mx_weekly_totals` | Una fila por canción y semana con la celda tal como aparece (`posición (streams)`) y la fecha de descarga. La muestra son las 300 canciones con más streams. |
+| `stg_kaggle_charts_mx` | [F5](fuentes/f05_kaggle.qmd): charts.csv, filas de México, 60.8 MB | Solo para validar a Kworb en 2017–2021. El archivo global de 3.48 GB excede el límite; se carga la parte de México. |
 | `stg_trends_<termino>_<periodo>` | [F11](fuentes/f11_google_trends.qmd): un CSV por término y periodo, < 1 KB cada uno | Una tabla por descarga, sin modificar. La muestra son los cuatro archivos de "reguetón" y artistas de la [página de pivote](pivote.qmd#evidencia-trends). |
-| `stg_top73_mx` | [F12](fuentes/f12_kaggle_top73.qmd): universal_top_spotify_songs.csv, filas de México, 6.9 MB | El archivo de 498 MB excede el límite; se carga la parte de México. |
 | `stg_rnpdno` | [F13](fuentes/f13_rnpdno.qmd): versión pública del RNPDNO, 13 MB | Sin las columnas de nombres, por ser datos personales. |
 | `stg_censo_iter` | [F14](fuentes/f14_censo_iter.qmd): conjunto_de_datos_iter_00CSV20.csv, 150 MB | Excede el límite de la consola; se carga desde Cloud Storage o una muestra de filas por entidad. |
 | `stg_coneval_pobreza` | [F15](fuentes/f15_coneval.qmd): anexo estadístico entidades 2022, 318 KB | BigQuery no carga Excel; se carga cada hoja como CSV. |
@@ -118,7 +117,7 @@ la siguiente entrega; aquí quedan definidas sus tablas y las reglas que deben c
 | Tabla silver | Grano | Entradas | Qué se hace | Alimenta en gold |
 |---|---|---|---|---|
 | `slv_cat_entidades` | Una fila por entidad y forma de escribirla | Nombres de SESNSP, CONAPO, ENDIREH, RNPDNO, Trends (español e inglés) y Natural Earth | Catálogo de equivalencias de cada nombre a la clave INEGI | `dim_entidad` |
-| `slv_charts_mes` | Canción y mes, nacional | `stg_kaggle_charts_mx`, `stg_top73_mx`, `stg_kworb_mx_diario` | Filtrar México y Top 200; sacar el ID de Spotify de la URL; sumar streams; calcular puntos del Top 50, días en el chart, mejor posición y popularidad | `fact_consumo_musical`, antes del reparto |
+| `slv_charts_mes` | Canción y mes, nacional | `stg_kworb_mx_semanal`; `stg_kaggle_charts_mx` para validar | Separar posición y streams de cada celda; repartir cada semana entre meses según sus días; contar semanas en el chart y mejor posición | `fact_consumo_musical`, antes del reparto por entidad |
 | `slv_canciones` | Canción | `slv_charts_mes`, `stg_musicbrainz_tags`, Last.fm, letras de LRCLIB, `stg_misongyny` | Clave normalizada; género y país validados; etiqueta directa de MiSonGyny o del clasificador | `dim_cancion` y el `tipo_violencia_key` del hecho |
 | `slv_pesos_trends` | Término, entidad y periodo | `stg_trends_*`, `slv_cat_entidades`, `slv_contexto_entidad_anio` | Llevar nombres a clave INEGI; escalar por usuarios de internet; elegir el nivel de respaldo ([fórmula](estrella.qmd#estimacion)) | `peso_entidad`, `interes_busqueda`, `origen_peso` |
 | `slv_violencia_mes` | Entidad, delito o registro y mes | `stg_sesnsp_delitos`, `stg_sesnsp_victimas`, `stg_rnpdno` | Pasar el SESNSP de una columna por mes a una fila por mes; víctimas mujeres; contar mujeres desaparecidas por mes de desaparición | `fact_violencia` |
@@ -137,6 +136,8 @@ su valor se reporta junto con los resultados.
 | Las 32 entidades tienen clave INEGI en cada fuente; ningún nombre se queda sin clave. | `slv_cat_entidades` |
 | No hay filas repetidas en el grano de cada tabla. | Todas |
 | Las fechas son el primer día del mes y caen dentro de la ventana. | `slv_charts_mes`, `slv_violencia_mes` |
+| Los streams semanales de Kworb coinciden con la suma de los 7 días de Kaggle en las semanas de 2017–2021 donde las dos fuentes tienen la canción. | `slv_charts_mes` |
+| Cada semana del chart tiene sus posiciones completas; las semanas incompletas se reportan. | `slv_charts_mes` |
 | Los pesos de cada canción y periodo suman 1, y la suma de los streams estimados de las 32 entidades es igual al streams nacional. | `slv_pesos_trends` |
 | Los conteos no son negativos y las víctimas mujeres no superan a las víctimas totales. | `slv_violencia_mes` |
 | Ninguna letra de canción ni nombre de persona sale de silver. | `slv_canciones`, `slv_violencia_mes` |
@@ -155,10 +156,10 @@ quedan vacías en esta entrega.
 |---|---|---|---|
 | `dim_fecha` | — (calendario generado) | — | — |
 | `dim_entidad` | `slv_cat_entidades` | `stg_naturalearth_mx` y los nombres de todas las tablas | F18 y todas las que traen entidad |
-| `dim_cancion` | `slv_canciones` | `stg_kaggle_charts_mx`, `stg_top73_mx`, `stg_kworb_mx_diario`, `stg_musicbrainz_tags`, `stg_misongyny` | F4, F5, F6, F7, F8, F12, F19 |
+| `dim_cancion` | `slv_canciones` | `stg_kworb_mx_semanal`, `stg_musicbrainz_tags`, `stg_misongyny` | F4, F6, F7, F8, F19 |
 | `dim_tipo_violencia` | `slv_tipos_violencia` | `stg_sesnsp_delitos`, `stg_sesnsp_victimas`, `stg_rnpdno`, `stg_misongyny` | F1, F6, F13 |
 | `dim_contexto_entidad` | `slv_contexto_entidad_anio` | `stg_conapo_poblacion`, `stg_endutih_usuarios`, `stg_censo_iter`, `stg_coneval_pobreza`, `stg_mexico_evalua`, `stg_endireh_*` | F2, F3, F14, F15, F16, F17 |
-| `fact_consumo_musical` | `slv_charts_mes`, `slv_pesos_trends` | `stg_kaggle_charts_mx`, `stg_top73_mx`, `stg_kworb_mx_diario`, `stg_trends_*` | F4, F5, F11, F12; F3 y F16 para el peso |
+| `fact_consumo_musical` | `slv_charts_mes`, `slv_pesos_trends` | `stg_kworb_mx_semanal`, `stg_trends_*` | F4, F11; F3 y F16 para el peso; F5 valida |
 | `fact_violencia` | `slv_violencia_mes` | `stg_sesnsp_delitos`, `stg_sesnsp_victimas`, `stg_rnpdno` | F1, F13 |
 
 Cada fila de hechos guarda además su fuente en la columna `fuente`, así que el linaje se puede seguir también
@@ -176,7 +177,7 @@ vacías.
 | `p2_serie_mensual_nacional` | P2 | Serie mensual de proporción misógina y tasas por 100 mil mujeres por tipo de violencia, con la etapa de la pandemia como control. |
 | `p2_correlacion_nacional` | P2 | `CORR` por tipo de violencia, con el número de meses. |
 | `p2_panel_entidad_anio` | P2 | `CORR` como función de ventana: entre entidades de cada año y con todos los años juntos; variables de control. |
-| `p3_tendencia_tipo_violencia` | P3 | Participación mensual con `SUM() OVER`, media móvil de 12 meses y cambio anual con marcos `RANGE`, que respetan el hueco de 2022–2023. |
+| `p3_tendencia_tipo_violencia` | P3 | Participación mensual con `SUM() OVER`, media móvil de 12 meses y cambio anual con marcos `RANGE`, que cuentan meses de calendario aunque falte alguno. |
 | `p4_tipos_musica_vs_oficial` | P4 | `UNPIVOT` de las prevalencias de la ENDIREH y `RANK` de cada tipo en la música, el SESNSP y la ENDIREH. |
 
 Las vistas siguen tres reglas:
@@ -202,6 +203,8 @@ El código completo está en [`sql/consultas_mart.sql`](sql/consultas_mart.sql):
 -- Reglas que siguen todas las vistas:
 --   * El consumo nacional es la suma de las 32 entidades (el reparto
 --     conserva el total), así que no existe una fila "Nacional".
+--   * Los datos nacionales repetidos en cada entidad (semanas en el
+--     chart, mejor posición) se toman una sola vez por canción y mes.
 --   * La proporción misógina solo cuenta canciones clasificadas
 --     (es_misogina no nulo); la cobertura se reporta aparte.
 --   * Todo resultado por entidad es una estimación y se marca así.
@@ -210,19 +213,15 @@ El código completo está en [`sql/consultas_mart.sql`](sql/consultas_mart.sql):
 -- ---------------------------------------------------------------------
 -- P1a. Proporción misógina del consumo nacional por año, macrogénero y
 --      género, con subtotales (ROLLUP) y marcas de subtotal (GROUPING).
---      Primero se vuelve al nivel nacional por canción y mes: las medidas
---      estimadas se suman entre entidades y los datos nacionales repetidos
---      se toman una sola vez (MAX).
+--      Primero se vuelve al nivel nacional por canción y mes.
 -- ---------------------------------------------------------------------
 CREATE OR REPLACE VIEW misoginia_mart.p1_proporcion_misogina_genero AS
 WITH nacional AS (
   SELECT
     f.fecha_key,
     f.cancion_key,
-    SUM(f.streams_estimados)      AS streams,
-    SUM(f.puntos_top50_estimados) AS puntos,
-    MAX(f.dias_en_chart_nacional) AS dias_en_chart,
-    MAX(f.popularidad_nacional)   AS popularidad
+    SUM(f.streams_estimados)         AS streams,
+    MAX(f.semanas_en_chart_nacional) AS semanas_en_chart
   FROM misoginia_dw.fact_consumo_musical AS f
   GROUP BY f.fecha_key, f.cancion_key
 )
@@ -236,16 +235,13 @@ SELECT
   COUNT(DISTINCT n.cancion_key) AS canciones,
   SUM(n.streams) AS streams,
   SAFE_DIVIDE(SUM(IF(c.es_misogina, n.streams, 0)),
-              SUM(IF(c.es_misogina IS NOT NULL, n.streams, 0))) AS proporcion_misogina_streams,
-  SAFE_DIVIDE(SUM(IF(c.es_misogina, n.puntos, 0)),
-              SUM(IF(c.es_misogina IS NOT NULL, n.puntos, 0))) AS proporcion_misogina_puntos,
-  SAFE_DIVIDE(SUM(IF(c.es_misogina, n.dias_en_chart, 0)),
-              SUM(IF(c.es_misogina IS NOT NULL, n.dias_en_chart, 0))) AS proporcion_misogina_dias,
-  AVG(IF(c.es_misogina, n.popularidad, NULL)) AS popularidad_promedio_misoginas,
-  SAFE_DIVIDE(SUM(IF(c.es_misogina IS NOT NULL, n.puntos, 0)),
-              SUM(n.puntos)) AS cobertura_clasificada,
-  SAFE_DIVIDE(SUM(IF(c.origen_etiqueta = 'misongyny', n.puntos, 0)),
-              SUM(IF(c.es_misogina IS NOT NULL, n.puntos, 0))) AS pct_etiqueta_humana
+              SUM(IF(c.es_misogina IS NOT NULL, n.streams, 0))) AS proporcion_misogina,
+  SAFE_DIVIDE(SUM(IF(c.es_misogina, n.semanas_en_chart, 0)),
+              SUM(IF(c.es_misogina IS NOT NULL, n.semanas_en_chart, 0))) AS proporcion_misogina_semanas,
+  SAFE_DIVIDE(SUM(IF(c.es_misogina IS NOT NULL, n.streams, 0)),
+              SUM(n.streams)) AS cobertura_clasificada,
+  SAFE_DIVIDE(SUM(IF(c.origen_etiqueta = 'misongyny', n.streams, 0)),
+              SUM(IF(c.es_misogina IS NOT NULL, n.streams, 0))) AS pct_etiqueta_humana
 FROM nacional AS n
 JOIN misoginia_dw.dim_fecha   AS d ON d.fecha_key = n.fecha_key
 JOIN misoginia_dw.dim_cancion AS c ON c.cancion_key = n.cancion_key
@@ -266,10 +262,8 @@ WITH base AS (
     e.entidad,
     SUM(IF(c.es_misogina, f.streams_estimados, 0))             AS streams_misoginos,
     SUM(IF(c.es_misogina IS NOT NULL, f.streams_estimados, 0)) AS streams_clasificados,
-    SUM(IF(c.es_misogina, f.puntos_top50_estimados, 0))             AS puntos_misoginos,
-    SUM(IF(c.es_misogina IS NOT NULL, f.puntos_top50_estimados, 0)) AS puntos_clasificados,
-    SUM(IF(STARTS_WITH(f.origen_peso, 'artista'), f.puntos_top50_estimados, 0)) AS puntos_peso_artista,
-    SUM(f.puntos_top50_estimados) AS puntos_totales
+    SUM(IF(STARTS_WITH(f.origen_peso, 'artista'), f.streams_estimados, 0)) AS streams_peso_artista,
+    SUM(f.streams_estimados) AS streams_totales
   FROM misoginia_dw.fact_consumo_musical AS f
   JOIN misoginia_dw.dim_fecha   AS d ON d.fecha_key = f.fecha_key
   JOIN misoginia_dw.dim_entidad AS e ON e.entidad_key = f.entidad_key
@@ -281,36 +275,33 @@ indicadores AS (
     anio,
     cve_ent,
     entidad,
-    SAFE_DIVIDE(streams_misoginos, streams_clasificados) AS proporcion_misogina_streams,
-    SAFE_DIVIDE(puntos_misoginos, puntos_clasificados)   AS proporcion_misogina_puntos,
-    SAFE_DIVIDE(puntos_peso_artista, puntos_totales)     AS pct_peso_artista
+    SAFE_DIVIDE(streams_misoginos, streams_clasificados) AS proporcion_misogina,
+    SAFE_DIVIDE(streams_peso_artista, streams_totales)   AS pct_peso_artista
   FROM base
 )
 SELECT
   anio,
   cve_ent,
   entidad,
-  proporcion_misogina_streams,
-  proporcion_misogina_puntos,
+  proporcion_misogina,
   pct_peso_artista,
-  RANK() OVER (PARTITION BY anio ORDER BY proporcion_misogina_puntos DESC) AS lugar_en_el_anio,
-  proporcion_misogina_puntos
-    - AVG(proporcion_misogina_puntos) OVER (PARTITION BY anio) AS diferencia_vs_promedio_estatal,
+  RANK() OVER (PARTITION BY anio ORDER BY proporcion_misogina DESC) AS lugar_en_el_anio,
+  proporcion_misogina
+    - AVG(proporcion_misogina) OVER (PARTITION BY anio) AS diferencia_vs_promedio_estatal,
   TRUE AS es_estimacion
 FROM indicadores;
 
 -- ---------------------------------------------------------------------
 -- P2a. Serie mensual nacional: proporción misógina del consumo frente a
---      las tasas por 100 mil mujeres de cada tipo de violencia.
+--      las tasas por 100 mil mujeres de cada tipo de violencia, con la
+--      etapa de la pandemia como control.
 -- ---------------------------------------------------------------------
 CREATE OR REPLACE VIEW misoginia_mart.p2_serie_mensual_nacional AS
 WITH musica AS (
   SELECT
     f.fecha_key,
     SAFE_DIVIDE(SUM(IF(c.es_misogina, f.streams_estimados, 0)),
-                SUM(IF(c.es_misogina IS NOT NULL, f.streams_estimados, 0))) AS proporcion_misogina_streams,
-    SAFE_DIVIDE(SUM(IF(c.es_misogina, f.puntos_top50_estimados, 0)),
-                SUM(IF(c.es_misogina IS NOT NULL, f.puntos_top50_estimados, 0))) AS proporcion_misogina_puntos
+                SUM(IF(c.es_misogina IS NOT NULL, f.streams_estimados, 0))) AS proporcion_misogina
   FROM misoginia_dw.fact_consumo_musical AS f
   JOIN misoginia_dw.dim_cancion AS c ON c.cancion_key = f.cancion_key
   GROUP BY f.fecha_key
@@ -340,8 +331,7 @@ SELECT
   d.evento_restriccion_musical,
   vi.tipo_lgamvlv,
   vi.es_control,
-  mu.proporcion_misogina_streams,
-  mu.proporcion_misogina_puntos,
+  mu.proporcion_misogina,
   vi.carpetas,
   vi.victimas_mujeres,
   SAFE_DIVIDE(vi.carpetas, p.mujeres) * 100000         AS tasa_carpetas_100k_mujeres,
@@ -356,14 +346,17 @@ LEFT JOIN musica AS mu ON mu.fecha_key = vi.fecha_key;
 
 -- ---------------------------------------------------------------------
 -- P2b. Coeficiente de correlación nacional por tipo de violencia, con el
---      número de meses que entran (solo meses con streams).
+--      número de meses que entran, y la misma correlación sin los meses
+--      de confinamiento.
 -- ---------------------------------------------------------------------
 CREATE OR REPLACE VIEW misoginia_mart.p2_correlacion_nacional AS
 SELECT
   tipo_lgamvlv,
   es_control,
-  COUNTIF(proporcion_misogina_streams IS NOT NULL AND tasa_indicador_100k_mujeres IS NOT NULL) AS n_meses,
-  CORR(proporcion_misogina_streams, tasa_indicador_100k_mujeres) AS correlacion_pearson
+  COUNTIF(proporcion_misogina IS NOT NULL AND tasa_indicador_100k_mujeres IS NOT NULL) AS n_meses,
+  CORR(proporcion_misogina, tasa_indicador_100k_mujeres) AS correlacion_pearson,
+  CORR(IF(etapa_covid = 'confinamiento', NULL, proporcion_misogina),
+       IF(etapa_covid = 'confinamiento', NULL, tasa_indicador_100k_mujeres)) AS correlacion_sin_confinamiento
 FROM misoginia_mart.p2_serie_mensual_nacional
 GROUP BY tipo_lgamvlv, es_control;
 
@@ -393,15 +386,15 @@ panel AS (
     m.cve_ent,
     m.entidad,
     vi.tipo_lgamvlv,
-    m.proporcion_misogina_streams,
-    m.proporcion_misogina_puntos,
+    m.proporcion_misogina,
     m.pct_peso_artista,
     SAFE_DIVIDE(vi.carpetas, ctx.poblacion_mujeres) * 100000         AS tasa_carpetas_100k_mujeres,
     SAFE_DIVIDE(vi.victimas_mujeres, ctx.poblacion_mujeres) * 100000 AS tasa_victimas_100k_mujeres,
     SAFE_DIVIDE(COALESCE(vi.carpetas, vi.victimas_mujeres), ctx.poblacion_mujeres) * 100000 AS tasa_indicador_100k_mujeres,
     ctx.pct_usuarios_internet,
     ctx.pct_pobreza,
-    ctx.indice_impunidad
+    ctx.indice_impunidad,
+    ctx.propuesta_restriccion_musical
   FROM misoginia_mart.p1_proporcion_misogina_entidad AS m
   JOIN violencia AS vi ON vi.cve_ent = m.cve_ent AND vi.anio = m.anio
   JOIN misoginia_dw.dim_contexto_entidad AS ctx ON ctx.contexto_key = vi.contexto_key
@@ -411,8 +404,7 @@ SELECT
   cve_ent,
   entidad,
   tipo_lgamvlv,
-  proporcion_misogina_streams,
-  proporcion_misogina_puntos,
+  proporcion_misogina,
   pct_peso_artista,
   tasa_carpetas_100k_mujeres,
   tasa_victimas_100k_mujeres,
@@ -420,9 +412,10 @@ SELECT
   pct_usuarios_internet,
   pct_pobreza,
   indice_impunidad,
-  CORR(proporcion_misogina_puntos, tasa_indicador_100k_mujeres)
+  propuesta_restriccion_musical,
+  CORR(proporcion_misogina, tasa_indicador_100k_mujeres)
     OVER (PARTITION BY tipo_lgamvlv, anio) AS correlacion_entre_estados_del_anio,
-  CORR(proporcion_misogina_puntos, tasa_indicador_100k_mujeres)
+  CORR(proporcion_misogina, tasa_indicador_100k_mujeres)
     OVER (PARTITION BY tipo_lgamvlv)       AS correlacion_panel_completo,
   TRUE AS es_estimacion
 FROM panel;
@@ -431,19 +424,16 @@ FROM panel;
 -- P3. Evolución mensual nacional de cada tipo de violencia en la música:
 --     participación en el consumo, media móvil de 12 meses y cambio
 --     contra el mismo mes del año anterior. Los marcos RANGE sobre
---     indice_mes respetan el hueco de 2022-2023 (no lo saltan como si
---     fueran meses contiguos).
+--     indice_mes cuentan meses de calendario aunque falte alguno.
 -- ---------------------------------------------------------------------
 CREATE OR REPLACE VIEW misoginia_mart.p3_tendencia_tipo_violencia AS
 WITH mensual AS (
   SELECT
     d.fecha,
     d.indice_mes,
-    d.periodo_datos_musica,
     d.etapa_covid,
     t.tipo_lgamvlv,
-    SUM(f.puntos_top50_estimados) AS puntos,
-    SUM(f.streams_estimados)      AS streams,
+    SUM(f.streams_estimados) AS streams,
     -- El dato nacional se repite igual en las 32 entidades: el promedio no cambia
     AVG(f.mejor_posicion_nacional) AS posicion_promedio
   FROM misoginia_dw.fact_consumo_musical AS f
@@ -451,20 +441,18 @@ WITH mensual AS (
   JOIN misoginia_dw.dim_cancion        AS c ON c.cancion_key = f.cancion_key
   JOIN misoginia_dw.dim_tipo_violencia AS t ON t.tipo_violencia_key = f.tipo_violencia_key
   WHERE c.es_misogina IS NOT NULL
-  GROUP BY d.fecha, d.indice_mes, d.periodo_datos_musica, d.etapa_covid, t.tipo_lgamvlv
+  GROUP BY d.fecha, d.indice_mes, d.etapa_covid, t.tipo_lgamvlv
 ),
 participacion AS (
   SELECT
     *,
-    SAFE_DIVIDE(puntos, SUM(puntos) OVER (PARTITION BY indice_mes)) AS participacion
+    SAFE_DIVIDE(streams, SUM(streams) OVER (PARTITION BY indice_mes)) AS participacion
   FROM mensual
 )
 SELECT
   fecha,
-  periodo_datos_musica,
   etapa_covid,
   tipo_lgamvlv,
-  puntos,
   streams,
   posicion_promedio,
   participacion,
@@ -489,7 +477,7 @@ WITH tipos AS (
   GROUP BY tipo_lgamvlv
 ),
 musica AS (
-  SELECT t.tipo_lgamvlv, SUM(f.puntos_top50_estimados) AS puntos
+  SELECT t.tipo_lgamvlv, SUM(f.streams_estimados) AS streams
   FROM misoginia_dw.fact_consumo_musical AS f
   JOIN misoginia_dw.dim_cancion        AS c ON c.cancion_key = f.cancion_key
   JOIN misoginia_dw.dim_tipo_violencia AS t ON t.tipo_violencia_key = f.tipo_violencia_key
@@ -520,11 +508,11 @@ endireh AS (
 SELECT
   tp.tipo_lgamvlv,
   tp.medido_en_sesnsp,
-  SAFE_DIVIDE(m.puntos, SUM(m.puntos) OVER ())     AS participacion_musica,
+  SAFE_DIVIDE(m.streams, SUM(m.streams) OVER ())   AS participacion_musica,
   SAFE_DIVIDE(o.carpetas, SUM(o.carpetas) OVER ()) AS participacion_sesnsp,
   n.prevalencia                                    AS prevalencia_endireh_2021,
   -- Un tipo sin dato en una fuente no recibe lugar en esa fuente
-  IF(m.puntos IS NULL, NULL, RANK() OVER (ORDER BY m.puntos DESC))           AS lugar_musica,
+  IF(m.streams IS NULL, NULL, RANK() OVER (ORDER BY m.streams DESC))         AS lugar_musica,
   IF(o.carpetas IS NULL, NULL, RANK() OVER (ORDER BY o.carpetas DESC))       AS lugar_sesnsp,
   IF(n.prevalencia IS NULL, NULL, RANK() OVER (ORDER BY n.prevalencia DESC)) AS lugar_endireh
 FROM tipos AS tp
@@ -556,8 +544,8 @@ capturas no deben mostrar llaves ni credenciales.
 | Llave | Fuentes y campo | Cómo se relacionan |
 |---|---|---|
 | Entidad | SESNSP, ENDIREH, CONAPO, Censo, ENDUTIH, CONEVAL, México Evalúa, Google Trends, Natural Earth | Todas se llevan a la clave INEGI de 1 a 32 con un catálogo de equivalencias. Trends cambia los nombres según el idioma del sitio: en inglés "Mexico City", "State of Mexico", "Yucatan"; en español "Estado de México", "Coahuila de Zaragoza", "Yucatán". Se descarga siempre en español y el catálogo guarda las dos versiones. |
-| Tiempo | SESNSP por mes; RNPDNO por fecha de desaparición; Kworb, Kaggle y Top 73 por día; Trends por el periodo que se descargue; contexto por año | Los datos diarios se suman al mes; Trends se descarga por año (y por mes si se puede); el contexto entra por entidad y año en `dim_contexto_entidad`. |
-| ID de canción de Spotify | Kworb, Kaggle *Spotify Charts* y Top 73 | Unión exacta entre las fuentes de consumo. |
+| Tiempo | SESNSP por mes; RNPDNO por fecha de desaparición; Kworb por semana (de viernes a jueves); Kaggle por día; Trends por el periodo que se descargue; contexto por año | Cada semana de Kworb se reparte entre meses según sus días; Trends se descarga por año (y por mes si se puede); el contexto entra por entidad y año en `dim_contexto_entidad`. |
+| ID de canción de Spotify | Kworb y Kaggle *Spotify Charts* | Unión exacta, pero una misma canción puede tener otro ID en Kaggle: de las canciones de 2021 de la prueba, 58 coincidieron por ID. |
 | Artista y título | Charts, MiSonGyny y LRCLIB | Se normalizan en `clave_cancion` para unir consumo, etiquetas de referencia y letras. |
 | Artista | Charts, MusicBrainz, Last.fm y Google Trends | Asigna el género y el término de búsqueda (`termino_trends`). |
 | Tipo de violencia | SESNSP y el clasificador | Se mapean a la LGAMVLV en `dim_tipo_violencia`. |
@@ -570,7 +558,8 @@ capturas no deben mostrar llaves ni credenciales.
 | Escala de Trends | Cada descarga se normaliza por separado (la entidad con más interés vale 100). Varios términos en una descarga suman 100 por entidad. | Un término por descarga; el peso solo usa el reparto entre entidades dentro de cada descarga. |
 | Texto del término | Una descarga usó `regueton` y otra `Reguetón`. | El texto exacto se guarda en `termino_trends` y se usa siempre igual. |
 | Volumen bajo en periodos cortos | Tones And I tiene valor en 29 estados en 2021 y solo en 7 en tres meses de 2026. | Respaldo con el peso del género o de los usuarios de internet, marcado en `origen_peso`. |
-| Periodos | Streams solo en 2017–2021; sin datos de enero de 2022 a septiembre de 2023; Top 73 trae posición, no streams. | Dos medidas: streams (2017–2021) y puntos del Top 50 (todo el periodo). |
+| Periodos | Kaggle solo cubre 2017–2021 y le faltan 34 días, casi todos de diciembre de 2021. | Kworb semanal es la fuente para toda la ventana 2015–2025; Kaggle solo valida. |
+| Semanas que cruzan meses | Una semana de viernes a jueves puede caer en dos meses. | Se reparte por días; se supone consumo parejo dentro de la semana. |
 | Tipos de violencia | El SESNSP no coincide uno a uno con la LGAMVLV y no mide violencia económica, patrimonial ni mediática. | Mapeo en `dim_tipo_violencia`, con los tipos sin delito visibles en P4. |
 | Coincidencia en MusicBrainz | La búsqueda que toma el primer resultado asignó a Sebastián Yatra las etiquetas de un compositor clásico alemán. | Validar país, tipo de artista y puntaje de la búsqueda; revisar a mano los casos dudosos. |
 | Nombres ambiguos en Trends | Artistas como Matisse, Aleman o Intocable comparten nombre con palabras o con otras personas, lo que infla el interés. | Revisar el término de cada artista y, si es ambiguo, usar el tema de artista de Trends o el peso del género. |

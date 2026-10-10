@@ -58,6 +58,14 @@ esquema actual, redactó el DDL, las vistas y estas páginas, y probó las vista
 (una base de datos local, no BigQuery) para comprobar que el reparto suma el total nacional y que no hay doble
 conteo.
 
+### h) Verificación de Kworb (10 de octubre de 2026)
+
+Al revisar la ficha de Kworb, la herramienta notó que su historial por canción podía cubrir los años sin datos.
+Abrió con su búsqueda web dos páginas de Kworb y su `robots.txt`, y escribió un script para Colab. Nosotros lo
+corrimos: 5,146 canciones en la lista, streams semanales desde 2013, las 91 semanas de 2022–2023 con datos y
+coincidencia exacta con Kaggle en 2021. La primera versión de la comparación salió en ceros porque cruzaba IDs
+distintos para la misma canción; se corrigió comparando solo canciones con el mismo ID en las dos fuentes.
+
 ## 3. Prompts empleados (resumen fiel)
 
 Le dimos el instructivo de E1 y las preguntas de E0 y le pedimos evaluar al menos cinco fuentes,

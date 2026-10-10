@@ -11,7 +11,7 @@ En E0 planteamos medir la misoginia de la música **consumida en cada entidad** 
 El pivote es el mínimo necesario y mantiene el tema y las cuatro preguntas de E0:
 
 1. El consumo por entidad pasa a ser una **estimación**: el consumo nacional de cada canción se reparte entre los estados con el interés de búsqueda de su artista en Google Trends, descargado por año.
-2. La ventana con streams verificados es **2017–2021**. Con posiciones del Top 50 la serie llega a 2025, con un hueco de enero de 2022 a septiembre de 2023.
+2. La ventana es **2015–2025**: los streams semanales de Kworb llegan hasta 2013 y el SESNSP empieza en 2015. Se conserva la década que planteaba E0 (ver [evidencia de Kworb](#evidencia-kworb)).
 3. La correlación con el SESNSP se hace por **estado y año**, y por mes solo a nivel nacional.
 4. **P4 queda parcialmente cubierta.**
 :::
@@ -34,8 +34,8 @@ La columna "Revisión" distingue lo que el equipo **abrió y comprobó** de lo q
 
 | Fuente | Tipo | Qué ofrece | Decisión y motivo | Revisión |
 |---|---|---|---|---|
-| Spotify Charts (Kaggle `dhruvildave/spotify-charts`) | Dataset de Kaggle | Top 200 diario de México con streams, 2017–2021 | **Aceptada**, pero es nacional | Abierta y consultada |
-| Kworb | Página web | Charts de Spotify por país | Aceptada, pero es nacional | Abierta y consultada |
+| Spotify Charts (Kaggle `dhruvildave/spotify-charts`) | Dataset de Kaggle | Top 200 diario de México con streams, 2017–2021 | **Aceptada** para validar a Kworb; es nacional | Abierta y consultada |
+| Kworb | Página web | Charts de Spotify por país, con historial semanal por canción desde 2013 | **Aceptada**: fuente de streams de la ventana, pero es nacional | Abierta y consultada (sección 3) |
 | Google Trends, sitio web | Descarga de CSV | Interés de búsqueda por estado | **Aceptada como proxy** | Abierta y descargada (sección 2) |
 | Google Trends en BigQuery (`google_trends`) | Dataset público de BigQuery | Solo los 25 términos principales y 25 en ascenso por día, con ventana móvil de unos 5 años | Descartada: un artista casi nunca entra al top 25 de una región, y no se confirmó que los estados de México estén incluidos | Documentación |
 | Google Trends API oficial (alfa) | API | Datos por región y subregión (ISO 3166-2), unos 5 años hacia atrás | Descartada: acceso restringido a pocos desarrolladores | Documentación |
@@ -74,7 +74,24 @@ Lo que se concluyó:
 - **Los nombres de los estados dependen del idioma del sitio:** en inglés aparecen "Mexico City" o "State of Mexico", y en español "Estado de México" o "Coahuila de Zaragoza". Las descargas se hacen siempre en español y el catálogo de entidades guarda las dos versiones.
 - **Hay que usar siempre el texto exacto del término**: el primer archivo usó `regueton` y los siguientes `Reguetón`.
 
-## 3. Evidencia para elegir los términos de búsqueda
+## 3. Evidencia de Kworb: streams semanales desde 2013 {#evidencia-kworb}
+
+Al principio de E1 creíamos que los streams históricos de México solo existían en Kaggle (2017–2021). El 10 de
+octubre de 2026 revisamos el historial por canción de Kworb (F4) con un script en Colab:
+
+| Qué se revisó | Resultado |
+|---|---|
+| Lista del chart semanal de México (`mx_weekly_totals`) | 5,146 canciones; cubre del 28 de abril de 2013 al 8 de octubre de 2026 |
+| Historial de las 300 canciones con más streams | Posición y streams semanales desde la semana del 9 de junio de 2013 |
+| Enero de 2022 a septiembre de 2023, que creíamos sin datos | Las 91 semanas tienen datos |
+| Fechas | Cada fecha es el jueves en que termina la semana (de viernes a jueves) |
+| Comparación con Kaggle en 2021, canciones con el mismo ID en las dos fuentes | En 15 de 15 semanas comparables, el streams semanal de Kworb es **idéntico** a la suma de los 7 días de Kaggle; por ejemplo, 16,850,065 en las dos la semana del 29 de abril de 2021. Las 5 semanas de diciembre que no coinciden son días que faltan en Kaggle. |
+| `robots.txt` de Kworb | Permite descargar todo el sitio |
+
+Con esto, Kworb pasa a ser la fuente de streams de toda la ventana y Kaggle se usa para validar. Falta descargar
+las 5,146 páginas para confirmar que cada semana del chart queda completa; eso se hace en la fase de preparación.
+
+## 4. Evidencia para elegir los términos de búsqueda
 
 El grano del consumo es la canción, pero Trends se consulta por artista: el interés de búsqueda de cada artista
 reparte el consumo de sus canciones. Para saber cuántos artistas consultar, con el dataset de Spotify Charts
@@ -89,38 +106,38 @@ cada año:
 | 2020 | 73.9 % | 90.6 % |
 | 2021 | 72.1 % | 89.3 % |
 
-Se consultan los **100 artistas con más streams de cada año**. La selección es por consumo y no por reputación del género, como pide la regla operativa de E0. Las canciones de los demás artistas se reparten con el interés del género del artista y, si tampoco hay, con los usuarios de internet de cada estado.
+Se consultan los **50 artistas con más streams de cada año**, que explican entre el 66 % y el 74 % de los streams; con 100 se llegaría al 87–91 %, pero con el doble de descargas para once años. La selección es por consumo y no por reputación del género, como pide la regla operativa de E0. Las canciones de los demás artistas se reparten con el interés del género del artista y, si tampoco hay, con los usuarios de internet de cada estado.
 
 En MusicBrainz, 48 de los 50 artistas más escuchados devolvieron etiquetas de género, pero no todas son correctas: a Sebastián Yatra la búsqueda le asignó las de un compositor clásico alemán, porque se toma el primer resultado. Las coincidencias se validan (país, tipo de artista, puntaje de la búsqueda) y los casos dudosos se completan a mano.
 
-## 4. Pregunta u objetivo afectado
+## 5. Pregunta u objetivo afectado
 
 - **Objetivo de minería de datos:** el índice por canción deja de ser "agregable por entidad" de forma directa y pasa a ser una **estimación por entidad**.
 - **P1 y P2:** dependían del consumo por entidad.
-- **P3:** depende de la ventana de 10 años.
+- **P3:** dependía de tener 10 años de streams. Con Kworb la ventana se conserva; lo que queda limitado son los tipos de violencia que distingue el clasificador.
 - **P4:** depende de que el SESNSP distinga todos los tipos de violencia.
 
-## 5. Qué cambia: antes y después
+## 6. Qué cambia: antes y después
 
 | | Antes (E0) | Después (E0 v2) |
 |---|---|---|
 | **P1** | Proporción de misoginia en la música consumida en México, por género musical y entidad | Proporción de misoginia en la música más escuchada en Spotify México (Top 200), por género musical y por entidad. La variación por entidad es una **estimación**: el consumo nacional de cada canción repartido con el interés de búsqueda anual de su artista por estado |
-| **P2** | Correlación entre la misoginia musical por entidad y los indicadores del SESNSP en la misma ventana y territorio | Correlación entre la **exposición estimada** por estado y año y las tasas por 100 mil mujeres del SESNSP por estado y año (160 observaciones con streams en 2017–2021, más los años con posiciones). Se reporta también una correlación nacional mensual |
-| **P3** | Evolución de la misoginia a lo largo de la última década, por tipo de violencia | Evolución mensual nacional por tipo de violencia, con streams en **2017–2021** y con puntos del Top 50 de 2017 a 2025, sin datos de enero de 2022 a septiembre de 2023 |
+| **P2** | Correlación entre la misoginia musical por entidad y los indicadores del SESNSP en la misma ventana y territorio | Correlación entre la **exposición estimada** por estado y año y las tasas por 100 mil mujeres del SESNSP por estado y año (hasta 352 observaciones: 32 entidades por 11 años). Se reporta también una correlación nacional mensual |
+| **P3** | Evolución de la misoginia a lo largo de la última década, por tipo de violencia | Evolución mensual nacional por tipo de violencia, **2015–2025**, con streams semanales de Kworb repartidos a mes |
 | **P4** | Tipos de violencia predominantes en la música y su coincidencia con los más reportados oficialmente | **Cobertura parcial:** el SESNSP no distingue violencia económica, patrimonial ni simbólica. ENDIREH sí las mide, pero solo tiene dos cortes (2016 y 2021). La comparación cuantitativa se limita a los tipos que el SESNSP separa (sexual, familiar, feminicida) |
 | **Consumo por entidad** | Consumo musical medido por entidad | Estimación: consumo nacional repartido con el interés de búsqueda por estado (Trends), un archivo por artista y año |
-| **Ventana** | 10 años | 2017–2021 con streams; 2017–2025 con posiciones, con hueco |
+| **Ventana** | 10 años | 2015–2025 (11 años) |
 | **Contraste del subregistro** | Mapa de feminicidios de María Salguero | Queda en el catálogo, fuera del almacén: el mapa no permite exportar datos (ver su ficha). La triangulación se hace con la ENDIREH, de forma parcial, y el RNPDNO se suma como indicador que no viene del SESNSP |
 
-## 6. Por qué sigue en la línea de E0
+## 7. Por qué sigue en la línea de E0
 
 - **El tema no cambia:** misoginia en la música consumida en México y su relación con la violencia de género oficial.
 - **Las cuatro preguntas se conservan**, ajustadas en grano o cobertura.
 - **Los dos entregables de E0 se mantienen:** el diagnóstico descriptivo y el análisis de correlación.
-- **Los cambios son los que la guía permite sin cambiar de tema:** un proxy para una variable que no existe en abierto, una cobertura temporal menor y un grano más agregado.
+- **Los cambios son los que la guía permite sin cambiar de tema:** un proxy para una variable que no existe en abierto y un grano más agregado para la entidad.
 - **Se respeta la regla operativa de E0:** los artistas se eligen por streams, sin preseleccionar géneros.
 
-## 7. Efecto en el criterio de éxito
+## 8. Efecto en el criterio de éxito
 
 El criterio de E0 sigue siendo alcanzable. Cambia su alcance, no su forma.
 
@@ -128,38 +145,39 @@ El criterio de E0 sigue siendo alcanzable. Cambia su alcance, no su forma.
 |---|---|---|
 | Índice reproducible, desagregado por entidad, género, tipo de violencia y periodo | Se mantiene. La desagregación por entidad es estimada y toda salida debe indicarlo | Menor precisión geográfica |
 | Correlación con el SESNSP, con coeficiente y significancia | Se mantiene. La unidad pasa a ser estado y año | Menos observaciones que un análisis mensual, y observaciones no independientes que hay que tratar con cuidado |
-| Ventana de 10 años, mensual o anual | Anual por entidad y mensual a nivel nacional; streams en 2017–2021 y posiciones hasta 2025 | Ventana más corta y con hueco |
+| Ventana de 10 años, mensual o anual | Anual por entidad y mensual a nivel nacional, 2015–2025 | Ninguno en la ventana; la entidad solo tiene resolución anual |
 | Clasificador validado con precisión y recall por periodo | Sin cambios | Ninguno |
 | Resultados desagregables sin perder trazabilidad a la fuente | Se mantiene. Se distingue el dato real del proxy | Ninguno |
 | No hay umbral mínimo de correlación | Sin cambios | Ninguno |
 
-## 8. Resumen de las secciones de E0 que se actualizan (E0 v2)
+## 9. Resumen de las secciones de E0 que se actualizan (E0 v2)
 
 La versión original de E0 se conserva sin cambios.
 
 | Sección de E0 | Cambio |
 |---|---|
 | 1. Objetivos de negocio | La desagregación por entidad pasa a ser aproximada |
-| 2. Criterio de éxito | Ventana y unidad de análisis (sección 7) |
-| 3. Evaluación de la situación | El mapa de Salguero queda fuera del almacén; el supuesto de triangulación y el riesgo de subregistro se apoyan en la ENDIREH; se agregan los riesgos de la sección 9 |
+| 2. Criterio de éxito | Ventana y unidad de análisis (sección 8) |
+| 3. Evaluación de la situación | El mapa de Salguero queda fuera del almacén; el supuesto de triangulación y el riesgo de subregistro se apoyan en la ENDIREH; se agregan los riesgos de la sección 10 |
 | 4. Objetivos de minería de datos | Consumo por entidad como proxy; alineación anual entre el consumo por estado y el SESNSP |
 | 6. Plan del proyecto | Fase 1 sin carga del mapa de Salguero |
 
-## 9. Riesgos y limitaciones nuevos
+## 10. Riesgos y limitaciones nuevos
 
 - **El interés de búsqueda no es escucha.** Se declara en la matriz de trazabilidad y en todo resultado por entidad.
 - **El reparto es un supuesto.** Supone que el consumo de un artista se reparte entre estados como su interés de búsqueda, escalado por los usuarios de internet.
 - **Trends es relativo y se normaliza por consulta.** El reparto solo usa cómo se distribuye el interés entre estados dentro de cada descarga, por eso no necesita un término ancla.
 - **Usuarios de internet:** el catálogo solo tiene la ENDUTIH 2024; mientras no se agreguen otras ediciones, su proporción se usa para todos los años.
 - **Nombres ambiguos:** artistas como Matisse, Aleman o Intocable comparten nombre con palabras o con otras personas. Se revisa el término de cada artista y, si es ambiguo, se usa el peso del género.
-- **Número de descargas:** una por artista y año, unas 500 para los 100 artistas principales de 2017 a 2021, más las de géneros. La descarga por mes es opcional.
+- **Número de descargas de Trends:** una por artista y año, unas 550 para los 50 artistas principales de 2015 a 2025, más las de géneros. La descarga por mes es opcional.
 - **Trends trabaja con una muestra,** por lo que los valores pueden variar un poco entre descargas.
 - **Artistas de menor volumen** podrían salir con pocos estados con valor en un mes. Esos estados toman el peso del género y quedan marcados en `origen_peso`; todo resultado se reporta también solo con pesos observados.
-- **Hueco de datos:** entre 2022 y octubre de 2023 no hay streams, y el dataset de Kaggle posterior trae posición pero no streams.
-- **Cobertura de los artistas:** el top 100 anual explica entre 87 % y 91 % de los streams del Top 200 de Spotify México, no de todo el consumo musical del país.
+- **Kworb sin licencia declarada:** se usa con fines académicos, sin republicar filas crudas, y se descarga a una página cada 1.5 segundos. Falta confirmar que cada semana queda completa.
+- **De semana a mes:** cada semana se reparte entre meses según sus días; se supone consumo parejo dentro de la semana.
+- **Cobertura de los artistas:** los 50 artistas principales de cada año explican entre 66 % y 74 % de los streams del Top 200 (medido en 2017–2021); el resto se reparte con el peso del género. Y el Top 200 de Spotify no es todo el consumo musical del país.
 - **Tipos de violencia:** la clasificación del SESNSP no coincide uno a uno con la LGAMVLV.
 
-## 10. Cómo queda en el almacén de datos
+## 11. Cómo queda en el almacén de datos
 
 - `fact_consumo_musical`: una fila por canción, entidad y mes, con el consumo estimado y la marca `origen_peso`.
 - `fact_violencia`: una fila por entidad, delito o registro y mes.

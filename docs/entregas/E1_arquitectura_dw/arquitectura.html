@@ -338,7 +338,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 flowchart LR
     subgraph BR["BRONZE · misoginia_staging"]
         direction TB
-        b1["Charts&lt;br/&gt;stg_kaggle_charts_mx&lt;br/&gt;stg_top73_mx · stg_kworb_mx_diario"]
+        b1["Charts&lt;br/&gt;stg_kworb_mx_semanal&lt;br/&gt;stg_kaggle_charts_mx (validación)"]
         b5["Clasificador y género&lt;br/&gt;stg_misongyny&lt;br/&gt;stg_musicbrainz_tags"]
         b2["Google Trends&lt;br/&gt;stg_trends_*"]
         b4["Contexto&lt;br/&gt;stg_conapo_poblacion · stg_endutih_usuarios&lt;br/&gt;stg_endireh_* · stg_censo_iter&lt;br/&gt;stg_coneval_pobreza · stg_mexico_evalua&lt;br/&gt;stg_naturalearth_mx"]
@@ -431,14 +431,14 @@ flowchart LR
 <td>Archivo completo.</td>
 </tr>
 <tr class="odd">
-<td><code>stg_kworb_mx_diario</code></td>
-<td><a href="../../entregas/E1_arquitectura_dw/fuentes/f04_kworb.html">F4</a>: tabla del chart diario de México, 22 KB</td>
-<td>Tabla de la página guardada como CSV, con fecha de consulta.</td>
+<td><code>stg_kworb_mx_semanal</code></td>
+<td><a href="../../entregas/E1_arquitectura_dw/fuentes/f04_kworb.html">F4</a>: historial semanal de México de cada canción, de 5,146 páginas, más la lista <code>mx_weekly_totals</code></td>
+<td>Una fila por canción y semana con la celda tal como aparece (<code>posición (streams)</code>) y la fecha de descarga. La muestra son las 300 canciones con más streams.</td>
 </tr>
 <tr class="even">
 <td><code>stg_kaggle_charts_mx</code></td>
 <td><a href="../../entregas/E1_arquitectura_dw/fuentes/f05_kaggle.html">F5</a>: charts.csv, filas de México, 60.8 MB</td>
-<td>El archivo global de 3.48 GB excede el límite; se carga la parte de México.</td>
+<td>Solo para validar a Kworb en 2017–2021. El archivo global de 3.48 GB excede el límite; se carga la parte de México.</td>
 </tr>
 <tr class="odd">
 <td><code>stg_trends_&lt;termino&gt;_&lt;periodo&gt;</code></td>
@@ -446,46 +446,41 @@ flowchart LR
 <td>Una tabla por descarga, sin modificar. La muestra son los cuatro archivos de “reguetón” y artistas de la <a href="../../entregas/E1_arquitectura_dw/pivote.html#evidencia-trends">página de pivote</a>.</td>
 </tr>
 <tr class="even">
-<td><code>stg_top73_mx</code></td>
-<td><a href="../../entregas/E1_arquitectura_dw/fuentes/f12_kaggle_top73.html">F12</a>: universal_top_spotify_songs.csv, filas de México, 6.9 MB</td>
-<td>El archivo de 498 MB excede el límite; se carga la parte de México.</td>
-</tr>
-<tr class="odd">
 <td><code>stg_rnpdno</code></td>
 <td><a href="../../entregas/E1_arquitectura_dw/fuentes/f13_rnpdno.html">F13</a>: versión pública del RNPDNO, 13 MB</td>
 <td>Sin las columnas de nombres, por ser datos personales.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>stg_censo_iter</code></td>
 <td><a href="../../entregas/E1_arquitectura_dw/fuentes/f14_censo_iter.html">F14</a>: conjunto_de_datos_iter_00CSV20.csv, 150 MB</td>
 <td>Excede el límite de la consola; se carga desde Cloud Storage o una muestra de filas por entidad.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>stg_coneval_pobreza</code></td>
 <td><a href="../../entregas/E1_arquitectura_dw/fuentes/f15_coneval.html">F15</a>: anexo estadístico entidades 2022, 318 KB</td>
 <td>BigQuery no carga Excel; se carga cada hoja como CSV.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>stg_endutih_usuarios</code></td>
 <td><a href="../../entregas/E1_arquitectura_dw/fuentes/f16_endutih.html">F16</a>: tic_2024_usuarios, 156 MB</td>
 <td>Viene en DBF; se exporta a CSV para cargarlo.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>stg_mexico_evalua</code></td>
 <td><a href="../../entregas/E1_arquitectura_dw/fuentes/f17_mexico_evalua.html">F17</a>: hallazgos 2023, &lt; 1 MB</td>
 <td>Valores por entidad tomados del reporte en PDF.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>stg_naturalearth_mx</code></td>
 <td><a href="../../entregas/E1_arquitectura_dw/fuentes/f18_natural_earth.html">F18</a>: ne_10m_admin_1_states_provinces, &lt; 1 MB</td>
 <td>Registros de México con su geometría en texto.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>stg_misongyny</code></td>
 <td><a href="../../entregas/E1_arquitectura_dw/fuentes/f06_misongyny.html">F6</a>: TRAIN y TEST de las tareas 1 y 2, &lt; 1 MB</td>
 <td>Etiquetas de referencia para validar el clasificador.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>stg_musicbrainz_tags</code></td>
 <td><a href="../../entregas/E1_arquitectura_dw/fuentes/f08_musicbrainz.html">F8</a>: respuestas de la API para los artistas de la muestra, &lt; 1 MB</td>
 <td>JSON por artista con sus etiquetas, tal como lo devuelve la API.</td>
@@ -524,9 +519,9 @@ flowchart LR
 <tr class="even">
 <td><code>slv_charts_mes</code></td>
 <td>Canción y mes, nacional</td>
-<td><code>stg_kaggle_charts_mx</code>, <code>stg_top73_mx</code>, <code>stg_kworb_mx_diario</code></td>
-<td>Filtrar México y Top 200; sacar el ID de Spotify de la URL; sumar streams; calcular puntos del Top 50, días en el chart, mejor posición y popularidad</td>
-<td><code>fact_consumo_musical</code>, antes del reparto</td>
+<td><code>stg_kworb_mx_semanal</code>; <code>stg_kaggle_charts_mx</code> para validar</td>
+<td>Separar posición y streams de cada celda; repartir cada semana entre meses según sus días; contar semanas en el chart y mejor posición</td>
+<td><code>fact_consumo_musical</code>, antes del reparto por entidad</td>
 </tr>
 <tr class="odd">
 <td><code>slv_canciones</code></td>
@@ -594,6 +589,14 @@ flowchart LR
 <td><code>slv_charts_mes</code>, <code>slv_violencia_mes</code></td>
 </tr>
 <tr class="even">
+<td>Los streams semanales de Kworb coinciden con la suma de los 7 días de Kaggle en las semanas de 2017–2021 donde las dos fuentes tienen la canción.</td>
+<td><code>slv_charts_mes</code></td>
+</tr>
+<tr class="odd">
+<td>Cada semana del chart tiene sus posiciones completas; las semanas incompletas se reportan.</td>
+<td><code>slv_charts_mes</code></td>
+</tr>
+<tr class="even">
 <td>Los pesos de cada canción y periodo suman 1, y la suma de los streams estimados de las 32 entidades es igual al streams nacional.</td>
 <td><code>slv_pesos_trends</code></td>
 </tr>
@@ -649,8 +652,8 @@ flowchart LR
 <tr class="odd">
 <td><code>dim_cancion</code></td>
 <td><code>slv_canciones</code></td>
-<td><code>stg_kaggle_charts_mx</code>, <code>stg_top73_mx</code>, <code>stg_kworb_mx_diario</code>, <code>stg_musicbrainz_tags</code>, <code>stg_misongyny</code></td>
-<td>F4, F5, F6, F7, F8, F12, F19</td>
+<td><code>stg_kworb_mx_semanal</code>, <code>stg_musicbrainz_tags</code>, <code>stg_misongyny</code></td>
+<td>F4, F6, F7, F8, F19</td>
 </tr>
 <tr class="even">
 <td><code>dim_tipo_violencia</code></td>
@@ -667,8 +670,8 @@ flowchart LR
 <tr class="even">
 <td><code>fact_consumo_musical</code></td>
 <td><code>slv_charts_mes</code>, <code>slv_pesos_trends</code></td>
-<td><code>stg_kaggle_charts_mx</code>, <code>stg_top73_mx</code>, <code>stg_kworb_mx_diario</code>, <code>stg_trends_*</code></td>
-<td>F4, F5, F11, F12; F3 y F16 para el peso</td>
+<td><code>stg_kworb_mx_semanal</code>, <code>stg_trends_*</code></td>
+<td>F4, F11; F3 y F16 para el peso; F5 valida</td>
 </tr>
 <tr class="odd">
 <td><code>fact_violencia</code></td>
@@ -726,7 +729,7 @@ flowchart LR
 <tr class="even">
 <td><code>p3_tendencia_tipo_violencia</code></td>
 <td>P3</td>
-<td>Participación mensual con <code>SUM() OVER</code>, media móvil de 12 meses y cambio anual con marcos <code>RANGE</code>, que respetan el hueco de 2022–2023.</td>
+<td>Participación mensual con <code>SUM() OVER</code>, media móvil de 12 meses y cambio anual con marcos <code>RANGE</code>, que cuentan meses de calendario aunque falte alguno.</td>
 </tr>
 <tr class="odd">
 <td><code>p4_tipos_musica_vs_oficial</code></td>
@@ -752,335 +755,322 @@ flowchart LR
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">-- Reglas que siguen todas las vistas:</span></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">--   * El consumo nacional es la suma de las 32 entidades (el reparto</span></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">--     conserva el total), así que no existe una fila "Nacional".</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">--   * La proporción misógina solo cuenta canciones clasificadas</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">--     (es_misogina no nulo); la cobertura se reporta aparte.</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">--   * Todo resultado por entidad es una estimación y se marca así.</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">-- =====================================================================</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">-- ---------------------------------------------------------------------</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">-- P1a. Proporción misógina del consumo nacional por año, macrogénero y</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">--      género, con subtotales (ROLLUP) y marcas de subtotal (GROUPING).</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">--      Primero se vuelve al nivel nacional por canción y mes: las medidas</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co">--      estimadas se suman entre entidades y los datos nacionales repetidos</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co">--      se toman una sola vez (MAX).</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">--   * Los datos nacionales repetidos en cada entidad (semanas en el</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">--     chart, mejor posición) se toman una sola vez por canción y mes.</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">--   * La proporción misógina solo cuenta canciones clasificadas</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">--     (es_misogina no nulo); la cobertura se reporta aparte.</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">--   * Todo resultado por entidad es una estimación y se marca así.</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">-- =====================================================================</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">-- ---------------------------------------------------------------------</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">-- P1a. Proporción misógina del consumo nacional por año, macrogénero y</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co">--      género, con subtotales (ROLLUP) y marcas de subtotal (GROUPING).</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co">--      Primero se vuelve al nivel nacional por canción y mes.</span></span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co">-- ---------------------------------------------------------------------</span></span>
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">OR</span> <span class="kw">REPLACE</span> <span class="kw">VIEW</span> misoginia_mart.p1_proporcion_misogina_genero <span class="kw">AS</span></span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> nacional <span class="kw">AS</span> (</span>
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span></span>
 <span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    f.fecha_key,</span>
 <span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    f.cancion_key,</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">SUM</span>(f.streams_estimados)      <span class="kw">AS</span> streams,</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">SUM</span>(f.puntos_top50_estimados) <span class="kw">AS</span> puntos,</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">MAX</span>(f.dias_en_chart_nacional) <span class="kw">AS</span> dias_en_chart,</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">MAX</span>(f.popularidad_nacional)   <span class="kw">AS</span> popularidad</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> misoginia_dw.fact_consumo_musical <span class="kw">AS</span> f</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> f.fecha_key, f.cancion_key</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>  d.anio,</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>  c.macrogenero,</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>  c.genero,</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">GROUPING</span>(d.anio)        <span class="kw">AS</span> es_total_anios,</span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">GROUPING</span>(c.macrogenero) <span class="kw">AS</span> es_total_macrogeneros,</span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">GROUPING</span>(c.genero)      <span class="kw">AS</span> es_total_generos,</span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">COUNT</span>(<span class="kw">DISTINCT</span> n.cancion_key) <span class="kw">AS</span> canciones,</span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">SUM</span>(n.streams) <span class="kw">AS</span> streams,</span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>  SAFE_DIVIDE(<span class="fu">SUM</span>(<span class="cf">IF</span>(c.es_misogina, n.streams, <span class="dv">0</span>)),</span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>              <span class="fu">SUM</span>(<span class="cf">IF</span>(c.es_misogina <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span>, n.streams, <span class="dv">0</span>))) <span class="kw">AS</span> proporcion_misogina_streams,</span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>  SAFE_DIVIDE(<span class="fu">SUM</span>(<span class="cf">IF</span>(c.es_misogina, n.puntos, <span class="dv">0</span>)),</span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>              <span class="fu">SUM</span>(<span class="cf">IF</span>(c.es_misogina <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span>, n.puntos, <span class="dv">0</span>))) <span class="kw">AS</span> proporcion_misogina_puntos,</span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>  SAFE_DIVIDE(<span class="fu">SUM</span>(<span class="cf">IF</span>(c.es_misogina, n.dias_en_chart, <span class="dv">0</span>)),</span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>              <span class="fu">SUM</span>(<span class="cf">IF</span>(c.es_misogina <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span>, n.dias_en_chart, <span class="dv">0</span>))) <span class="kw">AS</span> proporcion_misogina_dias,</span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">AVG</span>(<span class="cf">IF</span>(c.es_misogina, n.popularidad, <span class="kw">NULL</span>)) <span class="kw">AS</span> popularidad_promedio_misoginas,</span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>  SAFE_DIVIDE(<span class="fu">SUM</span>(<span class="cf">IF</span>(c.es_misogina <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span>, n.puntos, <span class="dv">0</span>)),</span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>              <span class="fu">SUM</span>(n.puntos)) <span class="kw">AS</span> cobertura_clasificada,</span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>  SAFE_DIVIDE(<span class="fu">SUM</span>(<span class="cf">IF</span>(c.origen_etiqueta <span class="op">=</span> <span class="st">'misongyny'</span>, n.puntos, <span class="dv">0</span>)),</span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>              <span class="fu">SUM</span>(<span class="cf">IF</span>(c.es_misogina <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span>, n.puntos, <span class="dv">0</span>))) <span class="kw">AS</span> pct_etiqueta_humana</span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> nacional <span class="kw">AS</span> n</span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> misoginia_dw.dim_fecha   <span class="kw">AS</span> d <span class="kw">ON</span> d.fecha_key <span class="op">=</span> n.fecha_key</span>
-<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> misoginia_dw.dim_cancion <span class="kw">AS</span> c <span class="kw">ON</span> c.cancion_key <span class="op">=</span> n.cancion_key</span>
-<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> <span class="kw">ROLLUP</span> (d.anio, c.macrogenero, c.genero);</span>
-<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="co">-- ---------------------------------------------------------------------</span></span>
-<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a><span class="co">-- P1b. Proporción misógina estimada por entidad y año, con el lugar de</span></span>
-<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a><span class="co">--      cada entidad en el año (RANK) y su distancia al promedio estatal.</span></span>
-<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a><span class="co">--      pct_peso_artista indica qué parte del consumo se repartió con</span></span>
-<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a><span class="co">--      Trends del propio artista (el resto usa el género o los usuarios</span></span>
-<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="co">--      de internet).</span></span>
-<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a><span class="co">-- ---------------------------------------------------------------------</span></span>
-<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">OR</span> <span class="kw">REPLACE</span> <span class="kw">VIEW</span> misoginia_mart.p1_proporcion_misogina_entidad <span class="kw">AS</span></span>
-<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> base <span class="kw">AS</span> (</span>
-<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span></span>
-<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>    d.anio,</span>
-<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>    e.cve_ent,</span>
-<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>    e.entidad,</span>
-<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>    <span class="fu">SUM</span>(<span class="cf">IF</span>(c.es_misogina, f.streams_estimados, <span class="dv">0</span>))             <span class="kw">AS</span> streams_misoginos,</span>
-<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>    <span class="fu">SUM</span>(<span class="cf">IF</span>(c.es_misogina <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span>, f.streams_estimados, <span class="dv">0</span>)) <span class="kw">AS</span> streams_clasificados,</span>
-<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>    <span class="fu">SUM</span>(<span class="cf">IF</span>(c.es_misogina, f.puntos_top50_estimados, <span class="dv">0</span>))             <span class="kw">AS</span> puntos_misoginos,</span>
-<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>    <span class="fu">SUM</span>(<span class="cf">IF</span>(c.es_misogina <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span>, f.puntos_top50_estimados, <span class="dv">0</span>)) <span class="kw">AS</span> puntos_clasificados,</span>
-<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>    <span class="fu">SUM</span>(<span class="cf">IF</span>(STARTS_WITH(f.origen_peso, <span class="st">'artista'</span>), f.puntos_top50_estimados, <span class="dv">0</span>)) <span class="kw">AS</span> puntos_peso_artista,</span>
-<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>    <span class="fu">SUM</span>(f.puntos_top50_estimados) <span class="kw">AS</span> puntos_totales</span>
-<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> misoginia_dw.fact_consumo_musical <span class="kw">AS</span> f</span>
-<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>  <span class="kw">JOIN</span> misoginia_dw.dim_fecha   <span class="kw">AS</span> d <span class="kw">ON</span> d.fecha_key <span class="op">=</span> f.fecha_key</span>
-<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>  <span class="kw">JOIN</span> misoginia_dw.dim_entidad <span class="kw">AS</span> e <span class="kw">ON</span> e.entidad_key <span class="op">=</span> f.entidad_key</span>
-<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>  <span class="kw">JOIN</span> misoginia_dw.dim_cancion <span class="kw">AS</span> c <span class="kw">ON</span> c.cancion_key <span class="op">=</span> f.cancion_key</span>
-<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> d.anio, e.cve_ent, e.entidad</span>
-<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>),</span>
-<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>indicadores <span class="kw">AS</span> (</span>
-<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span></span>
-<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a>    anio,</span>
-<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>    cve_ent,</span>
-<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>    entidad,</span>
-<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a>    SAFE_DIVIDE(streams_misoginos, streams_clasificados) <span class="kw">AS</span> proporcion_misogina_streams,</span>
-<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a>    SAFE_DIVIDE(puntos_misoginos, puntos_clasificados)   <span class="kw">AS</span> proporcion_misogina_puntos,</span>
-<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a>    SAFE_DIVIDE(puntos_peso_artista, puntos_totales)     <span class="kw">AS</span> pct_peso_artista</span>
-<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> base</span>
-<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
-<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a>  anio,</span>
-<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a>  cve_ent,</span>
-<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a>  entidad,</span>
-<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a>  proporcion_misogina_streams,</span>
-<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a>  proporcion_misogina_puntos,</span>
-<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a>  pct_peso_artista,</span>
-<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a>  <span class="fu">RANK</span>() <span class="kw">OVER</span> (<span class="kw">PARTITION</span> <span class="kw">BY</span> anio <span class="kw">ORDER</span> <span class="kw">BY</span> proporcion_misogina_puntos <span class="kw">DESC</span>) <span class="kw">AS</span> lugar_en_el_anio,</span>
-<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a>  proporcion_misogina_puntos</span>
-<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a>    <span class="op">-</span> <span class="fu">AVG</span>(proporcion_misogina_puntos) <span class="kw">OVER</span> (<span class="kw">PARTITION</span> <span class="kw">BY</span> anio) <span class="kw">AS</span> diferencia_vs_promedio_estatal,</span>
-<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a>  <span class="kw">TRUE</span> <span class="kw">AS</span> es_estimacion</span>
-<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> indicadores;</span>
-<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a><span class="co">-- ---------------------------------------------------------------------</span></span>
-<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a><span class="co">-- P2a. Serie mensual nacional: proporción misógina del consumo frente a</span></span>
-<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a><span class="co">--      las tasas por 100 mil mujeres de cada tipo de violencia.</span></span>
-<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a><span class="co">-- ---------------------------------------------------------------------</span></span>
-<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">OR</span> <span class="kw">REPLACE</span> <span class="kw">VIEW</span> misoginia_mart.p2_serie_mensual_nacional <span class="kw">AS</span></span>
-<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> musica <span class="kw">AS</span> (</span>
-<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span></span>
-<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a>    f.fecha_key,</span>
-<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a>    SAFE_DIVIDE(<span class="fu">SUM</span>(<span class="cf">IF</span>(c.es_misogina, f.streams_estimados, <span class="dv">0</span>)),</span>
-<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a>                <span class="fu">SUM</span>(<span class="cf">IF</span>(c.es_misogina <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span>, f.streams_estimados, <span class="dv">0</span>))) <span class="kw">AS</span> proporcion_misogina_streams,</span>
-<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a>    SAFE_DIVIDE(<span class="fu">SUM</span>(<span class="cf">IF</span>(c.es_misogina, f.puntos_top50_estimados, <span class="dv">0</span>)),</span>
-<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a>                <span class="fu">SUM</span>(<span class="cf">IF</span>(c.es_misogina <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span>, f.puntos_top50_estimados, <span class="dv">0</span>))) <span class="kw">AS</span> proporcion_misogina_puntos</span>
-<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> misoginia_dw.fact_consumo_musical <span class="kw">AS</span> f</span>
-<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a>  <span class="kw">JOIN</span> misoginia_dw.dim_cancion <span class="kw">AS</span> c <span class="kw">ON</span> c.cancion_key <span class="op">=</span> f.cancion_key</span>
-<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> f.fecha_key</span>
-<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a>),</span>
-<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a>violencia <span class="kw">AS</span> (</span>
-<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span></span>
-<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a>    v.fecha_key,</span>
-<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a>    t.tipo_lgamvlv,</span>
-<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a>    t.es_control,</span>
-<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a>    <span class="fu">SUM</span>(v.carpetas)         <span class="kw">AS</span> carpetas,</span>
-<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a>    <span class="fu">SUM</span>(v.victimas_mujeres) <span class="kw">AS</span> victimas_mujeres</span>
-<span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> misoginia_dw.fact_violencia <span class="kw">AS</span> v</span>
-<span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a>  <span class="kw">JOIN</span> misoginia_dw.dim_tipo_violencia <span class="kw">AS</span> t <span class="kw">ON</span> t.tipo_violencia_key <span class="op">=</span> v.tipo_violencia_key</span>
-<span id="cb1-133"><a href="#cb1-133" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> v.fecha_key, t.tipo_lgamvlv, t.es_control</span>
-<span id="cb1-134"><a href="#cb1-134" aria-hidden="true" tabindex="-1"></a>),</span>
-<span id="cb1-135"><a href="#cb1-135" aria-hidden="true" tabindex="-1"></a>poblacion <span class="kw">AS</span> (</span>
-<span id="cb1-136"><a href="#cb1-136" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> anio, <span class="fu">SUM</span>(poblacion_mujeres) <span class="kw">AS</span> mujeres</span>
-<span id="cb1-137"><a href="#cb1-137" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> misoginia_dw.dim_contexto_entidad</span>
-<span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a>  <span class="kw">WHERE</span> <span class="kw">NOT</span> es_nacional</span>
-<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> anio</span>
-<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
-<span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a>  d.fecha,</span>
-<span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a>  d.anio,</span>
-<span id="cb1-144"><a href="#cb1-144" aria-hidden="true" tabindex="-1"></a>  d.mes,</span>
-<span id="cb1-145"><a href="#cb1-145" aria-hidden="true" tabindex="-1"></a>  d.etapa_covid,</span>
-<span id="cb1-146"><a href="#cb1-146" aria-hidden="true" tabindex="-1"></a>  d.evento_restriccion_musical,</span>
-<span id="cb1-147"><a href="#cb1-147" aria-hidden="true" tabindex="-1"></a>  vi.tipo_lgamvlv,</span>
-<span id="cb1-148"><a href="#cb1-148" aria-hidden="true" tabindex="-1"></a>  vi.es_control,</span>
-<span id="cb1-149"><a href="#cb1-149" aria-hidden="true" tabindex="-1"></a>  mu.proporcion_misogina_streams,</span>
-<span id="cb1-150"><a href="#cb1-150" aria-hidden="true" tabindex="-1"></a>  mu.proporcion_misogina_puntos,</span>
-<span id="cb1-151"><a href="#cb1-151" aria-hidden="true" tabindex="-1"></a>  vi.carpetas,</span>
-<span id="cb1-152"><a href="#cb1-152" aria-hidden="true" tabindex="-1"></a>  vi.victimas_mujeres,</span>
-<span id="cb1-153"><a href="#cb1-153" aria-hidden="true" tabindex="-1"></a>  SAFE_DIVIDE(vi.carpetas, p.mujeres) <span class="op">*</span> <span class="dv">100000</span>         <span class="kw">AS</span> tasa_carpetas_100k_mujeres,</span>
-<span id="cb1-154"><a href="#cb1-154" aria-hidden="true" tabindex="-1"></a>  SAFE_DIVIDE(vi.victimas_mujeres, p.mujeres) <span class="op">*</span> <span class="dv">100000</span> <span class="kw">AS</span> tasa_victimas_100k_mujeres,</span>
-<span id="cb1-155"><a href="#cb1-155" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- Indicador de cada tipo: carpetas en delitos del SESNSP;</span></span>
-<span id="cb1-156"><a href="#cb1-156" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- mujeres desaparecidas en el RNPDNO, que no tiene carpetas</span></span>
-<span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a>  SAFE_DIVIDE(<span class="fu">COALESCE</span>(vi.carpetas, vi.victimas_mujeres), p.mujeres) <span class="op">*</span> <span class="dv">100000</span> <span class="kw">AS</span> tasa_indicador_100k_mujeres</span>
-<span id="cb1-158"><a href="#cb1-158" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> violencia <span class="kw">AS</span> vi</span>
-<span id="cb1-159"><a href="#cb1-159" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> misoginia_dw.dim_fecha <span class="kw">AS</span> d <span class="kw">ON</span> d.fecha_key <span class="op">=</span> vi.fecha_key</span>
-<span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> poblacion <span class="kw">AS</span> p <span class="kw">ON</span> p.anio <span class="op">=</span> d.anio</span>
-<span id="cb1-161"><a href="#cb1-161" aria-hidden="true" tabindex="-1"></a><span class="kw">LEFT</span> <span class="kw">JOIN</span> musica <span class="kw">AS</span> mu <span class="kw">ON</span> mu.fecha_key <span class="op">=</span> vi.fecha_key;</span>
-<span id="cb1-162"><a href="#cb1-162" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-163"><a href="#cb1-163" aria-hidden="true" tabindex="-1"></a><span class="co">-- ---------------------------------------------------------------------</span></span>
-<span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a><span class="co">-- P2b. Coeficiente de correlación nacional por tipo de violencia, con el</span></span>
-<span id="cb1-165"><a href="#cb1-165" aria-hidden="true" tabindex="-1"></a><span class="co">--      número de meses que entran (solo meses con streams).</span></span>
-<span id="cb1-166"><a href="#cb1-166" aria-hidden="true" tabindex="-1"></a><span class="co">-- ---------------------------------------------------------------------</span></span>
-<span id="cb1-167"><a href="#cb1-167" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">OR</span> <span class="kw">REPLACE</span> <span class="kw">VIEW</span> misoginia_mart.p2_correlacion_nacional <span class="kw">AS</span></span>
-<span id="cb1-168"><a href="#cb1-168" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
-<span id="cb1-169"><a href="#cb1-169" aria-hidden="true" tabindex="-1"></a>  tipo_lgamvlv,</span>
-<span id="cb1-170"><a href="#cb1-170" aria-hidden="true" tabindex="-1"></a>  es_control,</span>
-<span id="cb1-171"><a href="#cb1-171" aria-hidden="true" tabindex="-1"></a>  COUNTIF(proporcion_misogina_streams <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">AND</span> tasa_indicador_100k_mujeres <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span>) <span class="kw">AS</span> n_meses,</span>
-<span id="cb1-172"><a href="#cb1-172" aria-hidden="true" tabindex="-1"></a>  <span class="fu">CORR</span>(proporcion_misogina_streams, tasa_indicador_100k_mujeres) <span class="kw">AS</span> correlacion_pearson</span>
-<span id="cb1-173"><a href="#cb1-173" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> misoginia_mart.p2_serie_mensual_nacional</span>
-<span id="cb1-174"><a href="#cb1-174" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> tipo_lgamvlv, es_control;</span>
-<span id="cb1-175"><a href="#cb1-175" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-176"><a href="#cb1-176" aria-hidden="true" tabindex="-1"></a><span class="co">-- ---------------------------------------------------------------------</span></span>
-<span id="cb1-177"><a href="#cb1-177" aria-hidden="true" tabindex="-1"></a><span class="co">-- P2c. Panel entidad-año: proporción misógina estimada frente a tasas</span></span>
-<span id="cb1-178"><a href="#cb1-178" aria-hidden="true" tabindex="-1"></a><span class="co">--      oficiales, con variables de control. CORR como función de ventana:</span></span>
-<span id="cb1-179"><a href="#cb1-179" aria-hidden="true" tabindex="-1"></a><span class="co">--      entre estados para cada año y con todos los años juntos.</span></span>
-<span id="cb1-180"><a href="#cb1-180" aria-hidden="true" tabindex="-1"></a><span class="co">-- ---------------------------------------------------------------------</span></span>
-<span id="cb1-181"><a href="#cb1-181" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">OR</span> <span class="kw">REPLACE</span> <span class="kw">VIEW</span> misoginia_mart.p2_panel_entidad_anio <span class="kw">AS</span></span>
-<span id="cb1-182"><a href="#cb1-182" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> violencia <span class="kw">AS</span> (</span>
-<span id="cb1-183"><a href="#cb1-183" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span></span>
-<span id="cb1-184"><a href="#cb1-184" aria-hidden="true" tabindex="-1"></a>    d.anio,</span>
-<span id="cb1-185"><a href="#cb1-185" aria-hidden="true" tabindex="-1"></a>    e.cve_ent,</span>
-<span id="cb1-186"><a href="#cb1-186" aria-hidden="true" tabindex="-1"></a>    t.tipo_lgamvlv,</span>
-<span id="cb1-187"><a href="#cb1-187" aria-hidden="true" tabindex="-1"></a>    v.contexto_key,</span>
-<span id="cb1-188"><a href="#cb1-188" aria-hidden="true" tabindex="-1"></a>    <span class="fu">SUM</span>(v.carpetas)         <span class="kw">AS</span> carpetas,</span>
-<span id="cb1-189"><a href="#cb1-189" aria-hidden="true" tabindex="-1"></a>    <span class="fu">SUM</span>(v.victimas_mujeres) <span class="kw">AS</span> victimas_mujeres</span>
-<span id="cb1-190"><a href="#cb1-190" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> misoginia_dw.fact_violencia <span class="kw">AS</span> v</span>
-<span id="cb1-191"><a href="#cb1-191" aria-hidden="true" tabindex="-1"></a>  <span class="kw">JOIN</span> misoginia_dw.dim_fecha          <span class="kw">AS</span> d <span class="kw">ON</span> d.fecha_key <span class="op">=</span> v.fecha_key</span>
-<span id="cb1-192"><a href="#cb1-192" aria-hidden="true" tabindex="-1"></a>  <span class="kw">JOIN</span> misoginia_dw.dim_entidad        <span class="kw">AS</span> e <span class="kw">ON</span> e.entidad_key <span class="op">=</span> v.entidad_key</span>
-<span id="cb1-193"><a href="#cb1-193" aria-hidden="true" tabindex="-1"></a>  <span class="kw">JOIN</span> misoginia_dw.dim_tipo_violencia <span class="kw">AS</span> t <span class="kw">ON</span> t.tipo_violencia_key <span class="op">=</span> v.tipo_violencia_key</span>
-<span id="cb1-194"><a href="#cb1-194" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> d.anio, e.cve_ent, t.tipo_lgamvlv, v.contexto_key</span>
-<span id="cb1-195"><a href="#cb1-195" aria-hidden="true" tabindex="-1"></a>),</span>
-<span id="cb1-196"><a href="#cb1-196" aria-hidden="true" tabindex="-1"></a>panel <span class="kw">AS</span> (</span>
-<span id="cb1-197"><a href="#cb1-197" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span></span>
-<span id="cb1-198"><a href="#cb1-198" aria-hidden="true" tabindex="-1"></a>    m.anio,</span>
-<span id="cb1-199"><a href="#cb1-199" aria-hidden="true" tabindex="-1"></a>    m.cve_ent,</span>
-<span id="cb1-200"><a href="#cb1-200" aria-hidden="true" tabindex="-1"></a>    m.entidad,</span>
-<span id="cb1-201"><a href="#cb1-201" aria-hidden="true" tabindex="-1"></a>    vi.tipo_lgamvlv,</span>
-<span id="cb1-202"><a href="#cb1-202" aria-hidden="true" tabindex="-1"></a>    m.proporcion_misogina_streams,</span>
-<span id="cb1-203"><a href="#cb1-203" aria-hidden="true" tabindex="-1"></a>    m.proporcion_misogina_puntos,</span>
-<span id="cb1-204"><a href="#cb1-204" aria-hidden="true" tabindex="-1"></a>    m.pct_peso_artista,</span>
-<span id="cb1-205"><a href="#cb1-205" aria-hidden="true" tabindex="-1"></a>    SAFE_DIVIDE(vi.carpetas, ctx.poblacion_mujeres) <span class="op">*</span> <span class="dv">100000</span>         <span class="kw">AS</span> tasa_carpetas_100k_mujeres,</span>
-<span id="cb1-206"><a href="#cb1-206" aria-hidden="true" tabindex="-1"></a>    SAFE_DIVIDE(vi.victimas_mujeres, ctx.poblacion_mujeres) <span class="op">*</span> <span class="dv">100000</span> <span class="kw">AS</span> tasa_victimas_100k_mujeres,</span>
-<span id="cb1-207"><a href="#cb1-207" aria-hidden="true" tabindex="-1"></a>    SAFE_DIVIDE(<span class="fu">COALESCE</span>(vi.carpetas, vi.victimas_mujeres), ctx.poblacion_mujeres) <span class="op">*</span> <span class="dv">100000</span> <span class="kw">AS</span> tasa_indicador_100k_mujeres,</span>
-<span id="cb1-208"><a href="#cb1-208" aria-hidden="true" tabindex="-1"></a>    ctx.pct_usuarios_internet,</span>
-<span id="cb1-209"><a href="#cb1-209" aria-hidden="true" tabindex="-1"></a>    ctx.pct_pobreza,</span>
-<span id="cb1-210"><a href="#cb1-210" aria-hidden="true" tabindex="-1"></a>    ctx.indice_impunidad</span>
-<span id="cb1-211"><a href="#cb1-211" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> misoginia_mart.p1_proporcion_misogina_entidad <span class="kw">AS</span> m</span>
-<span id="cb1-212"><a href="#cb1-212" aria-hidden="true" tabindex="-1"></a>  <span class="kw">JOIN</span> violencia <span class="kw">AS</span> vi <span class="kw">ON</span> vi.cve_ent <span class="op">=</span> m.cve_ent <span class="kw">AND</span> vi.anio <span class="op">=</span> m.anio</span>
-<span id="cb1-213"><a href="#cb1-213" aria-hidden="true" tabindex="-1"></a>  <span class="kw">JOIN</span> misoginia_dw.dim_contexto_entidad <span class="kw">AS</span> ctx <span class="kw">ON</span> ctx.contexto_key <span class="op">=</span> vi.contexto_key</span>
-<span id="cb1-214"><a href="#cb1-214" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-215"><a href="#cb1-215" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
-<span id="cb1-216"><a href="#cb1-216" aria-hidden="true" tabindex="-1"></a>  anio,</span>
-<span id="cb1-217"><a href="#cb1-217" aria-hidden="true" tabindex="-1"></a>  cve_ent,</span>
-<span id="cb1-218"><a href="#cb1-218" aria-hidden="true" tabindex="-1"></a>  entidad,</span>
-<span id="cb1-219"><a href="#cb1-219" aria-hidden="true" tabindex="-1"></a>  tipo_lgamvlv,</span>
-<span id="cb1-220"><a href="#cb1-220" aria-hidden="true" tabindex="-1"></a>  proporcion_misogina_streams,</span>
-<span id="cb1-221"><a href="#cb1-221" aria-hidden="true" tabindex="-1"></a>  proporcion_misogina_puntos,</span>
-<span id="cb1-222"><a href="#cb1-222" aria-hidden="true" tabindex="-1"></a>  pct_peso_artista,</span>
-<span id="cb1-223"><a href="#cb1-223" aria-hidden="true" tabindex="-1"></a>  tasa_carpetas_100k_mujeres,</span>
-<span id="cb1-224"><a href="#cb1-224" aria-hidden="true" tabindex="-1"></a>  tasa_victimas_100k_mujeres,</span>
-<span id="cb1-225"><a href="#cb1-225" aria-hidden="true" tabindex="-1"></a>  tasa_indicador_100k_mujeres,</span>
-<span id="cb1-226"><a href="#cb1-226" aria-hidden="true" tabindex="-1"></a>  pct_usuarios_internet,</span>
-<span id="cb1-227"><a href="#cb1-227" aria-hidden="true" tabindex="-1"></a>  pct_pobreza,</span>
-<span id="cb1-228"><a href="#cb1-228" aria-hidden="true" tabindex="-1"></a>  indice_impunidad,</span>
-<span id="cb1-229"><a href="#cb1-229" aria-hidden="true" tabindex="-1"></a>  <span class="fu">CORR</span>(proporcion_misogina_puntos, tasa_indicador_100k_mujeres)</span>
-<span id="cb1-230"><a href="#cb1-230" aria-hidden="true" tabindex="-1"></a>    <span class="kw">OVER</span> (<span class="kw">PARTITION</span> <span class="kw">BY</span> tipo_lgamvlv, anio) <span class="kw">AS</span> correlacion_entre_estados_del_anio,</span>
-<span id="cb1-231"><a href="#cb1-231" aria-hidden="true" tabindex="-1"></a>  <span class="fu">CORR</span>(proporcion_misogina_puntos, tasa_indicador_100k_mujeres)</span>
-<span id="cb1-232"><a href="#cb1-232" aria-hidden="true" tabindex="-1"></a>    <span class="kw">OVER</span> (<span class="kw">PARTITION</span> <span class="kw">BY</span> tipo_lgamvlv)       <span class="kw">AS</span> correlacion_panel_completo,</span>
-<span id="cb1-233"><a href="#cb1-233" aria-hidden="true" tabindex="-1"></a>  <span class="kw">TRUE</span> <span class="kw">AS</span> es_estimacion</span>
-<span id="cb1-234"><a href="#cb1-234" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> panel;</span>
-<span id="cb1-235"><a href="#cb1-235" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-236"><a href="#cb1-236" aria-hidden="true" tabindex="-1"></a><span class="co">-- ---------------------------------------------------------------------</span></span>
-<span id="cb1-237"><a href="#cb1-237" aria-hidden="true" tabindex="-1"></a><span class="co">-- P3. Evolución mensual nacional de cada tipo de violencia en la música:</span></span>
-<span id="cb1-238"><a href="#cb1-238" aria-hidden="true" tabindex="-1"></a><span class="co">--     participación en el consumo, media móvil de 12 meses y cambio</span></span>
-<span id="cb1-239"><a href="#cb1-239" aria-hidden="true" tabindex="-1"></a><span class="co">--     contra el mismo mes del año anterior. Los marcos RANGE sobre</span></span>
-<span id="cb1-240"><a href="#cb1-240" aria-hidden="true" tabindex="-1"></a><span class="co">--     indice_mes respetan el hueco de 2022-2023 (no lo saltan como si</span></span>
-<span id="cb1-241"><a href="#cb1-241" aria-hidden="true" tabindex="-1"></a><span class="co">--     fueran meses contiguos).</span></span>
-<span id="cb1-242"><a href="#cb1-242" aria-hidden="true" tabindex="-1"></a><span class="co">-- ---------------------------------------------------------------------</span></span>
-<span id="cb1-243"><a href="#cb1-243" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">OR</span> <span class="kw">REPLACE</span> <span class="kw">VIEW</span> misoginia_mart.p3_tendencia_tipo_violencia <span class="kw">AS</span></span>
-<span id="cb1-244"><a href="#cb1-244" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> mensual <span class="kw">AS</span> (</span>
-<span id="cb1-245"><a href="#cb1-245" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span></span>
-<span id="cb1-246"><a href="#cb1-246" aria-hidden="true" tabindex="-1"></a>    d.fecha,</span>
-<span id="cb1-247"><a href="#cb1-247" aria-hidden="true" tabindex="-1"></a>    d.indice_mes,</span>
-<span id="cb1-248"><a href="#cb1-248" aria-hidden="true" tabindex="-1"></a>    d.periodo_datos_musica,</span>
-<span id="cb1-249"><a href="#cb1-249" aria-hidden="true" tabindex="-1"></a>    d.etapa_covid,</span>
-<span id="cb1-250"><a href="#cb1-250" aria-hidden="true" tabindex="-1"></a>    t.tipo_lgamvlv,</span>
-<span id="cb1-251"><a href="#cb1-251" aria-hidden="true" tabindex="-1"></a>    <span class="fu">SUM</span>(f.puntos_top50_estimados) <span class="kw">AS</span> puntos,</span>
-<span id="cb1-252"><a href="#cb1-252" aria-hidden="true" tabindex="-1"></a>    <span class="fu">SUM</span>(f.streams_estimados)      <span class="kw">AS</span> streams,</span>
-<span id="cb1-253"><a href="#cb1-253" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- El dato nacional se repite igual en las 32 entidades: el promedio no cambia</span></span>
-<span id="cb1-254"><a href="#cb1-254" aria-hidden="true" tabindex="-1"></a>    <span class="fu">AVG</span>(f.mejor_posicion_nacional) <span class="kw">AS</span> posicion_promedio</span>
-<span id="cb1-255"><a href="#cb1-255" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> misoginia_dw.fact_consumo_musical <span class="kw">AS</span> f</span>
-<span id="cb1-256"><a href="#cb1-256" aria-hidden="true" tabindex="-1"></a>  <span class="kw">JOIN</span> misoginia_dw.dim_fecha          <span class="kw">AS</span> d <span class="kw">ON</span> d.fecha_key <span class="op">=</span> f.fecha_key</span>
-<span id="cb1-257"><a href="#cb1-257" aria-hidden="true" tabindex="-1"></a>  <span class="kw">JOIN</span> misoginia_dw.dim_cancion        <span class="kw">AS</span> c <span class="kw">ON</span> c.cancion_key <span class="op">=</span> f.cancion_key</span>
-<span id="cb1-258"><a href="#cb1-258" aria-hidden="true" tabindex="-1"></a>  <span class="kw">JOIN</span> misoginia_dw.dim_tipo_violencia <span class="kw">AS</span> t <span class="kw">ON</span> t.tipo_violencia_key <span class="op">=</span> f.tipo_violencia_key</span>
-<span id="cb1-259"><a href="#cb1-259" aria-hidden="true" tabindex="-1"></a>  <span class="kw">WHERE</span> c.es_misogina <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span></span>
-<span id="cb1-260"><a href="#cb1-260" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> d.fecha, d.indice_mes, d.periodo_datos_musica, d.etapa_covid, t.tipo_lgamvlv</span>
-<span id="cb1-261"><a href="#cb1-261" aria-hidden="true" tabindex="-1"></a>),</span>
-<span id="cb1-262"><a href="#cb1-262" aria-hidden="true" tabindex="-1"></a>participacion <span class="kw">AS</span> (</span>
-<span id="cb1-263"><a href="#cb1-263" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span></span>
-<span id="cb1-264"><a href="#cb1-264" aria-hidden="true" tabindex="-1"></a>    <span class="op">*</span>,</span>
-<span id="cb1-265"><a href="#cb1-265" aria-hidden="true" tabindex="-1"></a>    SAFE_DIVIDE(puntos, <span class="fu">SUM</span>(puntos) <span class="kw">OVER</span> (<span class="kw">PARTITION</span> <span class="kw">BY</span> indice_mes)) <span class="kw">AS</span> participacion</span>
-<span id="cb1-266"><a href="#cb1-266" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> mensual</span>
-<span id="cb1-267"><a href="#cb1-267" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-268"><a href="#cb1-268" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
-<span id="cb1-269"><a href="#cb1-269" aria-hidden="true" tabindex="-1"></a>  fecha,</span>
-<span id="cb1-270"><a href="#cb1-270" aria-hidden="true" tabindex="-1"></a>  periodo_datos_musica,</span>
-<span id="cb1-271"><a href="#cb1-271" aria-hidden="true" tabindex="-1"></a>  etapa_covid,</span>
-<span id="cb1-272"><a href="#cb1-272" aria-hidden="true" tabindex="-1"></a>  tipo_lgamvlv,</span>
-<span id="cb1-273"><a href="#cb1-273" aria-hidden="true" tabindex="-1"></a>  puntos,</span>
-<span id="cb1-274"><a href="#cb1-274" aria-hidden="true" tabindex="-1"></a>  streams,</span>
-<span id="cb1-275"><a href="#cb1-275" aria-hidden="true" tabindex="-1"></a>  posicion_promedio,</span>
-<span id="cb1-276"><a href="#cb1-276" aria-hidden="true" tabindex="-1"></a>  participacion,</span>
-<span id="cb1-277"><a href="#cb1-277" aria-hidden="true" tabindex="-1"></a>  <span class="fu">AVG</span>(participacion) <span class="kw">OVER</span> (<span class="kw">PARTITION</span> <span class="kw">BY</span> tipo_lgamvlv <span class="kw">ORDER</span> <span class="kw">BY</span> indice_mes</span>
-<span id="cb1-278"><a href="#cb1-278" aria-hidden="true" tabindex="-1"></a>                           <span class="kw">RANGE</span> <span class="kw">BETWEEN</span> <span class="dv">11</span> <span class="kw">PRECEDING</span> <span class="kw">AND</span> <span class="kw">CURRENT</span> <span class="kw">ROW</span>) <span class="kw">AS</span> media_movil_12m,</span>
-<span id="cb1-279"><a href="#cb1-279" aria-hidden="true" tabindex="-1"></a>  participacion <span class="op">-</span> <span class="fu">MAX</span>(participacion) <span class="kw">OVER</span> (<span class="kw">PARTITION</span> <span class="kw">BY</span> tipo_lgamvlv <span class="kw">ORDER</span> <span class="kw">BY</span> indice_mes</span>
-<span id="cb1-280"><a href="#cb1-280" aria-hidden="true" tabindex="-1"></a>                                           <span class="kw">RANGE</span> <span class="kw">BETWEEN</span> <span class="dv">12</span> <span class="kw">PRECEDING</span> <span class="kw">AND</span> <span class="dv">12</span> <span class="kw">PRECEDING</span>) <span class="kw">AS</span> cambio_anual</span>
-<span id="cb1-281"><a href="#cb1-281" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> participacion;</span>
-<span id="cb1-282"><a href="#cb1-282" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-283"><a href="#cb1-283" aria-hidden="true" tabindex="-1"></a><span class="co">-- ---------------------------------------------------------------------</span></span>
-<span id="cb1-284"><a href="#cb1-284" aria-hidden="true" tabindex="-1"></a><span class="co">-- P4. Tipos de violencia: participación en la música misógina, en las</span></span>
-<span id="cb1-285"><a href="#cb1-285" aria-hidden="true" tabindex="-1"></a><span class="co">--     carpetas del SESNSP y prevalencia de la ENDIREH 2021, con el lugar</span></span>
-<span id="cb1-286"><a href="#cb1-286" aria-hidden="true" tabindex="-1"></a><span class="co">--     de cada tipo en cada fuente (RANK). Los tipos sin delito</span></span>
-<span id="cb1-287"><a href="#cb1-287" aria-hidden="true" tabindex="-1"></a><span class="co">--     equivalente aparecen con NULL en la columna oficial. La</span></span>
-<span id="cb1-288"><a href="#cb1-288" aria-hidden="true" tabindex="-1"></a><span class="co">--     desaparición (RNPDNO) no es un tipo de la LGAMVLV y no entra.</span></span>
-<span id="cb1-289"><a href="#cb1-289" aria-hidden="true" tabindex="-1"></a><span class="co">-- ---------------------------------------------------------------------</span></span>
-<span id="cb1-290"><a href="#cb1-290" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">OR</span> <span class="kw">REPLACE</span> <span class="kw">VIEW</span> misoginia_mart.p4_tipos_musica_vs_oficial <span class="kw">AS</span></span>
-<span id="cb1-291"><a href="#cb1-291" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> tipos <span class="kw">AS</span> (</span>
-<span id="cb1-292"><a href="#cb1-292" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> tipo_lgamvlv, LOGICAL_OR(medido_en_sesnsp) <span class="kw">AS</span> medido_en_sesnsp</span>
-<span id="cb1-293"><a href="#cb1-293" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> misoginia_dw.dim_tipo_violencia</span>
-<span id="cb1-294"><a href="#cb1-294" aria-hidden="true" tabindex="-1"></a>  <span class="kw">WHERE</span> <span class="kw">NOT</span> es_control <span class="kw">AND</span> tipo_lgamvlv <span class="kw">NOT</span> <span class="kw">IN</span> (<span class="st">'no aplica'</span>, <span class="st">'desaparición'</span>)</span>
-<span id="cb1-295"><a href="#cb1-295" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> tipo_lgamvlv</span>
-<span id="cb1-296"><a href="#cb1-296" aria-hidden="true" tabindex="-1"></a>),</span>
-<span id="cb1-297"><a href="#cb1-297" aria-hidden="true" tabindex="-1"></a>musica <span class="kw">AS</span> (</span>
-<span id="cb1-298"><a href="#cb1-298" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> t.tipo_lgamvlv, <span class="fu">SUM</span>(f.puntos_top50_estimados) <span class="kw">AS</span> puntos</span>
-<span id="cb1-299"><a href="#cb1-299" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> misoginia_dw.fact_consumo_musical <span class="kw">AS</span> f</span>
-<span id="cb1-300"><a href="#cb1-300" aria-hidden="true" tabindex="-1"></a>  <span class="kw">JOIN</span> misoginia_dw.dim_cancion        <span class="kw">AS</span> c <span class="kw">ON</span> c.cancion_key <span class="op">=</span> f.cancion_key</span>
-<span id="cb1-301"><a href="#cb1-301" aria-hidden="true" tabindex="-1"></a>  <span class="kw">JOIN</span> misoginia_dw.dim_tipo_violencia <span class="kw">AS</span> t <span class="kw">ON</span> t.tipo_violencia_key <span class="op">=</span> f.tipo_violencia_key</span>
-<span id="cb1-302"><a href="#cb1-302" aria-hidden="true" tabindex="-1"></a>  <span class="kw">WHERE</span> c.es_misogina</span>
-<span id="cb1-303"><a href="#cb1-303" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> t.tipo_lgamvlv</span>
-<span id="cb1-304"><a href="#cb1-304" aria-hidden="true" tabindex="-1"></a>),</span>
-<span id="cb1-305"><a href="#cb1-305" aria-hidden="true" tabindex="-1"></a>oficial <span class="kw">AS</span> (</span>
-<span id="cb1-306"><a href="#cb1-306" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> t.tipo_lgamvlv, <span class="fu">SUM</span>(v.carpetas) <span class="kw">AS</span> carpetas</span>
-<span id="cb1-307"><a href="#cb1-307" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> misoginia_dw.fact_violencia <span class="kw">AS</span> v</span>
-<span id="cb1-308"><a href="#cb1-308" aria-hidden="true" tabindex="-1"></a>  <span class="kw">JOIN</span> misoginia_dw.dim_tipo_violencia <span class="kw">AS</span> t <span class="kw">ON</span> t.tipo_violencia_key <span class="op">=</span> v.tipo_violencia_key</span>
-<span id="cb1-309"><a href="#cb1-309" aria-hidden="true" tabindex="-1"></a>  <span class="kw">WHERE</span> <span class="kw">NOT</span> t.es_control</span>
-<span id="cb1-310"><a href="#cb1-310" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> t.tipo_lgamvlv</span>
-<span id="cb1-311"><a href="#cb1-311" aria-hidden="true" tabindex="-1"></a>),</span>
-<span id="cb1-312"><a href="#cb1-312" aria-hidden="true" tabindex="-1"></a>endireh <span class="kw">AS</span> (</span>
-<span id="cb1-313"><a href="#cb1-313" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> tipo_lgamvlv, prevalencia</span>
-<span id="cb1-314"><a href="#cb1-314" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> (</span>
-<span id="cb1-315"><a href="#cb1-315" aria-hidden="true" tabindex="-1"></a>    <span class="kw">SELECT</span> prevalencia_psicologica, prevalencia_fisica, prevalencia_sexual,</span>
-<span id="cb1-316"><a href="#cb1-316" aria-hidden="true" tabindex="-1"></a>           prevalencia_economica_patrimonial</span>
-<span id="cb1-317"><a href="#cb1-317" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FROM</span> misoginia_dw.dim_contexto_entidad</span>
-<span id="cb1-318"><a href="#cb1-318" aria-hidden="true" tabindex="-1"></a>    <span class="kw">WHERE</span> es_nacional <span class="kw">AND</span> anio <span class="op">=</span> <span class="dv">2021</span></span>
-<span id="cb1-319"><a href="#cb1-319" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb1-320"><a href="#cb1-320" aria-hidden="true" tabindex="-1"></a>  UNPIVOT (prevalencia <span class="cf">FOR</span> tipo_lgamvlv <span class="kw">IN</span> (</span>
-<span id="cb1-321"><a href="#cb1-321" aria-hidden="true" tabindex="-1"></a>    prevalencia_psicologica           <span class="kw">AS</span> <span class="st">'psicológica'</span>,</span>
-<span id="cb1-322"><a href="#cb1-322" aria-hidden="true" tabindex="-1"></a>    prevalencia_fisica                <span class="kw">AS</span> <span class="st">'física'</span>,</span>
-<span id="cb1-323"><a href="#cb1-323" aria-hidden="true" tabindex="-1"></a>    prevalencia_sexual                <span class="kw">AS</span> <span class="st">'sexual'</span>,</span>
-<span id="cb1-324"><a href="#cb1-324" aria-hidden="true" tabindex="-1"></a>    prevalencia_economica_patrimonial <span class="kw">AS</span> <span class="st">'económica o patrimonial'</span>))</span>
-<span id="cb1-325"><a href="#cb1-325" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-326"><a href="#cb1-326" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
-<span id="cb1-327"><a href="#cb1-327" aria-hidden="true" tabindex="-1"></a>  tp.tipo_lgamvlv,</span>
-<span id="cb1-328"><a href="#cb1-328" aria-hidden="true" tabindex="-1"></a>  tp.medido_en_sesnsp,</span>
-<span id="cb1-329"><a href="#cb1-329" aria-hidden="true" tabindex="-1"></a>  SAFE_DIVIDE(m.puntos, <span class="fu">SUM</span>(m.puntos) <span class="kw">OVER</span> ())     <span class="kw">AS</span> participacion_musica,</span>
-<span id="cb1-330"><a href="#cb1-330" aria-hidden="true" tabindex="-1"></a>  SAFE_DIVIDE(o.carpetas, <span class="fu">SUM</span>(o.carpetas) <span class="kw">OVER</span> ()) <span class="kw">AS</span> participacion_sesnsp,</span>
-<span id="cb1-331"><a href="#cb1-331" aria-hidden="true" tabindex="-1"></a>  n.prevalencia                                    <span class="kw">AS</span> prevalencia_endireh_2021,</span>
-<span id="cb1-332"><a href="#cb1-332" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- Un tipo sin dato en una fuente no recibe lugar en esa fuente</span></span>
-<span id="cb1-333"><a href="#cb1-333" aria-hidden="true" tabindex="-1"></a>  <span class="cf">IF</span>(m.puntos <span class="kw">IS</span> <span class="kw">NULL</span>, <span class="kw">NULL</span>, <span class="fu">RANK</span>() <span class="kw">OVER</span> (<span class="kw">ORDER</span> <span class="kw">BY</span> m.puntos <span class="kw">DESC</span>))           <span class="kw">AS</span> lugar_musica,</span>
-<span id="cb1-334"><a href="#cb1-334" aria-hidden="true" tabindex="-1"></a>  <span class="cf">IF</span>(o.carpetas <span class="kw">IS</span> <span class="kw">NULL</span>, <span class="kw">NULL</span>, <span class="fu">RANK</span>() <span class="kw">OVER</span> (<span class="kw">ORDER</span> <span class="kw">BY</span> o.carpetas <span class="kw">DESC</span>))       <span class="kw">AS</span> lugar_sesnsp,</span>
-<span id="cb1-335"><a href="#cb1-335" aria-hidden="true" tabindex="-1"></a>  <span class="cf">IF</span>(n.prevalencia <span class="kw">IS</span> <span class="kw">NULL</span>, <span class="kw">NULL</span>, <span class="fu">RANK</span>() <span class="kw">OVER</span> (<span class="kw">ORDER</span> <span class="kw">BY</span> n.prevalencia <span class="kw">DESC</span>)) <span class="kw">AS</span> lugar_endireh</span>
-<span id="cb1-336"><a href="#cb1-336" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> tipos <span class="kw">AS</span> tp</span>
-<span id="cb1-337"><a href="#cb1-337" aria-hidden="true" tabindex="-1"></a><span class="kw">LEFT</span> <span class="kw">JOIN</span> musica  <span class="kw">AS</span> m <span class="kw">ON</span> m.tipo_lgamvlv <span class="op">=</span> tp.tipo_lgamvlv</span>
-<span id="cb1-338"><a href="#cb1-338" aria-hidden="true" tabindex="-1"></a><span class="kw">LEFT</span> <span class="kw">JOIN</span> oficial <span class="kw">AS</span> o <span class="kw">ON</span> o.tipo_lgamvlv <span class="op">=</span> tp.tipo_lgamvlv</span>
-<span id="cb1-339"><a href="#cb1-339" aria-hidden="true" tabindex="-1"></a><span class="kw">LEFT</span> <span class="kw">JOIN</span> endireh <span class="kw">AS</span> n <span class="kw">ON</span> n.tipo_lgamvlv <span class="op">=</span> tp.tipo_lgamvlv;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">SUM</span>(f.streams_estimados)         <span class="kw">AS</span> streams,</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">MAX</span>(f.semanas_en_chart_nacional) <span class="kw">AS</span> semanas_en_chart</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> misoginia_dw.fact_consumo_musical <span class="kw">AS</span> f</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> f.fecha_key, f.cancion_key</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  d.anio,</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>  c.macrogenero,</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>  c.genero,</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">GROUPING</span>(d.anio)        <span class="kw">AS</span> es_total_anios,</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">GROUPING</span>(c.macrogenero) <span class="kw">AS</span> es_total_macrogeneros,</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">GROUPING</span>(c.genero)      <span class="kw">AS</span> es_total_generos,</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">COUNT</span>(<span class="kw">DISTINCT</span> n.cancion_key) <span class="kw">AS</span> canciones,</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">SUM</span>(n.streams) <span class="kw">AS</span> streams,</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>  SAFE_DIVIDE(<span class="fu">SUM</span>(<span class="cf">IF</span>(c.es_misogina, n.streams, <span class="dv">0</span>)),</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>              <span class="fu">SUM</span>(<span class="cf">IF</span>(c.es_misogina <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span>, n.streams, <span class="dv">0</span>))) <span class="kw">AS</span> proporcion_misogina,</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>  SAFE_DIVIDE(<span class="fu">SUM</span>(<span class="cf">IF</span>(c.es_misogina, n.semanas_en_chart, <span class="dv">0</span>)),</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>              <span class="fu">SUM</span>(<span class="cf">IF</span>(c.es_misogina <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span>, n.semanas_en_chart, <span class="dv">0</span>))) <span class="kw">AS</span> proporcion_misogina_semanas,</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>  SAFE_DIVIDE(<span class="fu">SUM</span>(<span class="cf">IF</span>(c.es_misogina <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span>, n.streams, <span class="dv">0</span>)),</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>              <span class="fu">SUM</span>(n.streams)) <span class="kw">AS</span> cobertura_clasificada,</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>  SAFE_DIVIDE(<span class="fu">SUM</span>(<span class="cf">IF</span>(c.origen_etiqueta <span class="op">=</span> <span class="st">'misongyny'</span>, n.streams, <span class="dv">0</span>)),</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>              <span class="fu">SUM</span>(<span class="cf">IF</span>(c.es_misogina <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span>, n.streams, <span class="dv">0</span>))) <span class="kw">AS</span> pct_etiqueta_humana</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> nacional <span class="kw">AS</span> n</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> misoginia_dw.dim_fecha   <span class="kw">AS</span> d <span class="kw">ON</span> d.fecha_key <span class="op">=</span> n.fecha_key</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> misoginia_dw.dim_cancion <span class="kw">AS</span> c <span class="kw">ON</span> c.cancion_key <span class="op">=</span> n.cancion_key</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> <span class="kw">ROLLUP</span> (d.anio, c.macrogenero, c.genero);</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="co">-- ---------------------------------------------------------------------</span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="co">-- P1b. Proporción misógina estimada por entidad y año, con el lugar de</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="co">--      cada entidad en el año (RANK) y su distancia al promedio estatal.</span></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="co">--      pct_peso_artista indica qué parte del consumo se repartió con</span></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="co">--      Trends del propio artista (el resto usa el género o los usuarios</span></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="co">--      de internet).</span></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a><span class="co">-- ---------------------------------------------------------------------</span></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">OR</span> <span class="kw">REPLACE</span> <span class="kw">VIEW</span> misoginia_mart.p1_proporcion_misogina_entidad <span class="kw">AS</span></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> base <span class="kw">AS</span> (</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>    d.anio,</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>    e.cve_ent,</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>    e.entidad,</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>    <span class="fu">SUM</span>(<span class="cf">IF</span>(c.es_misogina, f.streams_estimados, <span class="dv">0</span>))             <span class="kw">AS</span> streams_misoginos,</span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>    <span class="fu">SUM</span>(<span class="cf">IF</span>(c.es_misogina <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span>, f.streams_estimados, <span class="dv">0</span>)) <span class="kw">AS</span> streams_clasificados,</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>    <span class="fu">SUM</span>(<span class="cf">IF</span>(STARTS_WITH(f.origen_peso, <span class="st">'artista'</span>), f.streams_estimados, <span class="dv">0</span>)) <span class="kw">AS</span> streams_peso_artista,</span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>    <span class="fu">SUM</span>(f.streams_estimados) <span class="kw">AS</span> streams_totales</span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> misoginia_dw.fact_consumo_musical <span class="kw">AS</span> f</span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>  <span class="kw">JOIN</span> misoginia_dw.dim_fecha   <span class="kw">AS</span> d <span class="kw">ON</span> d.fecha_key <span class="op">=</span> f.fecha_key</span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>  <span class="kw">JOIN</span> misoginia_dw.dim_entidad <span class="kw">AS</span> e <span class="kw">ON</span> e.entidad_key <span class="op">=</span> f.entidad_key</span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>  <span class="kw">JOIN</span> misoginia_dw.dim_cancion <span class="kw">AS</span> c <span class="kw">ON</span> c.cancion_key <span class="op">=</span> f.cancion_key</span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> d.anio, e.cve_ent, e.entidad</span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>),</span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>indicadores <span class="kw">AS</span> (</span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span></span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>    anio,</span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>    cve_ent,</span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>    entidad,</span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>    SAFE_DIVIDE(streams_misoginos, streams_clasificados) <span class="kw">AS</span> proporcion_misogina,</span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>    SAFE_DIVIDE(streams_peso_artista, streams_totales)   <span class="kw">AS</span> pct_peso_artista</span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> base</span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>  anio,</span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>  cve_ent,</span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a>  entidad,</span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a>  proporcion_misogina,</span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a>  pct_peso_artista,</span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a>  <span class="fu">RANK</span>() <span class="kw">OVER</span> (<span class="kw">PARTITION</span> <span class="kw">BY</span> anio <span class="kw">ORDER</span> <span class="kw">BY</span> proporcion_misogina <span class="kw">DESC</span>) <span class="kw">AS</span> lugar_en_el_anio,</span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a>  proporcion_misogina</span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a>    <span class="op">-</span> <span class="fu">AVG</span>(proporcion_misogina) <span class="kw">OVER</span> (<span class="kw">PARTITION</span> <span class="kw">BY</span> anio) <span class="kw">AS</span> diferencia_vs_promedio_estatal,</span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a>  <span class="kw">TRUE</span> <span class="kw">AS</span> es_estimacion</span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> indicadores;</span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a><span class="co">-- ---------------------------------------------------------------------</span></span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a><span class="co">-- P2a. Serie mensual nacional: proporción misógina del consumo frente a</span></span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a><span class="co">--      las tasas por 100 mil mujeres de cada tipo de violencia, con la</span></span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a><span class="co">--      etapa de la pandemia como control.</span></span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a><span class="co">-- ---------------------------------------------------------------------</span></span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">OR</span> <span class="kw">REPLACE</span> <span class="kw">VIEW</span> misoginia_mart.p2_serie_mensual_nacional <span class="kw">AS</span></span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> musica <span class="kw">AS</span> (</span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span></span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a>    f.fecha_key,</span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a>    SAFE_DIVIDE(<span class="fu">SUM</span>(<span class="cf">IF</span>(c.es_misogina, f.streams_estimados, <span class="dv">0</span>)),</span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a>                <span class="fu">SUM</span>(<span class="cf">IF</span>(c.es_misogina <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span>, f.streams_estimados, <span class="dv">0</span>))) <span class="kw">AS</span> proporcion_misogina</span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> misoginia_dw.fact_consumo_musical <span class="kw">AS</span> f</span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a>  <span class="kw">JOIN</span> misoginia_dw.dim_cancion <span class="kw">AS</span> c <span class="kw">ON</span> c.cancion_key <span class="op">=</span> f.cancion_key</span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> f.fecha_key</span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a>),</span>
+<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a>violencia <span class="kw">AS</span> (</span>
+<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span></span>
+<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a>    v.fecha_key,</span>
+<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a>    t.tipo_lgamvlv,</span>
+<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a>    t.es_control,</span>
+<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a>    <span class="fu">SUM</span>(v.carpetas)         <span class="kw">AS</span> carpetas,</span>
+<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a>    <span class="fu">SUM</span>(v.victimas_mujeres) <span class="kw">AS</span> victimas_mujeres</span>
+<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> misoginia_dw.fact_violencia <span class="kw">AS</span> v</span>
+<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a>  <span class="kw">JOIN</span> misoginia_dw.dim_tipo_violencia <span class="kw">AS</span> t <span class="kw">ON</span> t.tipo_violencia_key <span class="op">=</span> v.tipo_violencia_key</span>
+<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> v.fecha_key, t.tipo_lgamvlv, t.es_control</span>
+<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a>),</span>
+<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a>poblacion <span class="kw">AS</span> (</span>
+<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> anio, <span class="fu">SUM</span>(poblacion_mujeres) <span class="kw">AS</span> mujeres</span>
+<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> misoginia_dw.dim_contexto_entidad</span>
+<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a>  <span class="kw">WHERE</span> <span class="kw">NOT</span> es_nacional</span>
+<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> anio</span>
+<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a>  d.fecha,</span>
+<span id="cb1-133"><a href="#cb1-133" aria-hidden="true" tabindex="-1"></a>  d.anio,</span>
+<span id="cb1-134"><a href="#cb1-134" aria-hidden="true" tabindex="-1"></a>  d.mes,</span>
+<span id="cb1-135"><a href="#cb1-135" aria-hidden="true" tabindex="-1"></a>  d.etapa_covid,</span>
+<span id="cb1-136"><a href="#cb1-136" aria-hidden="true" tabindex="-1"></a>  d.evento_restriccion_musical,</span>
+<span id="cb1-137"><a href="#cb1-137" aria-hidden="true" tabindex="-1"></a>  vi.tipo_lgamvlv,</span>
+<span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a>  vi.es_control,</span>
+<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a>  mu.proporcion_misogina,</span>
+<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a>  vi.carpetas,</span>
+<span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a>  vi.victimas_mujeres,</span>
+<span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a>  SAFE_DIVIDE(vi.carpetas, p.mujeres) <span class="op">*</span> <span class="dv">100000</span>         <span class="kw">AS</span> tasa_carpetas_100k_mujeres,</span>
+<span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a>  SAFE_DIVIDE(vi.victimas_mujeres, p.mujeres) <span class="op">*</span> <span class="dv">100000</span> <span class="kw">AS</span> tasa_victimas_100k_mujeres,</span>
+<span id="cb1-144"><a href="#cb1-144" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- Indicador de cada tipo: carpetas en delitos del SESNSP;</span></span>
+<span id="cb1-145"><a href="#cb1-145" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- mujeres desaparecidas en el RNPDNO, que no tiene carpetas</span></span>
+<span id="cb1-146"><a href="#cb1-146" aria-hidden="true" tabindex="-1"></a>  SAFE_DIVIDE(<span class="fu">COALESCE</span>(vi.carpetas, vi.victimas_mujeres), p.mujeres) <span class="op">*</span> <span class="dv">100000</span> <span class="kw">AS</span> tasa_indicador_100k_mujeres</span>
+<span id="cb1-147"><a href="#cb1-147" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> violencia <span class="kw">AS</span> vi</span>
+<span id="cb1-148"><a href="#cb1-148" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> misoginia_dw.dim_fecha <span class="kw">AS</span> d <span class="kw">ON</span> d.fecha_key <span class="op">=</span> vi.fecha_key</span>
+<span id="cb1-149"><a href="#cb1-149" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> poblacion <span class="kw">AS</span> p <span class="kw">ON</span> p.anio <span class="op">=</span> d.anio</span>
+<span id="cb1-150"><a href="#cb1-150" aria-hidden="true" tabindex="-1"></a><span class="kw">LEFT</span> <span class="kw">JOIN</span> musica <span class="kw">AS</span> mu <span class="kw">ON</span> mu.fecha_key <span class="op">=</span> vi.fecha_key;</span>
+<span id="cb1-151"><a href="#cb1-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-152"><a href="#cb1-152" aria-hidden="true" tabindex="-1"></a><span class="co">-- ---------------------------------------------------------------------</span></span>
+<span id="cb1-153"><a href="#cb1-153" aria-hidden="true" tabindex="-1"></a><span class="co">-- P2b. Coeficiente de correlación nacional por tipo de violencia, con el</span></span>
+<span id="cb1-154"><a href="#cb1-154" aria-hidden="true" tabindex="-1"></a><span class="co">--      número de meses que entran, y la misma correlación sin los meses</span></span>
+<span id="cb1-155"><a href="#cb1-155" aria-hidden="true" tabindex="-1"></a><span class="co">--      de confinamiento.</span></span>
+<span id="cb1-156"><a href="#cb1-156" aria-hidden="true" tabindex="-1"></a><span class="co">-- ---------------------------------------------------------------------</span></span>
+<span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">OR</span> <span class="kw">REPLACE</span> <span class="kw">VIEW</span> misoginia_mart.p2_correlacion_nacional <span class="kw">AS</span></span>
+<span id="cb1-158"><a href="#cb1-158" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb1-159"><a href="#cb1-159" aria-hidden="true" tabindex="-1"></a>  tipo_lgamvlv,</span>
+<span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a>  es_control,</span>
+<span id="cb1-161"><a href="#cb1-161" aria-hidden="true" tabindex="-1"></a>  COUNTIF(proporcion_misogina <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">AND</span> tasa_indicador_100k_mujeres <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span>) <span class="kw">AS</span> n_meses,</span>
+<span id="cb1-162"><a href="#cb1-162" aria-hidden="true" tabindex="-1"></a>  <span class="fu">CORR</span>(proporcion_misogina, tasa_indicador_100k_mujeres) <span class="kw">AS</span> correlacion_pearson,</span>
+<span id="cb1-163"><a href="#cb1-163" aria-hidden="true" tabindex="-1"></a>  <span class="fu">CORR</span>(<span class="cf">IF</span>(etapa_covid <span class="op">=</span> <span class="st">'confinamiento'</span>, <span class="kw">NULL</span>, proporcion_misogina),</span>
+<span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a>       <span class="cf">IF</span>(etapa_covid <span class="op">=</span> <span class="st">'confinamiento'</span>, <span class="kw">NULL</span>, tasa_indicador_100k_mujeres)) <span class="kw">AS</span> correlacion_sin_confinamiento</span>
+<span id="cb1-165"><a href="#cb1-165" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> misoginia_mart.p2_serie_mensual_nacional</span>
+<span id="cb1-166"><a href="#cb1-166" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> tipo_lgamvlv, es_control;</span>
+<span id="cb1-167"><a href="#cb1-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-168"><a href="#cb1-168" aria-hidden="true" tabindex="-1"></a><span class="co">-- ---------------------------------------------------------------------</span></span>
+<span id="cb1-169"><a href="#cb1-169" aria-hidden="true" tabindex="-1"></a><span class="co">-- P2c. Panel entidad-año: proporción misógina estimada frente a tasas</span></span>
+<span id="cb1-170"><a href="#cb1-170" aria-hidden="true" tabindex="-1"></a><span class="co">--      oficiales, con variables de control. CORR como función de ventana:</span></span>
+<span id="cb1-171"><a href="#cb1-171" aria-hidden="true" tabindex="-1"></a><span class="co">--      entre estados para cada año y con todos los años juntos.</span></span>
+<span id="cb1-172"><a href="#cb1-172" aria-hidden="true" tabindex="-1"></a><span class="co">-- ---------------------------------------------------------------------</span></span>
+<span id="cb1-173"><a href="#cb1-173" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">OR</span> <span class="kw">REPLACE</span> <span class="kw">VIEW</span> misoginia_mart.p2_panel_entidad_anio <span class="kw">AS</span></span>
+<span id="cb1-174"><a href="#cb1-174" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> violencia <span class="kw">AS</span> (</span>
+<span id="cb1-175"><a href="#cb1-175" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span></span>
+<span id="cb1-176"><a href="#cb1-176" aria-hidden="true" tabindex="-1"></a>    d.anio,</span>
+<span id="cb1-177"><a href="#cb1-177" aria-hidden="true" tabindex="-1"></a>    e.cve_ent,</span>
+<span id="cb1-178"><a href="#cb1-178" aria-hidden="true" tabindex="-1"></a>    t.tipo_lgamvlv,</span>
+<span id="cb1-179"><a href="#cb1-179" aria-hidden="true" tabindex="-1"></a>    v.contexto_key,</span>
+<span id="cb1-180"><a href="#cb1-180" aria-hidden="true" tabindex="-1"></a>    <span class="fu">SUM</span>(v.carpetas)         <span class="kw">AS</span> carpetas,</span>
+<span id="cb1-181"><a href="#cb1-181" aria-hidden="true" tabindex="-1"></a>    <span class="fu">SUM</span>(v.victimas_mujeres) <span class="kw">AS</span> victimas_mujeres</span>
+<span id="cb1-182"><a href="#cb1-182" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> misoginia_dw.fact_violencia <span class="kw">AS</span> v</span>
+<span id="cb1-183"><a href="#cb1-183" aria-hidden="true" tabindex="-1"></a>  <span class="kw">JOIN</span> misoginia_dw.dim_fecha          <span class="kw">AS</span> d <span class="kw">ON</span> d.fecha_key <span class="op">=</span> v.fecha_key</span>
+<span id="cb1-184"><a href="#cb1-184" aria-hidden="true" tabindex="-1"></a>  <span class="kw">JOIN</span> misoginia_dw.dim_entidad        <span class="kw">AS</span> e <span class="kw">ON</span> e.entidad_key <span class="op">=</span> v.entidad_key</span>
+<span id="cb1-185"><a href="#cb1-185" aria-hidden="true" tabindex="-1"></a>  <span class="kw">JOIN</span> misoginia_dw.dim_tipo_violencia <span class="kw">AS</span> t <span class="kw">ON</span> t.tipo_violencia_key <span class="op">=</span> v.tipo_violencia_key</span>
+<span id="cb1-186"><a href="#cb1-186" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> d.anio, e.cve_ent, t.tipo_lgamvlv, v.contexto_key</span>
+<span id="cb1-187"><a href="#cb1-187" aria-hidden="true" tabindex="-1"></a>),</span>
+<span id="cb1-188"><a href="#cb1-188" aria-hidden="true" tabindex="-1"></a>panel <span class="kw">AS</span> (</span>
+<span id="cb1-189"><a href="#cb1-189" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span></span>
+<span id="cb1-190"><a href="#cb1-190" aria-hidden="true" tabindex="-1"></a>    m.anio,</span>
+<span id="cb1-191"><a href="#cb1-191" aria-hidden="true" tabindex="-1"></a>    m.cve_ent,</span>
+<span id="cb1-192"><a href="#cb1-192" aria-hidden="true" tabindex="-1"></a>    m.entidad,</span>
+<span id="cb1-193"><a href="#cb1-193" aria-hidden="true" tabindex="-1"></a>    vi.tipo_lgamvlv,</span>
+<span id="cb1-194"><a href="#cb1-194" aria-hidden="true" tabindex="-1"></a>    m.proporcion_misogina,</span>
+<span id="cb1-195"><a href="#cb1-195" aria-hidden="true" tabindex="-1"></a>    m.pct_peso_artista,</span>
+<span id="cb1-196"><a href="#cb1-196" aria-hidden="true" tabindex="-1"></a>    SAFE_DIVIDE(vi.carpetas, ctx.poblacion_mujeres) <span class="op">*</span> <span class="dv">100000</span>         <span class="kw">AS</span> tasa_carpetas_100k_mujeres,</span>
+<span id="cb1-197"><a href="#cb1-197" aria-hidden="true" tabindex="-1"></a>    SAFE_DIVIDE(vi.victimas_mujeres, ctx.poblacion_mujeres) <span class="op">*</span> <span class="dv">100000</span> <span class="kw">AS</span> tasa_victimas_100k_mujeres,</span>
+<span id="cb1-198"><a href="#cb1-198" aria-hidden="true" tabindex="-1"></a>    SAFE_DIVIDE(<span class="fu">COALESCE</span>(vi.carpetas, vi.victimas_mujeres), ctx.poblacion_mujeres) <span class="op">*</span> <span class="dv">100000</span> <span class="kw">AS</span> tasa_indicador_100k_mujeres,</span>
+<span id="cb1-199"><a href="#cb1-199" aria-hidden="true" tabindex="-1"></a>    ctx.pct_usuarios_internet,</span>
+<span id="cb1-200"><a href="#cb1-200" aria-hidden="true" tabindex="-1"></a>    ctx.pct_pobreza,</span>
+<span id="cb1-201"><a href="#cb1-201" aria-hidden="true" tabindex="-1"></a>    ctx.indice_impunidad,</span>
+<span id="cb1-202"><a href="#cb1-202" aria-hidden="true" tabindex="-1"></a>    ctx.propuesta_restriccion_musical</span>
+<span id="cb1-203"><a href="#cb1-203" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> misoginia_mart.p1_proporcion_misogina_entidad <span class="kw">AS</span> m</span>
+<span id="cb1-204"><a href="#cb1-204" aria-hidden="true" tabindex="-1"></a>  <span class="kw">JOIN</span> violencia <span class="kw">AS</span> vi <span class="kw">ON</span> vi.cve_ent <span class="op">=</span> m.cve_ent <span class="kw">AND</span> vi.anio <span class="op">=</span> m.anio</span>
+<span id="cb1-205"><a href="#cb1-205" aria-hidden="true" tabindex="-1"></a>  <span class="kw">JOIN</span> misoginia_dw.dim_contexto_entidad <span class="kw">AS</span> ctx <span class="kw">ON</span> ctx.contexto_key <span class="op">=</span> vi.contexto_key</span>
+<span id="cb1-206"><a href="#cb1-206" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-207"><a href="#cb1-207" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb1-208"><a href="#cb1-208" aria-hidden="true" tabindex="-1"></a>  anio,</span>
+<span id="cb1-209"><a href="#cb1-209" aria-hidden="true" tabindex="-1"></a>  cve_ent,</span>
+<span id="cb1-210"><a href="#cb1-210" aria-hidden="true" tabindex="-1"></a>  entidad,</span>
+<span id="cb1-211"><a href="#cb1-211" aria-hidden="true" tabindex="-1"></a>  tipo_lgamvlv,</span>
+<span id="cb1-212"><a href="#cb1-212" aria-hidden="true" tabindex="-1"></a>  proporcion_misogina,</span>
+<span id="cb1-213"><a href="#cb1-213" aria-hidden="true" tabindex="-1"></a>  pct_peso_artista,</span>
+<span id="cb1-214"><a href="#cb1-214" aria-hidden="true" tabindex="-1"></a>  tasa_carpetas_100k_mujeres,</span>
+<span id="cb1-215"><a href="#cb1-215" aria-hidden="true" tabindex="-1"></a>  tasa_victimas_100k_mujeres,</span>
+<span id="cb1-216"><a href="#cb1-216" aria-hidden="true" tabindex="-1"></a>  tasa_indicador_100k_mujeres,</span>
+<span id="cb1-217"><a href="#cb1-217" aria-hidden="true" tabindex="-1"></a>  pct_usuarios_internet,</span>
+<span id="cb1-218"><a href="#cb1-218" aria-hidden="true" tabindex="-1"></a>  pct_pobreza,</span>
+<span id="cb1-219"><a href="#cb1-219" aria-hidden="true" tabindex="-1"></a>  indice_impunidad,</span>
+<span id="cb1-220"><a href="#cb1-220" aria-hidden="true" tabindex="-1"></a>  propuesta_restriccion_musical,</span>
+<span id="cb1-221"><a href="#cb1-221" aria-hidden="true" tabindex="-1"></a>  <span class="fu">CORR</span>(proporcion_misogina, tasa_indicador_100k_mujeres)</span>
+<span id="cb1-222"><a href="#cb1-222" aria-hidden="true" tabindex="-1"></a>    <span class="kw">OVER</span> (<span class="kw">PARTITION</span> <span class="kw">BY</span> tipo_lgamvlv, anio) <span class="kw">AS</span> correlacion_entre_estados_del_anio,</span>
+<span id="cb1-223"><a href="#cb1-223" aria-hidden="true" tabindex="-1"></a>  <span class="fu">CORR</span>(proporcion_misogina, tasa_indicador_100k_mujeres)</span>
+<span id="cb1-224"><a href="#cb1-224" aria-hidden="true" tabindex="-1"></a>    <span class="kw">OVER</span> (<span class="kw">PARTITION</span> <span class="kw">BY</span> tipo_lgamvlv)       <span class="kw">AS</span> correlacion_panel_completo,</span>
+<span id="cb1-225"><a href="#cb1-225" aria-hidden="true" tabindex="-1"></a>  <span class="kw">TRUE</span> <span class="kw">AS</span> es_estimacion</span>
+<span id="cb1-226"><a href="#cb1-226" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> panel;</span>
+<span id="cb1-227"><a href="#cb1-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-228"><a href="#cb1-228" aria-hidden="true" tabindex="-1"></a><span class="co">-- ---------------------------------------------------------------------</span></span>
+<span id="cb1-229"><a href="#cb1-229" aria-hidden="true" tabindex="-1"></a><span class="co">-- P3. Evolución mensual nacional de cada tipo de violencia en la música:</span></span>
+<span id="cb1-230"><a href="#cb1-230" aria-hidden="true" tabindex="-1"></a><span class="co">--     participación en el consumo, media móvil de 12 meses y cambio</span></span>
+<span id="cb1-231"><a href="#cb1-231" aria-hidden="true" tabindex="-1"></a><span class="co">--     contra el mismo mes del año anterior. Los marcos RANGE sobre</span></span>
+<span id="cb1-232"><a href="#cb1-232" aria-hidden="true" tabindex="-1"></a><span class="co">--     indice_mes cuentan meses de calendario aunque falte alguno.</span></span>
+<span id="cb1-233"><a href="#cb1-233" aria-hidden="true" tabindex="-1"></a><span class="co">-- ---------------------------------------------------------------------</span></span>
+<span id="cb1-234"><a href="#cb1-234" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">OR</span> <span class="kw">REPLACE</span> <span class="kw">VIEW</span> misoginia_mart.p3_tendencia_tipo_violencia <span class="kw">AS</span></span>
+<span id="cb1-235"><a href="#cb1-235" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> mensual <span class="kw">AS</span> (</span>
+<span id="cb1-236"><a href="#cb1-236" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span></span>
+<span id="cb1-237"><a href="#cb1-237" aria-hidden="true" tabindex="-1"></a>    d.fecha,</span>
+<span id="cb1-238"><a href="#cb1-238" aria-hidden="true" tabindex="-1"></a>    d.indice_mes,</span>
+<span id="cb1-239"><a href="#cb1-239" aria-hidden="true" tabindex="-1"></a>    d.etapa_covid,</span>
+<span id="cb1-240"><a href="#cb1-240" aria-hidden="true" tabindex="-1"></a>    t.tipo_lgamvlv,</span>
+<span id="cb1-241"><a href="#cb1-241" aria-hidden="true" tabindex="-1"></a>    <span class="fu">SUM</span>(f.streams_estimados) <span class="kw">AS</span> streams,</span>
+<span id="cb1-242"><a href="#cb1-242" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- El dato nacional se repite igual en las 32 entidades: el promedio no cambia</span></span>
+<span id="cb1-243"><a href="#cb1-243" aria-hidden="true" tabindex="-1"></a>    <span class="fu">AVG</span>(f.mejor_posicion_nacional) <span class="kw">AS</span> posicion_promedio</span>
+<span id="cb1-244"><a href="#cb1-244" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> misoginia_dw.fact_consumo_musical <span class="kw">AS</span> f</span>
+<span id="cb1-245"><a href="#cb1-245" aria-hidden="true" tabindex="-1"></a>  <span class="kw">JOIN</span> misoginia_dw.dim_fecha          <span class="kw">AS</span> d <span class="kw">ON</span> d.fecha_key <span class="op">=</span> f.fecha_key</span>
+<span id="cb1-246"><a href="#cb1-246" aria-hidden="true" tabindex="-1"></a>  <span class="kw">JOIN</span> misoginia_dw.dim_cancion        <span class="kw">AS</span> c <span class="kw">ON</span> c.cancion_key <span class="op">=</span> f.cancion_key</span>
+<span id="cb1-247"><a href="#cb1-247" aria-hidden="true" tabindex="-1"></a>  <span class="kw">JOIN</span> misoginia_dw.dim_tipo_violencia <span class="kw">AS</span> t <span class="kw">ON</span> t.tipo_violencia_key <span class="op">=</span> f.tipo_violencia_key</span>
+<span id="cb1-248"><a href="#cb1-248" aria-hidden="true" tabindex="-1"></a>  <span class="kw">WHERE</span> c.es_misogina <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span></span>
+<span id="cb1-249"><a href="#cb1-249" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> d.fecha, d.indice_mes, d.etapa_covid, t.tipo_lgamvlv</span>
+<span id="cb1-250"><a href="#cb1-250" aria-hidden="true" tabindex="-1"></a>),</span>
+<span id="cb1-251"><a href="#cb1-251" aria-hidden="true" tabindex="-1"></a>participacion <span class="kw">AS</span> (</span>
+<span id="cb1-252"><a href="#cb1-252" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span></span>
+<span id="cb1-253"><a href="#cb1-253" aria-hidden="true" tabindex="-1"></a>    <span class="op">*</span>,</span>
+<span id="cb1-254"><a href="#cb1-254" aria-hidden="true" tabindex="-1"></a>    SAFE_DIVIDE(streams, <span class="fu">SUM</span>(streams) <span class="kw">OVER</span> (<span class="kw">PARTITION</span> <span class="kw">BY</span> indice_mes)) <span class="kw">AS</span> participacion</span>
+<span id="cb1-255"><a href="#cb1-255" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> mensual</span>
+<span id="cb1-256"><a href="#cb1-256" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-257"><a href="#cb1-257" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb1-258"><a href="#cb1-258" aria-hidden="true" tabindex="-1"></a>  fecha,</span>
+<span id="cb1-259"><a href="#cb1-259" aria-hidden="true" tabindex="-1"></a>  etapa_covid,</span>
+<span id="cb1-260"><a href="#cb1-260" aria-hidden="true" tabindex="-1"></a>  tipo_lgamvlv,</span>
+<span id="cb1-261"><a href="#cb1-261" aria-hidden="true" tabindex="-1"></a>  streams,</span>
+<span id="cb1-262"><a href="#cb1-262" aria-hidden="true" tabindex="-1"></a>  posicion_promedio,</span>
+<span id="cb1-263"><a href="#cb1-263" aria-hidden="true" tabindex="-1"></a>  participacion,</span>
+<span id="cb1-264"><a href="#cb1-264" aria-hidden="true" tabindex="-1"></a>  <span class="fu">AVG</span>(participacion) <span class="kw">OVER</span> (<span class="kw">PARTITION</span> <span class="kw">BY</span> tipo_lgamvlv <span class="kw">ORDER</span> <span class="kw">BY</span> indice_mes</span>
+<span id="cb1-265"><a href="#cb1-265" aria-hidden="true" tabindex="-1"></a>                           <span class="kw">RANGE</span> <span class="kw">BETWEEN</span> <span class="dv">11</span> <span class="kw">PRECEDING</span> <span class="kw">AND</span> <span class="kw">CURRENT</span> <span class="kw">ROW</span>) <span class="kw">AS</span> media_movil_12m,</span>
+<span id="cb1-266"><a href="#cb1-266" aria-hidden="true" tabindex="-1"></a>  participacion <span class="op">-</span> <span class="fu">MAX</span>(participacion) <span class="kw">OVER</span> (<span class="kw">PARTITION</span> <span class="kw">BY</span> tipo_lgamvlv <span class="kw">ORDER</span> <span class="kw">BY</span> indice_mes</span>
+<span id="cb1-267"><a href="#cb1-267" aria-hidden="true" tabindex="-1"></a>                                           <span class="kw">RANGE</span> <span class="kw">BETWEEN</span> <span class="dv">12</span> <span class="kw">PRECEDING</span> <span class="kw">AND</span> <span class="dv">12</span> <span class="kw">PRECEDING</span>) <span class="kw">AS</span> cambio_anual</span>
+<span id="cb1-268"><a href="#cb1-268" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> participacion;</span>
+<span id="cb1-269"><a href="#cb1-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-270"><a href="#cb1-270" aria-hidden="true" tabindex="-1"></a><span class="co">-- ---------------------------------------------------------------------</span></span>
+<span id="cb1-271"><a href="#cb1-271" aria-hidden="true" tabindex="-1"></a><span class="co">-- P4. Tipos de violencia: participación en la música misógina, en las</span></span>
+<span id="cb1-272"><a href="#cb1-272" aria-hidden="true" tabindex="-1"></a><span class="co">--     carpetas del SESNSP y prevalencia de la ENDIREH 2021, con el lugar</span></span>
+<span id="cb1-273"><a href="#cb1-273" aria-hidden="true" tabindex="-1"></a><span class="co">--     de cada tipo en cada fuente (RANK). Los tipos sin delito</span></span>
+<span id="cb1-274"><a href="#cb1-274" aria-hidden="true" tabindex="-1"></a><span class="co">--     equivalente aparecen con NULL en la columna oficial. La</span></span>
+<span id="cb1-275"><a href="#cb1-275" aria-hidden="true" tabindex="-1"></a><span class="co">--     desaparición (RNPDNO) no es un tipo de la LGAMVLV y no entra.</span></span>
+<span id="cb1-276"><a href="#cb1-276" aria-hidden="true" tabindex="-1"></a><span class="co">-- ---------------------------------------------------------------------</span></span>
+<span id="cb1-277"><a href="#cb1-277" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">OR</span> <span class="kw">REPLACE</span> <span class="kw">VIEW</span> misoginia_mart.p4_tipos_musica_vs_oficial <span class="kw">AS</span></span>
+<span id="cb1-278"><a href="#cb1-278" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> tipos <span class="kw">AS</span> (</span>
+<span id="cb1-279"><a href="#cb1-279" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> tipo_lgamvlv, LOGICAL_OR(medido_en_sesnsp) <span class="kw">AS</span> medido_en_sesnsp</span>
+<span id="cb1-280"><a href="#cb1-280" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> misoginia_dw.dim_tipo_violencia</span>
+<span id="cb1-281"><a href="#cb1-281" aria-hidden="true" tabindex="-1"></a>  <span class="kw">WHERE</span> <span class="kw">NOT</span> es_control <span class="kw">AND</span> tipo_lgamvlv <span class="kw">NOT</span> <span class="kw">IN</span> (<span class="st">'no aplica'</span>, <span class="st">'desaparición'</span>)</span>
+<span id="cb1-282"><a href="#cb1-282" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> tipo_lgamvlv</span>
+<span id="cb1-283"><a href="#cb1-283" aria-hidden="true" tabindex="-1"></a>),</span>
+<span id="cb1-284"><a href="#cb1-284" aria-hidden="true" tabindex="-1"></a>musica <span class="kw">AS</span> (</span>
+<span id="cb1-285"><a href="#cb1-285" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> t.tipo_lgamvlv, <span class="fu">SUM</span>(f.streams_estimados) <span class="kw">AS</span> streams</span>
+<span id="cb1-286"><a href="#cb1-286" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> misoginia_dw.fact_consumo_musical <span class="kw">AS</span> f</span>
+<span id="cb1-287"><a href="#cb1-287" aria-hidden="true" tabindex="-1"></a>  <span class="kw">JOIN</span> misoginia_dw.dim_cancion        <span class="kw">AS</span> c <span class="kw">ON</span> c.cancion_key <span class="op">=</span> f.cancion_key</span>
+<span id="cb1-288"><a href="#cb1-288" aria-hidden="true" tabindex="-1"></a>  <span class="kw">JOIN</span> misoginia_dw.dim_tipo_violencia <span class="kw">AS</span> t <span class="kw">ON</span> t.tipo_violencia_key <span class="op">=</span> f.tipo_violencia_key</span>
+<span id="cb1-289"><a href="#cb1-289" aria-hidden="true" tabindex="-1"></a>  <span class="kw">WHERE</span> c.es_misogina</span>
+<span id="cb1-290"><a href="#cb1-290" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> t.tipo_lgamvlv</span>
+<span id="cb1-291"><a href="#cb1-291" aria-hidden="true" tabindex="-1"></a>),</span>
+<span id="cb1-292"><a href="#cb1-292" aria-hidden="true" tabindex="-1"></a>oficial <span class="kw">AS</span> (</span>
+<span id="cb1-293"><a href="#cb1-293" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> t.tipo_lgamvlv, <span class="fu">SUM</span>(v.carpetas) <span class="kw">AS</span> carpetas</span>
+<span id="cb1-294"><a href="#cb1-294" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> misoginia_dw.fact_violencia <span class="kw">AS</span> v</span>
+<span id="cb1-295"><a href="#cb1-295" aria-hidden="true" tabindex="-1"></a>  <span class="kw">JOIN</span> misoginia_dw.dim_tipo_violencia <span class="kw">AS</span> t <span class="kw">ON</span> t.tipo_violencia_key <span class="op">=</span> v.tipo_violencia_key</span>
+<span id="cb1-296"><a href="#cb1-296" aria-hidden="true" tabindex="-1"></a>  <span class="kw">WHERE</span> <span class="kw">NOT</span> t.es_control</span>
+<span id="cb1-297"><a href="#cb1-297" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> t.tipo_lgamvlv</span>
+<span id="cb1-298"><a href="#cb1-298" aria-hidden="true" tabindex="-1"></a>),</span>
+<span id="cb1-299"><a href="#cb1-299" aria-hidden="true" tabindex="-1"></a>endireh <span class="kw">AS</span> (</span>
+<span id="cb1-300"><a href="#cb1-300" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> tipo_lgamvlv, prevalencia</span>
+<span id="cb1-301"><a href="#cb1-301" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> (</span>
+<span id="cb1-302"><a href="#cb1-302" aria-hidden="true" tabindex="-1"></a>    <span class="kw">SELECT</span> prevalencia_psicologica, prevalencia_fisica, prevalencia_sexual,</span>
+<span id="cb1-303"><a href="#cb1-303" aria-hidden="true" tabindex="-1"></a>           prevalencia_economica_patrimonial</span>
+<span id="cb1-304"><a href="#cb1-304" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FROM</span> misoginia_dw.dim_contexto_entidad</span>
+<span id="cb1-305"><a href="#cb1-305" aria-hidden="true" tabindex="-1"></a>    <span class="kw">WHERE</span> es_nacional <span class="kw">AND</span> anio <span class="op">=</span> <span class="dv">2021</span></span>
+<span id="cb1-306"><a href="#cb1-306" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-307"><a href="#cb1-307" aria-hidden="true" tabindex="-1"></a>  UNPIVOT (prevalencia <span class="cf">FOR</span> tipo_lgamvlv <span class="kw">IN</span> (</span>
+<span id="cb1-308"><a href="#cb1-308" aria-hidden="true" tabindex="-1"></a>    prevalencia_psicologica           <span class="kw">AS</span> <span class="st">'psicológica'</span>,</span>
+<span id="cb1-309"><a href="#cb1-309" aria-hidden="true" tabindex="-1"></a>    prevalencia_fisica                <span class="kw">AS</span> <span class="st">'física'</span>,</span>
+<span id="cb1-310"><a href="#cb1-310" aria-hidden="true" tabindex="-1"></a>    prevalencia_sexual                <span class="kw">AS</span> <span class="st">'sexual'</span>,</span>
+<span id="cb1-311"><a href="#cb1-311" aria-hidden="true" tabindex="-1"></a>    prevalencia_economica_patrimonial <span class="kw">AS</span> <span class="st">'económica o patrimonial'</span>))</span>
+<span id="cb1-312"><a href="#cb1-312" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-313"><a href="#cb1-313" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb1-314"><a href="#cb1-314" aria-hidden="true" tabindex="-1"></a>  tp.tipo_lgamvlv,</span>
+<span id="cb1-315"><a href="#cb1-315" aria-hidden="true" tabindex="-1"></a>  tp.medido_en_sesnsp,</span>
+<span id="cb1-316"><a href="#cb1-316" aria-hidden="true" tabindex="-1"></a>  SAFE_DIVIDE(m.streams, <span class="fu">SUM</span>(m.streams) <span class="kw">OVER</span> ())   <span class="kw">AS</span> participacion_musica,</span>
+<span id="cb1-317"><a href="#cb1-317" aria-hidden="true" tabindex="-1"></a>  SAFE_DIVIDE(o.carpetas, <span class="fu">SUM</span>(o.carpetas) <span class="kw">OVER</span> ()) <span class="kw">AS</span> participacion_sesnsp,</span>
+<span id="cb1-318"><a href="#cb1-318" aria-hidden="true" tabindex="-1"></a>  n.prevalencia                                    <span class="kw">AS</span> prevalencia_endireh_2021,</span>
+<span id="cb1-319"><a href="#cb1-319" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- Un tipo sin dato en una fuente no recibe lugar en esa fuente</span></span>
+<span id="cb1-320"><a href="#cb1-320" aria-hidden="true" tabindex="-1"></a>  <span class="cf">IF</span>(m.streams <span class="kw">IS</span> <span class="kw">NULL</span>, <span class="kw">NULL</span>, <span class="fu">RANK</span>() <span class="kw">OVER</span> (<span class="kw">ORDER</span> <span class="kw">BY</span> m.streams <span class="kw">DESC</span>))         <span class="kw">AS</span> lugar_musica,</span>
+<span id="cb1-321"><a href="#cb1-321" aria-hidden="true" tabindex="-1"></a>  <span class="cf">IF</span>(o.carpetas <span class="kw">IS</span> <span class="kw">NULL</span>, <span class="kw">NULL</span>, <span class="fu">RANK</span>() <span class="kw">OVER</span> (<span class="kw">ORDER</span> <span class="kw">BY</span> o.carpetas <span class="kw">DESC</span>))       <span class="kw">AS</span> lugar_sesnsp,</span>
+<span id="cb1-322"><a href="#cb1-322" aria-hidden="true" tabindex="-1"></a>  <span class="cf">IF</span>(n.prevalencia <span class="kw">IS</span> <span class="kw">NULL</span>, <span class="kw">NULL</span>, <span class="fu">RANK</span>() <span class="kw">OVER</span> (<span class="kw">ORDER</span> <span class="kw">BY</span> n.prevalencia <span class="kw">DESC</span>)) <span class="kw">AS</span> lugar_endireh</span>
+<span id="cb1-323"><a href="#cb1-323" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> tipos <span class="kw">AS</span> tp</span>
+<span id="cb1-324"><a href="#cb1-324" aria-hidden="true" tabindex="-1"></a><span class="kw">LEFT</span> <span class="kw">JOIN</span> musica  <span class="kw">AS</span> m <span class="kw">ON</span> m.tipo_lgamvlv <span class="op">=</span> tp.tipo_lgamvlv</span>
+<span id="cb1-325"><a href="#cb1-325" aria-hidden="true" tabindex="-1"></a><span class="kw">LEFT</span> <span class="kw">JOIN</span> oficial <span class="kw">AS</span> o <span class="kw">ON</span> o.tipo_lgamvlv <span class="op">=</span> tp.tipo_lgamvlv</span>
+<span id="cb1-326"><a href="#cb1-326" aria-hidden="true" tabindex="-1"></a><span class="kw">LEFT</span> <span class="kw">JOIN</span> endireh <span class="kw">AS</span> n <span class="kw">ON</span> n.tipo_lgamvlv <span class="op">=</span> tp.tipo_lgamvlv;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="evidencia" class="level2">
 <h2 class="anchored" data-anchor-id="evidencia">Evidencia en BigQuery</h2>
@@ -1150,13 +1140,13 @@ flowchart LR
 </tr>
 <tr class="even">
 <td>Tiempo</td>
-<td>SESNSP por mes; RNPDNO por fecha de desaparición; Kworb, Kaggle y Top 73 por día; Trends por el periodo que se descargue; contexto por año</td>
-<td>Los datos diarios se suman al mes; Trends se descarga por año (y por mes si se puede); el contexto entra por entidad y año en <code>dim_contexto_entidad</code>.</td>
+<td>SESNSP por mes; RNPDNO por fecha de desaparición; Kworb por semana (de viernes a jueves); Kaggle por día; Trends por el periodo que se descargue; contexto por año</td>
+<td>Cada semana de Kworb se reparte entre meses según sus días; Trends se descarga por año (y por mes si se puede); el contexto entra por entidad y año en <code>dim_contexto_entidad</code>.</td>
 </tr>
 <tr class="odd">
 <td>ID de canción de Spotify</td>
-<td>Kworb, Kaggle <em>Spotify Charts</em> y Top 73</td>
-<td>Unión exacta entre las fuentes de consumo.</td>
+<td>Kworb y Kaggle <em>Spotify Charts</em></td>
+<td>Unión exacta, pero una misma canción puede tener otro ID en Kaggle: de las canciones de 2021 de la prueba, 58 coincidieron por ID.</td>
 </tr>
 <tr class="even">
 <td>Artista y título</td>
@@ -1209,35 +1199,40 @@ flowchart LR
 </tr>
 <tr class="odd">
 <td>Periodos</td>
-<td>Streams solo en 2017–2021; sin datos de enero de 2022 a septiembre de 2023; Top 73 trae posición, no streams.</td>
-<td>Dos medidas: streams (2017–2021) y puntos del Top 50 (todo el periodo).</td>
+<td>Kaggle solo cubre 2017–2021 y le faltan 34 días, casi todos de diciembre de 2021.</td>
+<td>Kworb semanal es la fuente para toda la ventana 2015–2025; Kaggle solo valida.</td>
 </tr>
 <tr class="even">
+<td>Semanas que cruzan meses</td>
+<td>Una semana de viernes a jueves puede caer en dos meses.</td>
+<td>Se reparte por días; se supone consumo parejo dentro de la semana.</td>
+</tr>
+<tr class="odd">
 <td>Tipos de violencia</td>
 <td>El SESNSP no coincide uno a uno con la LGAMVLV y no mide violencia económica, patrimonial ni mediática.</td>
 <td>Mapeo en <code>dim_tipo_violencia</code>, con los tipos sin delito visibles en P4.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Coincidencia en MusicBrainz</td>
 <td>La búsqueda que toma el primer resultado asignó a Sebastián Yatra las etiquetas de un compositor clásico alemán.</td>
 <td>Validar país, tipo de artista y puntaje de la búsqueda; revisar a mano los casos dudosos.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Nombres ambiguos en Trends</td>
 <td>Artistas como Matisse, Aleman o Intocable comparten nombre con palabras o con otras personas, lo que infla el interés.</td>
 <td>Revisar el término de cada artista y, si es ambiguo, usar el tema de artista de Trends o el peso del género.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>RNPDNO escaso</td>
 <td>Solo 3,311 registros de mujeres con fecha entre 2017 y 2023, y termina en agosto de 2023.</td>
 <td>Se usa solo agregado a año en P2.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Sexo de la víctima</td>
 <td>El archivo de delitos no dice el sexo; el de víctimas solo cubre algunos delitos.</td>
 <td>Dos medidas separadas: <code>carpetas</code> y <code>victimas_mujeres</code>.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Contexto incompleto</td>
 <td>CONEVAL es de años pares, la ENDIREH tiene un levantamiento en la ventana y el Censo solo 2020.</td>
 <td>Se guardan en el año que corresponde y se dejan vacíos los demás.</td>

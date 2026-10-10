@@ -201,6 +201,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#e-revisión-del-esquema-estrella-ddl-y-consultas" id="toc-e-revisión-del-esquema-estrella-ddl-y-consultas" class="nav-link" data-scroll-target="#e-revisión-del-esquema-estrella-ddl-y-consultas">e) Revisión del esquema estrella, DDL y consultas</a></li>
   <li><a href="#f-búsqueda-de-fuentes-de-consumo-musical-por-entidad-9-de-octubre-de-2026" id="toc-f-búsqueda-de-fuentes-de-consumo-musical-por-entidad-9-de-octubre-de-2026" class="nav-link" data-scroll-target="#f-búsqueda-de-fuentes-de-consumo-musical-por-entidad-9-de-octubre-de-2026">f) Búsqueda de fuentes de consumo musical por entidad (9 de octubre de 2026)</a></li>
   <li><a href="#g-revisión-de-la-arquitectura-10-de-octubre-de-2026" id="toc-g-revisión-de-la-arquitectura-10-de-octubre-de-2026" class="nav-link" data-scroll-target="#g-revisión-de-la-arquitectura-10-de-octubre-de-2026">g) Revisión de la arquitectura (10 de octubre de 2026)</a></li>
+  <li><a href="#h-verificación-de-kworb-10-de-octubre-de-2026" id="toc-h-verificación-de-kworb-10-de-octubre-de-2026" class="nav-link" data-scroll-target="#h-verificación-de-kworb-10-de-octubre-de-2026">h) Verificación de Kworb (10 de octubre de 2026)</a></li>
   </ul></li>
   <li><a href="#prompts-empleados-resumen-fiel" id="toc-prompts-empleados-resumen-fiel" class="nav-link" data-scroll-target="#prompts-empleados-resumen-fiel">3. Prompts empleados (resumen fiel)</a></li>
   <li><a href="#qué-hicimos-con-la-salida-obtenida" id="toc-qué-hicimos-con-la-salida-obtenida" class="nav-link" data-scroll-target="#qué-hicimos-con-la-salida-obtenida">4. Qué hicimos con la salida obtenida</a></li>
@@ -269,6 +270,10 @@ ul.task-list li input[type="checkbox"] {
 <section id="g-revisión-de-la-arquitectura-10-de-octubre-de-2026" class="level3">
 <h3 class="anchored" data-anchor-id="g-revisión-de-la-arquitectura-10-de-octubre-de-2026">g) Revisión de la arquitectura (10 de octubre de 2026)</h3>
 <p>Le compartimos el repositorio, el instructivo de E1, nuestros borradores (pivote, esquema anual, diagrama dw_gold) y las descargas de Google Trends, y le pedimos mejorar la arquitectura. Revisó el diseño contra el instructivo, señaló problemas (grano mezclado, doble conteo en la consulta de P2, uso del SCD tipo 2), propuso el esquema actual, redactó el DDL, las vistas y estas páginas, y probó las vistas en DuckDB con datos inventados (una base de datos local, no BigQuery) para comprobar que el reparto suma el total nacional y que no hay doble conteo.</p>
+</section>
+<section id="h-verificación-de-kworb-10-de-octubre-de-2026" class="level3">
+<h3 class="anchored" data-anchor-id="h-verificación-de-kworb-10-de-octubre-de-2026">h) Verificación de Kworb (10 de octubre de 2026)</h3>
+<p>Al revisar la ficha de Kworb, la herramienta notó que su historial por canción podía cubrir los años sin datos. Abrió con su búsqueda web dos páginas de Kworb y su <code>robots.txt</code>, y escribió un script para Colab. Nosotros lo corrimos: 5,146 canciones en la lista, streams semanales desde 2013, las 91 semanas de 2022–2023 con datos y coincidencia exacta con Kaggle en 2021. La primera versión de la comparación salió en ceros porque cruzaba IDs distintos para la misma canción; se corrigió comparando solo canciones con el mismo ID en las dos fuentes.</p>
 </section>
 </section>
 <section id="prompts-empleados-resumen-fiel" class="level2">

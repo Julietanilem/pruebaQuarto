@@ -248,9 +248,9 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td><strong>P1 (ajustada):</strong> proporción de contenido misógino en la música más escuchada en Spotify México, por género musical y por entidad. La entidad es una estimación hecha con el interés de búsqueda.</td>
 <td>Clasificación de texto y agregación</td>
-<td>Proporción misógina de <code>streams_estimados</code>, de <code>puntos_top50_estimados</code> y de <code>dias_en_chart_nacional</code>; <code>popularidad_nacional</code>; <code>peso_entidad</code></td>
+<td>Proporción misógina de <code>streams_estimados</code> y de <code>semanas_en_chart_nacional</code>; <code>peso_entidad</code></td>
 <td><code>dim_cancion</code>, <code>dim_fecha</code>, <code>dim_entidad</code>, <code>dim_contexto_entidad</code></td>
-<td>Kaggle <em>Spotify Charts</em> (F5), Top 73 (F12), Kworb (F4), Google Trends (F11), ENDUTIH (F16), CONAPO (F3), MiSonGyny (F6), LRCLIB (F7), MusicBrainz (F8), Last.fm (F19)</td>
+<td>Kworb (F4), Kaggle <em>Spotify Charts</em> (F5, validación), Google Trends (F11), ENDUTIH (F16), CONAPO (F3), MiSonGyny (F6), LRCLIB (F7), MusicBrainz (F8), Last.fm (F19)</td>
 <td><strong>Parcial:</strong> el consumo real solo existe a nivel nacional; por entidad se reparte con búsquedas, que no son reproducciones. Solo cuenta canciones con letra clasificada.</td>
 </tr>
 <tr class="even">
@@ -258,16 +258,16 @@ ul.task-list li input[type="checkbox"] {
 <td>Correlación</td>
 <td>Proporción misógina; tasas por 100 mil mujeres con <code>carpetas</code>, <code>victimas_mujeres</code> y la población de mujeres; variables de control</td>
 <td><code>dim_fecha</code>, <code>dim_entidad</code>, <code>dim_tipo_violencia</code>, <code>dim_contexto_entidad</code>, <code>dim_cancion</code></td>
-<td>SESNSP (F1), RNPDNO (F13), CONAPO (F3), Google Trends (F11), ENDUTIH (F16), CONEVAL (F15), México Evalúa (F17), Censo (F14)</td>
-<td><strong>Parcial:</strong> la serie nacional con streams tiene 60 meses (2017–2021). El panel por entidad depende del reparto y se calcula por año, no por mes. El diseño es asociativo, no causal. El RNPDNO termina en agosto de 2023.</td>
+<td>SESNSP (F1), RNPDNO (F13), Kworb (F4), CONAPO (F3), Google Trends (F11), ENDUTIH (F16), CONEVAL (F15), México Evalúa (F17), Censo (F14)</td>
+<td><strong>Parcial:</strong> la serie nacional tiene 132 meses (2015–2025). El panel por entidad depende del reparto y se calcula por año, no por mes. El diseño es asociativo, no causal. El RNPDNO termina en agosto de 2023.</td>
 </tr>
 <tr class="odd">
 <td><strong>P3 (ajustada):</strong> evolución de la misoginia en la música consumida, por tipo de violencia.</td>
 <td>Análisis de series de tiempo</td>
-<td>Participación mensual de cada tipo en <code>puntos_top50_estimados</code>, media móvil de 12 meses, cambio anual; <code>mejor_posicion_nacional</code></td>
+<td>Participación mensual de cada tipo en <code>streams_estimados</code>, media móvil de 12 meses, cambio anual; <code>mejor_posicion_nacional</code></td>
 <td><code>dim_fecha</code>, <code>dim_cancion</code>, <code>dim_tipo_violencia</code></td>
-<td>Kaggle <em>Spotify Charts</em> (F5), Top 73 (F12), Kworb (F4), MiSonGyny (F6), LRCLIB (F7)</td>
-<td><strong>Parcial:</strong> la serie empieza en 2017, no en 2014, y no hay datos de enero de 2022 a septiembre de 2023. Los tipos salen de las categorías del clasificador (sexualización, violencia y odio), no de los cuatro tipos que plantea E0.</td>
+<td>Kworb (F4), MiSonGyny (F6), LRCLIB (F7)</td>
+<td><strong>Parcial:</strong> la década se cubre (2015–2025) con streams semanales repartidos a mes. Los tipos salen de las categorías del clasificador (sexualización, violencia y odio), no de los cuatro tipos que plantea E0.</td>
 </tr>
 <tr class="even">
 <td><strong>P4:</strong> tipos de violencia que predominan en la música y si coinciden con los más reportados oficialmente.</td>
@@ -346,44 +346,32 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td><code>streams_estimados</code></td>
 <td><code>fact_consumo_musical</code></td>
-<td>P1, P2, P3</td>
-<td><code>p1_proporcion_misogina_genero</code>, <code>p1_proporcion_misogina_entidad</code>, <code>p2_serie_mensual_nacional</code>, <code>p3_tendencia_tipo_violencia</code></td>
-</tr>
-<tr class="even">
-<td><code>puntos_top50_estimados</code></td>
-<td><code>fact_consumo_musical</code></td>
 <td>P1, P2, P3, P4</td>
 <td>Todas las vistas de consumo</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>peso_entidad</code></td>
 <td><code>fact_consumo_musical</code></td>
 <td>P1</td>
 <td>Base de las medidas estimadas; se revisa en la preparación</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>interes_busqueda</code></td>
 <td><code>fact_consumo_musical</code></td>
 <td>P1</td>
 <td>Dato de origen del peso, para auditarlo</td>
 </tr>
-<tr class="odd">
-<td><code>dias_en_chart_nacional</code></td>
+<tr class="even">
+<td><code>semanas_en_chart_nacional</code></td>
 <td><code>fact_consumo_musical</code></td>
 <td>P1</td>
 <td><code>p1_proporcion_misogina_genero</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>mejor_posicion_nacional</code></td>
 <td><code>fact_consumo_musical</code></td>
 <td>P3</td>
 <td><code>p3_tendencia_tipo_violencia</code></td>
-</tr>
-<tr class="odd">
-<td><code>popularidad_nacional</code></td>
-<td><code>fact_consumo_musical</code></td>
-<td>P1</td>
-<td><code>p1_proporcion_misogina_genero</code></td>
 </tr>
 <tr class="even">
 <td><code>carpetas</code></td>
@@ -440,6 +428,14 @@ ul.task-list li input[type="checkbox"] {
 <td>Solo consulta de referencia; sus términos de uso no permiten cargar los datos.</td>
 </tr>
 <tr class="odd">
+<td>Kaggle <em>Spotify Charts</em> (F5)</td>
+<td>Valida en silver los streams semanales de Kworb en 2017–2021.</td>
+</tr>
+<tr class="even">
+<td>Kaggle <em>Top 73</em> (F12)</td>
+<td>Ya no hace falta: Kworb cubre los mismos años con streams. Queda en el catálogo como referencia.</td>
+</tr>
+<tr class="odd">
 <td>Mapa de Salguero (F10)</td>
 <td>Queda en el catálogo como referencia del subregistro; no entra al almacén porque el mapa no permite exportar datos.</td>
 </tr>
@@ -450,7 +446,7 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="ajustes-y-relación-con-el-criterio-de-éxito-de-e0">Ajustes y relación con el criterio de éxito de E0</h2>
 <ul>
 <li><strong>P1 y P2 se ajustan</strong> porque ninguna fuente abierta da reproducciones por entidad. El reparto con Google Trends mantiene la desagregación por entidad que pide el criterio de éxito, pero como estimación.</li>
-<li><strong>La ventana se ajusta a 2017–2025</strong>, con streams solo en 2017–2021 y un hueco entre enero de 2022 y septiembre de 2023.</li>
+<li><strong>La ventana es 2015–2025</strong>, la intersección entre los streams semanales de Kworb (desde 2013) y el SESNSP (desde 2015). Cubre la década que planteaba E0.</li>
 <li><strong>P2 se calcula por entidad y año.</strong> Un análisis por entidad y mes repetiría observaciones que no son independientes.</li>
 <li><strong>Los tipos de violencia de la música</strong> salen del clasificador entrenado con MiSonGyny y se mapean a la LGAMVLV. La comparación con los registros oficiales es posible para los tipos sexual y física. Queda limitada para la psicológica, la económica o patrimonial y la mediática, y la feminicida no tiene contraparte en las letras.</li>
 <li>Estos ajustes cambian el alcance del objetivo de minería y la ventana del criterio de éxito, por eso se documentan en la <a href="../../entregas/E1_arquitectura_dw/pivote.html">página de pivote</a> y en E0 v2.</li>

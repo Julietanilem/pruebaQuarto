@@ -2,7 +2,7 @@
 title: "F12. Kaggle — Top Spotify Songs in 73 Countries (2023–2025)"
 ---
 
-Top 50 diario de Spotify en más de 70 países; da continuidad a la serie de consumo después de 2021, con características de audio de cada canción.
+Top 50 diario de Spotify en más de 70 países, con características de audio de cada canción. Se aceptó para continuar la serie después de 2021, pero **ya no entra al almacén**: el historial semanal de Kworb (F4) cubre esos años con streams, y este dataset solo trae posición y popularidad. Queda en el catálogo como referencia.
 
 | Campo | Descripción |
 |---|---|

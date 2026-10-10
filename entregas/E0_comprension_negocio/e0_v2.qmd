@@ -6,8 +6,7 @@ subtitle: "Cambios a E0 después del pivote de E1"
 ::: {.callout-note}
 ## Qué es esta página
 
-Durante E1 confirmamos que no existe una fuente abierta de consumo musical por entidad y que los streams
-históricos de México solo cubren 2017–2021. Por eso pivotamos (ver [página de pivote](../E1_arquitectura_dw/pivote.qmd)).
+Durante E1 confirmamos que no existe una fuente abierta de consumo musical por entidad. Por eso pivotamos (ver [página de pivote](../E1_arquitectura_dw/pivote.qmd)).
 Esta página recoge **solo las secciones de E0 que cambian**, ya actualizadas. La versión original de E0 se conserva
 sin cambios en las demás páginas de esta sección. El tema, el stakeholder y los dos entregables (diagnóstico
 descriptivo y análisis de correlación) no cambian.
@@ -18,11 +17,11 @@ descriptivo y análisis de correlación) no cambian.
 | Sección de E0 | Antes | Ahora (v2) |
 |---|---|---|
 | Preguntas P1 y P2 | Consumo medido por entidad | Consumo por entidad **estimado** con Google Trends |
-| Pregunta P3 | Última década | 2017–2021 con streams; 2017–2025 con posiciones, sin datos de enero de 2022 a septiembre de 2023 |
+| Pregunta P3 | Última década | 2015–2025, con streams semanales de Kworb; los tipos de violencia son los que distingue el clasificador |
 | Pregunta P4 | Tipos física, sexual, económica, patrimonial y simbólica | Los tipos que miden las fuentes; cobertura parcial |
-| Criterio de éxito | Ventana de 10 años | Ventana real de los datos; resultados por entidad marcados como estimación |
+| Criterio de éxito | Ventana de 10 años | 2015–2025; resultados por entidad marcados como estimación |
 | Canvas 1. Objetivos de negocio | Desagregación por entidad directa | Desagregación por entidad estimada |
-| Canvas 3. Evaluación de la situación | Histórico de 10 años vía Kworb; mapa de Salguero como contraste | Histórico verificado de Kaggle (2017–2021) y Top 73; Salguero fuera del almacén; supuestos y riesgos nuevos |
+| Canvas 3. Evaluación de la situación | Histórico de 10 años vía Kworb; mapa de Salguero como contraste | Histórico semanal de Kworb desde 2013, validado con Kaggle; Salguero fuera del almacén; supuestos y riesgos nuevos |
 | Canvas 4. Objetivos de minería de datos | Índice agregable por entidad | Índice por canción, con la entidad como estimación |
 | Canvas 6. Plan del proyecto | Fase 1 con Kworb a 10 años y mapa de Salguero | Fase 1 con las fuentes del catálogo de E1 |
 
@@ -43,7 +42,7 @@ por entidad y año, con tasas por 100 mil mujeres del SESNSP y, como indicador a
 RNPDNO.
 
 **P3 (ajustada) · Prioridad media · Series de tiempo.** ¿Cómo ha evolucionado la misoginia en la música consumida
-en México entre 2017 y 2025, y ese cambio es parejo entre tipos de violencia? Los tipos son los que distingue el
+en México entre 2015 y 2025, y ese cambio es parejo entre tipos de violencia? Los tipos son los que distingue el
 clasificador (sexual, física y psicológica); la violencia simbólica no se puede separar con los datos disponibles.
 
 **P4 · Prioridad media · Clasificación multiclase.** ¿Qué tipos de violencia predominan en la música analizada y
@@ -54,14 +53,14 @@ violencia económica, patrimonial ni simbólica, así que la comparación es par
 
 El enunciado del stakeholder no cambia (ver [criterio de éxito](criterio_exito.qmd)). Cambia cómo se verifica:
 
-- **Fuente de datos:** charts de Spotify México (Kaggle *Spotify Charts* 2017–2021 con streams; Top 73 desde
-  octubre de 2023 y Kworb, con posiciones), Google Trends por entidad, SESNSP, RNPDNO, ENDIREH 2021 y CONAPO. El
+- **Fuente de datos:** chart semanal de Spotify México con streams (historial de Kworb, validado con Kaggle
+  *Spotify Charts* en 2017–2021), Google Trends por entidad, SESNSP, RNPDNO, ENDIREH 2021 y CONAPO. El
   mapa de Salguero queda como referencia del subregistro, fuera del almacén, porque no permite exportar datos.
 - **Meta:** un índice reproducible por género musical, tipo de violencia y periodo, y **por entidad como
   estimación**; un coeficiente de correlación con su significancia, reportado a nivel nacional mensual y por
   entidad y año.
-- **Ventana temporal:** mensual a nivel nacional y anual por entidad. Con streams, 2017–2021; con posiciones del
-  Top 50, 2017–2025, sin datos de enero de 2022 a septiembre de 2023.
+- **Ventana temporal:** mensual a nivel nacional y anual por entidad, de 2015 a 2025. Es la intersección entre los
+  streams de Kworb (desde 2013) y el SESNSP (desde 2015).
 - **Trazabilidad:** todo resultado por entidad indica que es una estimación y qué parte del reparto salió del
   propio artista.
 
@@ -75,19 +74,21 @@ búsqueda.
 
 ### 3. Evaluación de la situación
 
-**Recursos:** charts de Spotify México (Kaggle 2017–2021, Top 73 y Kworb), Google Trends por entidad, SESNSP
+**Recursos:** chart semanal de Spotify México (Kworb, validado con Kaggle), Google Trends por entidad, SESNSP
 (delitos y víctimas), RNPDNO, ENDIREH, CONAPO y fuentes de contexto (ENDUTIH, Censo 2020, CONEVAL, México Evalúa),
 MiSonGyny, LRCLIB y MusicBrainz. El catálogo completo está en [Fuentes de datos](../E1_arquitectura_dw/fuentes.qmd).
 
-**Requisitos:** la ventana se ajusta a la intersección real de los datos verificados. Hoy el histórico con
-streams que tenemos descargado viene de Kaggle y cubre 2017–2021.
+**Requisitos:** la ventana se ajusta a la intersección real de los datos verificados: 2015–2025. El histórico
+con streams sale del historial semanal de Kworb, que coincide al stream con Kaggle donde los dos tienen datos.
 
 **Supuestos nuevos:**
 
+- Que el consumo es parejo dentro de cada semana, para repartir el chart semanal entre meses.
 - Que el consumo de un artista se reparte entre los estados como su interés de búsqueda en Google Trends,
   escalado por los usuarios de internet de cada estado.
-- Que el Top 200 de Spotify México representa la música más escuchada en streaming en el país (los 100 artistas
-  principales de cada año explican entre el 87 % y el 91 % de sus streams).
+- Que el Top 200 de Spotify México representa la música más escuchada en streaming en el país (los 50 artistas
+  principales de cada año explican entre el 66 % y el 74 % de sus streams, y los 100 principales entre el 87 % y
+  el 91 %).
 
 **Riesgos nuevos:**
 
@@ -108,6 +109,6 @@ streams que tenemos descargado viene de Kaggle y cubre 2017–2021.
 
 ### 6. Plan del proyecto
 
-**Fase 1 (comprensión y exploración):** extracción de los charts de Spotify México (Kaggle, Top 73 y Kworb), las
+**Fase 1 (comprensión y exploración):** extracción del historial semanal de Spotify México en Kworb (y Kaggle para validarlo), las
 descargas de Google Trends por artista y año, y los indicadores de violencia (SESNSP, RNPDNO, ENDIREH), con su
 carga en la capa staging de BigQuery. Las fases 2 a 4 no cambian.

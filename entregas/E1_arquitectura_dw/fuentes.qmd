@@ -88,7 +88,7 @@ estimación con Google Trends. La búsqueda completa y las fuentes descartadas e
 | F9 | [Spotify Charts (por ciudad)](fuentes/f09_spotify_charts.qmd) | Portal web con cuenta | A | **Aceptada con limitaciones** | C1–C3; C4 parcial |
 | F10 | [Mapa de feminicidios (M. Salguero)](fuentes/f10_salguero.qmd) | Mapa en Google My Maps | D | **Aceptada con limitaciones** | C1, C3; C2 y C4 parciales |
 | F11 | [Google Trends, interés por estado](fuentes/f11_google_trends.qmd) | Servicio web de Google | A | **Aceptada** | C1–C4 |
-| F12 | [Kaggle, *Top Spotify Songs in 73 Countries*](fuentes/f12_kaggle_top73.qmd) | Dataset de Kaggle | A | **Aceptada** | C1–C4 |
+| F12 | [Kaggle, *Top Spotify Songs in 73 Countries*](fuentes/f12_kaggle_top73.qmd) | Dataset de Kaggle | A | **Aceptada**, solo como referencia | C1–C4; Kworb cubre sus años con streams |
 | F13 | [RNPDNO, personas desaparecidas (Data Cívica)](fuentes/f13_rnpdno.qmd) | Archivo CSV de organización civil | D | **Aceptada con limitaciones** | C3; C1, C2 y C4 parciales |
 | F14 | [INEGI, Censo 2020 ITER](fuentes/f14_censo_iter.qmd) | Archivo CSV de portal abierto | D | **Aceptada** | C1–C4 |
 | F15 | [CONEVAL, pobreza por entidad](fuentes/f15_coneval.qmd) | Archivo Excel institucional | D | **Aceptada** | C1–C4 |

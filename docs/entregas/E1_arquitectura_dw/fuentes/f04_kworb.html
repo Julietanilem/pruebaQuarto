@@ -217,10 +217,10 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Sitio que recopila diariamente los charts públicos de Spotify. Ofrece dos vistas que usamos:</p>
+<p>Sitio que recopila diariamente los charts públicos de Spotify. Es la <strong>fuente de streams del almacén para toda la ventana 2015–2025</strong>, a partir del historial semanal de cada canción (ver <a href="../../../entregas/E1_arquitectura_dw/pivote.html#evidencia-kworb">pivote</a>). Ofrece dos vistas que usamos:</p>
 <ul>
 <li><strong>Chart de México:</strong> la lista de las 200 canciones más escuchadas en México en un día. Cada fila es una canción: posición, días en el chart, pico y streams de ese día (figura izquierda).</li>
-<li><strong>Historial de una canción:</strong> cada fila es un día y cada columna un país. Por ejemplo, en el historial de “KAROL G – BbY WOW” (<a href="https://kworb.net/spotify/track/3h5T5JypYU7huFiVYhv1dr.html" class="uri">https://kworb.net/spotify/track/3h5T5JypYU7huFiVYhv1dr.html</a>) la celda del 8 de septiembre de 2026 en la columna <code>MX</code> dice <code>1 (2,427,912)</code>: ese día fue la número 1 en México con 2,427,912 streams (figura derecha).</li>
+<li><strong>Historial de una canción:</strong> cada fila es una semana (o un día, en la vista diaria) y cada columna un país. Por ejemplo, en el historial de “KAROL G – BbY WOW” (<a href="https://kworb.net/spotify/track/3h5T5JypYU7huFiVYhv1dr.html" class="uri">https://kworb.net/spotify/track/3h5T5JypYU7huFiVYhv1dr.html</a>) la celda del 8 de septiembre de 2026 en la columna <code>MX</code> dice <code>1 (2,427,912)</code>: ese día fue la número 1 en México con 2,427,912 streams (figura derecha).</li>
 </ul>
 <table class="caption-top table">
 <thead>
@@ -248,11 +248,11 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td><strong>Grano</strong></td>
-<td>Chart: una fila por canción y día. Historial: una fila por día y canción, con posición y streams por país.</td>
+<td>Chart: una fila por canción y día. Historial: una fila por semana y canción, con posición y streams por país; la fecha es el jueves en que termina la semana.</td>
 </tr>
 <tr class="even">
 <td><strong>Cobertura</strong></td>
-<td>Desde 2017 hasta hoy; diario y semanal. La canción con más tiempo en el chart de México acumula 3,447 días.</td>
+<td>Chart semanal de México del 28 de abril de 2013 al presente, con streams desde la semana del 9 de junio de 2013; 5,146 canciones en la lista de totales semanales. El chart diario está desde 2017. La canción con más tiempo en el chart diario de México acumula 3,447 días.</td>
 </tr>
 <tr class="odd">
 <td><strong>Información de México</strong></td>
@@ -314,6 +314,9 @@ ul.task-list li input[type="checkbox"] {
 <li>En el historial de cada canción, la posición y el número de reproducciones aparecen juntos en una misma celda.</li>
 <li>Solo hay datos a nivel nacional, por lo que no permite analizar el consumo por entidad.</li>
 <li>La página se actualiza todos los días y no conserva versiones anteriores del chart.</li>
+<li>El historial completo requiere una página por canción: 5,146 páginas, que se descargan a una cada 1.5 segundos y se guardan para no repetir. El <code>robots.txt</code> del sitio permite la descarga.</li>
+<li>Una misma canción puede tener otro ID en Kaggle; para validar solo se comparan canciones con el mismo ID.</li>
+<li>Validación: en 2021, el streams semanal de Kworb es idéntico a la suma de los 7 días de Kaggle en 15 de 15 semanas comparables.</li>
 </ul>
 <p><a href="../../../entregas/E1_arquitectura_dw/fuentes.html">← Volver a fuentes de datos</a></p>
 

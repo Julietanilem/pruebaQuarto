@@ -8,6 +8,8 @@
 -- Reglas que siguen todas las vistas:
 --   * El consumo nacional es la suma de las 32 entidades (el reparto
 --     conserva el total), así que no existe una fila "Nacional".
+--   * Los datos nacionales repetidos en cada entidad (semanas en el
+--     chart, mejor posición) se toman una sola vez por canción y mes.
 --   * La proporción misógina solo cuenta canciones clasificadas
 --     (es_misogina no nulo); la cobertura se reporta aparte.
 --   * Todo resultado por entidad es una estimación y se marca así.
@@ -16,19 +18,15 @@
 -- ---------------------------------------------------------------------
 -- P1a. Proporción misógina del consumo nacional por año, macrogénero y
 --      género, con subtotales (ROLLUP) y marcas de subtotal (GROUPING).
---      Primero se vuelve al nivel nacional por canción y mes: las medidas
---      estimadas se suman entre entidades y los datos nacionales repetidos
---      se toman una sola vez (MAX).
+--      Primero se vuelve al nivel nacional por canción y mes.
 -- ---------------------------------------------------------------------
 CREATE OR REPLACE VIEW misoginia_mart.p1_proporcion_misogina_genero AS
 WITH nacional AS (
   SELECT
     f.fecha_key,
     f.cancion_key,
-    SUM(f.streams_estimados)      AS streams,
-    SUM(f.puntos_top50_estimados) AS puntos,
-    MAX(f.dias_en_chart_nacional) AS dias_en_chart,
-    MAX(f.popularidad_nacional)   AS popularidad
+    SUM(f.streams_estimados)         AS streams,
+    MAX(f.semanas_en_chart_nacional) AS semanas_en_chart
   FROM misoginia_dw.fact_consumo_musical AS f
   GROUP BY f.fecha_key, f.cancion_key
 )
@@ -42,16 +40,13 @@ SELECT
   COUNT(DISTINCT n.cancion_key) AS canciones,
   SUM(n.streams) AS streams,
   SAFE_DIVIDE(SUM(IF(c.es_misogina, n.streams, 0)),
-              SUM(IF(c.es_misogina IS NOT NULL, n.streams, 0))) AS proporcion_misogina_streams,
-  SAFE_DIVIDE(SUM(IF(c.es_misogina, n.puntos, 0)),
-              SUM(IF(c.es_misogina IS NOT NULL, n.puntos, 0))) AS proporcion_misogina_puntos,
-  SAFE_DIVIDE(SUM(IF(c.es_misogina, n.dias_en_chart, 0)),
-              SUM(IF(c.es_misogina IS NOT NULL, n.dias_en_chart, 0))) AS proporcion_misogina_dias,
-  AVG(IF(c.es_misogina, n.popularidad, NULL)) AS popularidad_promedio_misoginas,
-  SAFE_DIVIDE(SUM(IF(c.es_misogina IS NOT NULL, n.puntos, 0)),
-              SUM(n.puntos)) AS cobertura_clasificada,
-  SAFE_DIVIDE(SUM(IF(c.origen_etiqueta = 'misongyny', n.puntos, 0)),
-              SUM(IF(c.es_misogina IS NOT NULL, n.puntos, 0))) AS pct_etiqueta_humana
+              SUM(IF(c.es_misogina IS NOT NULL, n.streams, 0))) AS proporcion_misogina,
+  SAFE_DIVIDE(SUM(IF(c.es_misogina, n.semanas_en_chart, 0)),
+              SUM(IF(c.es_misogina IS NOT NULL, n.semanas_en_chart, 0))) AS proporcion_misogina_semanas,
+  SAFE_DIVIDE(SUM(IF(c.es_misogina IS NOT NULL, n.streams, 0)),
+              SUM(n.streams)) AS cobertura_clasificada,
+  SAFE_DIVIDE(SUM(IF(c.origen_etiqueta = 'misongyny', n.streams, 0)),
+              SUM(IF(c.es_misogina IS NOT NULL, n.streams, 0))) AS pct_etiqueta_humana
 FROM nacional AS n
 JOIN misoginia_dw.dim_fecha   AS d ON d.fecha_key = n.fecha_key
 JOIN misoginia_dw.dim_cancion AS c ON c.cancion_key = n.cancion_key
@@ -72,10 +67,8 @@ WITH base AS (
     e.entidad,
     SUM(IF(c.es_misogina, f.streams_estimados, 0))             AS streams_misoginos,
     SUM(IF(c.es_misogina IS NOT NULL, f.streams_estimados, 0)) AS streams_clasificados,
-    SUM(IF(c.es_misogina, f.puntos_top50_estimados, 0))             AS puntos_misoginos,
-    SUM(IF(c.es_misogina IS NOT NULL, f.puntos_top50_estimados, 0)) AS puntos_clasificados,
-    SUM(IF(STARTS_WITH(f.origen_peso, 'artista'), f.puntos_top50_estimados, 0)) AS puntos_peso_artista,
-    SUM(f.puntos_top50_estimados) AS puntos_totales
+    SUM(IF(STARTS_WITH(f.origen_peso, 'artista'), f.streams_estimados, 0)) AS streams_peso_artista,
+    SUM(f.streams_estimados) AS streams_totales
   FROM misoginia_dw.fact_consumo_musical AS f
   JOIN misoginia_dw.dim_fecha   AS d ON d.fecha_key = f.fecha_key
   JOIN misoginia_dw.dim_entidad AS e ON e.entidad_key = f.entidad_key
@@ -87,36 +80,33 @@ indicadores AS (
     anio,
     cve_ent,
     entidad,
-    SAFE_DIVIDE(streams_misoginos, streams_clasificados) AS proporcion_misogina_streams,
-    SAFE_DIVIDE(puntos_misoginos, puntos_clasificados)   AS proporcion_misogina_puntos,
-    SAFE_DIVIDE(puntos_peso_artista, puntos_totales)     AS pct_peso_artista
+    SAFE_DIVIDE(streams_misoginos, streams_clasificados) AS proporcion_misogina,
+    SAFE_DIVIDE(streams_peso_artista, streams_totales)   AS pct_peso_artista
   FROM base
 )
 SELECT
   anio,
   cve_ent,
   entidad,
-  proporcion_misogina_streams,
-  proporcion_misogina_puntos,
+  proporcion_misogina,
   pct_peso_artista,
-  RANK() OVER (PARTITION BY anio ORDER BY proporcion_misogina_puntos DESC) AS lugar_en_el_anio,
-  proporcion_misogina_puntos
-    - AVG(proporcion_misogina_puntos) OVER (PARTITION BY anio) AS diferencia_vs_promedio_estatal,
+  RANK() OVER (PARTITION BY anio ORDER BY proporcion_misogina DESC) AS lugar_en_el_anio,
+  proporcion_misogina
+    - AVG(proporcion_misogina) OVER (PARTITION BY anio) AS diferencia_vs_promedio_estatal,
   TRUE AS es_estimacion
 FROM indicadores;
 
 -- ---------------------------------------------------------------------
 -- P2a. Serie mensual nacional: proporción misógina del consumo frente a
---      las tasas por 100 mil mujeres de cada tipo de violencia.
+--      las tasas por 100 mil mujeres de cada tipo de violencia, con la
+--      etapa de la pandemia como control.
 -- ---------------------------------------------------------------------
 CREATE OR REPLACE VIEW misoginia_mart.p2_serie_mensual_nacional AS
 WITH musica AS (
   SELECT
     f.fecha_key,
     SAFE_DIVIDE(SUM(IF(c.es_misogina, f.streams_estimados, 0)),
-                SUM(IF(c.es_misogina IS NOT NULL, f.streams_estimados, 0))) AS proporcion_misogina_streams,
-    SAFE_DIVIDE(SUM(IF(c.es_misogina, f.puntos_top50_estimados, 0)),
-                SUM(IF(c.es_misogina IS NOT NULL, f.puntos_top50_estimados, 0))) AS proporcion_misogina_puntos
+                SUM(IF(c.es_misogina IS NOT NULL, f.streams_estimados, 0))) AS proporcion_misogina
   FROM misoginia_dw.fact_consumo_musical AS f
   JOIN misoginia_dw.dim_cancion AS c ON c.cancion_key = f.cancion_key
   GROUP BY f.fecha_key
@@ -146,8 +136,7 @@ SELECT
   d.evento_restriccion_musical,
   vi.tipo_lgamvlv,
   vi.es_control,
-  mu.proporcion_misogina_streams,
-  mu.proporcion_misogina_puntos,
+  mu.proporcion_misogina,
   vi.carpetas,
   vi.victimas_mujeres,
   SAFE_DIVIDE(vi.carpetas, p.mujeres) * 100000         AS tasa_carpetas_100k_mujeres,
@@ -162,14 +151,17 @@ LEFT JOIN musica AS mu ON mu.fecha_key = vi.fecha_key;
 
 -- ---------------------------------------------------------------------
 -- P2b. Coeficiente de correlación nacional por tipo de violencia, con el
---      número de meses que entran (solo meses con streams).
+--      número de meses que entran, y la misma correlación sin los meses
+--      de confinamiento.
 -- ---------------------------------------------------------------------
 CREATE OR REPLACE VIEW misoginia_mart.p2_correlacion_nacional AS
 SELECT
   tipo_lgamvlv,
   es_control,
-  COUNTIF(proporcion_misogina_streams IS NOT NULL AND tasa_indicador_100k_mujeres IS NOT NULL) AS n_meses,
-  CORR(proporcion_misogina_streams, tasa_indicador_100k_mujeres) AS correlacion_pearson
+  COUNTIF(proporcion_misogina IS NOT NULL AND tasa_indicador_100k_mujeres IS NOT NULL) AS n_meses,
+  CORR(proporcion_misogina, tasa_indicador_100k_mujeres) AS correlacion_pearson,
+  CORR(IF(etapa_covid = 'confinamiento', NULL, proporcion_misogina),
+       IF(etapa_covid = 'confinamiento', NULL, tasa_indicador_100k_mujeres)) AS correlacion_sin_confinamiento
 FROM misoginia_mart.p2_serie_mensual_nacional
 GROUP BY tipo_lgamvlv, es_control;
 
@@ -199,15 +191,15 @@ panel AS (
     m.cve_ent,
     m.entidad,
     vi.tipo_lgamvlv,
-    m.proporcion_misogina_streams,
-    m.proporcion_misogina_puntos,
+    m.proporcion_misogina,
     m.pct_peso_artista,
     SAFE_DIVIDE(vi.carpetas, ctx.poblacion_mujeres) * 100000         AS tasa_carpetas_100k_mujeres,
     SAFE_DIVIDE(vi.victimas_mujeres, ctx.poblacion_mujeres) * 100000 AS tasa_victimas_100k_mujeres,
     SAFE_DIVIDE(COALESCE(vi.carpetas, vi.victimas_mujeres), ctx.poblacion_mujeres) * 100000 AS tasa_indicador_100k_mujeres,
     ctx.pct_usuarios_internet,
     ctx.pct_pobreza,
-    ctx.indice_impunidad
+    ctx.indice_impunidad,
+    ctx.propuesta_restriccion_musical
   FROM misoginia_mart.p1_proporcion_misogina_entidad AS m
   JOIN violencia AS vi ON vi.cve_ent = m.cve_ent AND vi.anio = m.anio
   JOIN misoginia_dw.dim_contexto_entidad AS ctx ON ctx.contexto_key = vi.contexto_key
@@ -217,8 +209,7 @@ SELECT
   cve_ent,
   entidad,
   tipo_lgamvlv,
-  proporcion_misogina_streams,
-  proporcion_misogina_puntos,
+  proporcion_misogina,
   pct_peso_artista,
   tasa_carpetas_100k_mujeres,
   tasa_victimas_100k_mujeres,
@@ -226,9 +217,10 @@ SELECT
   pct_usuarios_internet,
   pct_pobreza,
   indice_impunidad,
-  CORR(proporcion_misogina_puntos, tasa_indicador_100k_mujeres)
+  propuesta_restriccion_musical,
+  CORR(proporcion_misogina, tasa_indicador_100k_mujeres)
     OVER (PARTITION BY tipo_lgamvlv, anio) AS correlacion_entre_estados_del_anio,
-  CORR(proporcion_misogina_puntos, tasa_indicador_100k_mujeres)
+  CORR(proporcion_misogina, tasa_indicador_100k_mujeres)
     OVER (PARTITION BY tipo_lgamvlv)       AS correlacion_panel_completo,
   TRUE AS es_estimacion
 FROM panel;
@@ -237,19 +229,16 @@ FROM panel;
 -- P3. Evolución mensual nacional de cada tipo de violencia en la música:
 --     participación en el consumo, media móvil de 12 meses y cambio
 --     contra el mismo mes del año anterior. Los marcos RANGE sobre
---     indice_mes respetan el hueco de 2022-2023 (no lo saltan como si
---     fueran meses contiguos).
+--     indice_mes cuentan meses de calendario aunque falte alguno.
 -- ---------------------------------------------------------------------
 CREATE OR REPLACE VIEW misoginia_mart.p3_tendencia_tipo_violencia AS
 WITH mensual AS (
   SELECT
     d.fecha,
     d.indice_mes,
-    d.periodo_datos_musica,
     d.etapa_covid,
     t.tipo_lgamvlv,
-    SUM(f.puntos_top50_estimados) AS puntos,
-    SUM(f.streams_estimados)      AS streams,
+    SUM(f.streams_estimados) AS streams,
     -- El dato nacional se repite igual en las 32 entidades: el promedio no cambia
     AVG(f.mejor_posicion_nacional) AS posicion_promedio
   FROM misoginia_dw.fact_consumo_musical AS f
@@ -257,20 +246,18 @@ WITH mensual AS (
   JOIN misoginia_dw.dim_cancion        AS c ON c.cancion_key = f.cancion_key
   JOIN misoginia_dw.dim_tipo_violencia AS t ON t.tipo_violencia_key = f.tipo_violencia_key
   WHERE c.es_misogina IS NOT NULL
-  GROUP BY d.fecha, d.indice_mes, d.periodo_datos_musica, d.etapa_covid, t.tipo_lgamvlv
+  GROUP BY d.fecha, d.indice_mes, d.etapa_covid, t.tipo_lgamvlv
 ),
 participacion AS (
   SELECT
     *,
-    SAFE_DIVIDE(puntos, SUM(puntos) OVER (PARTITION BY indice_mes)) AS participacion
+    SAFE_DIVIDE(streams, SUM(streams) OVER (PARTITION BY indice_mes)) AS participacion
   FROM mensual
 )
 SELECT
   fecha,
-  periodo_datos_musica,
   etapa_covid,
   tipo_lgamvlv,
-  puntos,
   streams,
   posicion_promedio,
   participacion,
@@ -295,7 +282,7 @@ WITH tipos AS (
   GROUP BY tipo_lgamvlv
 ),
 musica AS (
-  SELECT t.tipo_lgamvlv, SUM(f.puntos_top50_estimados) AS puntos
+  SELECT t.tipo_lgamvlv, SUM(f.streams_estimados) AS streams
   FROM misoginia_dw.fact_consumo_musical AS f
   JOIN misoginia_dw.dim_cancion        AS c ON c.cancion_key = f.cancion_key
   JOIN misoginia_dw.dim_tipo_violencia AS t ON t.tipo_violencia_key = f.tipo_violencia_key
@@ -326,11 +313,11 @@ endireh AS (
 SELECT
   tp.tipo_lgamvlv,
   tp.medido_en_sesnsp,
-  SAFE_DIVIDE(m.puntos, SUM(m.puntos) OVER ())     AS participacion_musica,
+  SAFE_DIVIDE(m.streams, SUM(m.streams) OVER ())   AS participacion_musica,
   SAFE_DIVIDE(o.carpetas, SUM(o.carpetas) OVER ()) AS participacion_sesnsp,
   n.prevalencia                                    AS prevalencia_endireh_2021,
   -- Un tipo sin dato en una fuente no recibe lugar en esa fuente
-  IF(m.puntos IS NULL, NULL, RANK() OVER (ORDER BY m.puntos DESC))           AS lugar_musica,
+  IF(m.streams IS NULL, NULL, RANK() OVER (ORDER BY m.streams DESC))         AS lugar_musica,
   IF(o.carpetas IS NULL, NULL, RANK() OVER (ORDER BY o.carpetas DESC))       AS lugar_sesnsp,
   IF(n.prevalencia IS NULL, NULL, RANK() OVER (ORDER BY n.prevalencia DESC)) AS lugar_endireh
 FROM tipos AS tp

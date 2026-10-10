@@ -2,7 +2,7 @@
 title: "F5. Kaggle — Spotify Charts (2017–2021)"
 ---
 
-Colección completa de los charts diarios de Spotify; aporta los streams diarios del Top 200 de México, fecha por fecha.
+Colección completa de los charts diarios de Spotify. En el almacén **sirve para validar** los streams semanales de Kworb (F4) en 2017–2021: la suma de 7 días coincide al stream con la semana de Kworb.
 
 | Campo | Descripción |
 |---|---|
@@ -26,7 +26,7 @@ Colección completa de los charts diarios de Spotify; aporta los streams diarios
 
 ## Problemas anticipados para la integración
 
-- Faltan 34 días, la mayoría de diciembre de 2021, y la serie termina ese año.
+- Faltan 34 días, la mayoría de diciembre de 2021, y la serie termina ese año. La comparación con Kworb lo confirmó: las semanas de diciembre de 2021 no coinciden porque aquí faltan días.
 - Una parte de las canciones no tiene el mismo identificador que en Kworb, porque una misma canción puede tener varios identificadores en Spotify.
 - El archivo completo es demasiado grande para cargarlo directamente en BigQuery desde la consola.
 
