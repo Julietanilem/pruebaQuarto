@@ -78,3 +78,6 @@ Esto genera el sitio estático en `docs/`, que es la carpeta que sirve GitHub Pa
 2. Subir el repositorio a GitHub (`main` como rama por defecto).
 3. En GitHub: **Settings -> Pages -> Branch: `main` / `docs`**.
 4. Pegar la URL pública resultante en este README, en la sección "Sitio publicado" de arriba.
+
+
+Para publicar modificaciones de Quarto en GitHub Pages: ejecutar `quarto render` en la raíz del repositorio antes de `git add -A`, porque Pages publica los HTML de `docs/`.
