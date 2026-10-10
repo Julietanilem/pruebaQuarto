@@ -1,0 +1,63 @@
+---
+title: "Proyecto Integrador — Almacenes y Minería de Datos"
+subtitle: "Facultad de Ciencias, UNAM"
+---
+
+## Datos del equipo
+
+- **Integrantes:** 
+    - Flores Morán Julieta Melina
+    - García Landa Brenda Yareli
+    - Jiménez Rivera Emiliano Kaleb
+    - Zarco Romero José Antonio
+- **Profesora:** Jessica Santizo Galicia
+- **Ayudante de Teoría:** Diego Antonio Villalba González
+- **Ayudante de Laboratorio:** Emma Alicia Jiménez Sánchez
+- **Semestre:** 2027-1
+
+## Descripción del proyecto
+
+Analizamos la misoginia presente en la música que se consume en México y su posible relación con la
+violencia de género. La industria musical ha sido señalada como una de las principales fuentes de
+contenido misógino en el país, pero, a diferencia de la televisión, la publicidad y las telenovelas, nunca
+ha sido sometida al mismo rigor de análisis cuantitativo. Trabajamos con un stakeholder simulado: un
+perfil de investigador(a) en monitoreo de medios y violencia de género, inspirado en la línea de trabajo
+académica de Aimée Vega Montiel (UNAM/ONU Mujeres). El levantamiento completo del problema está en la
+[bitácora](entregas/E0_comprension_negocio/bitacora.qmd) y en el
+[Business Understanding Canvas](entregas/E0_comprension_negocio/canvas.qmd) de la entrega E0.
+
+## Metodología
+
+Desarrollamos el proyecto de forma incremental siguiendo las fases de **CRISP-DM**
+(*Cross-Industry Standard Process for Data Mining*).
+
+| # | Fase CRISP-DM | Estatus |
+|---|---|---|
+| 1 | Comprensión del negocio | Cubierta en **E0** |
+| 2 | Comprensión de los datos | Cubierta en **E1** |
+| 3 | Preparación de los datos | Entrega posterior |
+| 4 | Modelado | Entrega posterior |
+| 5 | Evaluación | Entrega posterior |
+| 6 | Despliegue | Integrada en el reporte y la presentación final |
+
+## Entregas
+
+### E0 — Comprensión del negocio
+
+- [Bitácora de la reunión con el stakeholder](entregas/E0_comprension_negocio/bitacora.qmd)
+- [Business Understanding Canvas](entregas/E0_comprension_negocio/canvas.qmd)
+- [Preguntas de investigación priorizadas](entregas/E0_comprension_negocio/preguntas.qmd)
+- [Criterio de éxito en términos de negocio](entregas/E0_comprension_negocio/criterio_exito.qmd)
+- [Riesgos y supuestos](entregas/E0_comprension_negocio/riesgos_supuestos.qmd)
+- [Documentación de uso de herramientas de IA](entregas/E0_comprension_negocio/uso_ia.qmd)
+- [E0 v2: secciones actualizadas tras el pivote de E1](entregas/E0_comprension_negocio/e0_v2.qmd)
+
+### E1 — Arquitectura del DW
+
+- [Fuentes de datos](entregas/E1_arquitectura_dw/fuentes.qmd)
+- [Arquitectura de tres capas](entregas/E1_arquitectura_dw/arquitectura.qmd)
+- [Esquema estrella](entregas/E1_arquitectura_dw/estrella.qmd)
+- [Trazabilidad a E0](entregas/E1_arquitectura_dw/trazabilidad.qmd)
+- [Pivote](entregas/E1_arquitectura_dw/pivote.qmd)
+- [Documentación de uso de herramientas de IA](entregas/E1_arquitectura_dw/uso_ia.qmd)
+- [Referencias](entregas/E1_arquitectura_dw/referencias.qmd)

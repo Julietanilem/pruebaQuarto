@@ -1,0 +1,11 @@
+.quarto/
+/.luarc.json
+
+/.quarto/
+**/*.quarto_ipynb
+
+# Letras de canciones: derechos de autor, nunca se suben
+**/letras/
+# Credenciales de Google Cloud
+*service-account*.json
+*credentials*.json

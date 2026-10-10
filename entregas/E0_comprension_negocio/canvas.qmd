@@ -1,0 +1,185 @@
+---
+title: "Business Understanding Canvas"
+subtitle: "CRISP-DM — Misoginia en la Música Consumida en México y su Relación con la Violencia de Género"
+---
+
+::: {.canvas-grid}
+
+::: {.canvas-block .canvas-block--blue .canvas-span-2}
+#### 1. Objetivos de Negocio
+
+<ul>
+<li><strong>Problema o dolor actual que se busca resolver:</strong> existe un vacío documentado en el
+monitoreo de medios de comunicación en México respecto a la violencia de género: mientras que la
+televisión, la publicidad y las telenovelas ya han sido analizadas de forma cuantitativa y sistemática
+[1], la industria musical, a pesar de haber sido señalada como una de las principales fuentes de
+contenido misógino en el país, nunca ha sido sometida a ese mismo rigor de análisis [1][2]. Ya existen
+herramientas para medir ese contenido, como el lexicón MiSonGyny [3], pero nadie las ha aplicado de
+forma sistemática a lo que realmente se consume en México, ni las ha cruzado con los indicadores
+oficiales de violencia de género.</li>
+<li><strong>Segmento/proceso impactado:</strong> el ámbito de monitoreo de medios y violencia de
+género en México, específicamente la industria musical y su consumo actual (enfocado a streaming)
+frente a los indicadores oficiales de violencia de género.</li>
+<li><strong>Acción o estrategia propuesta:</strong> el proyecto tiene dos entregables independientes:</li>
+<li>Un diagnóstico descriptivo: qué tan misógino es el contenido musical que se consume en México,
+desagregado por tipo de violencia, entidad, género musical y tiempo.</li>
+<li>Un análisis de correlación entre ese índice y los indicadores oficiales de violencia de género,
+reportando el resultado que sea (asociación, ausencia de asociación, o asociación débil), siempre que
+esté correctamente documentado y metodológicamente sólido.</li>
+<li><strong>Horizonte temporal:</strong> el proyecto debe quedar concluido dentro del año 2026, conforme
+al calendario de entregas del curso.</li>
+</ul>
+
+:::
+
+::: {.canvas-block .canvas-block--green .canvas-span-2}
+#### 2. Criterio de Éxito (Negocio)
+
+<p><strong>KPI cuantificable:</strong></p>
+<ul>
+<li><strong>Éxito del componente descriptivo:</strong> contar con un índice de misoginia musical
+calculado de forma reproducible, desagregado por entidad, género musical, tipo de violencia y periodo
+temporal.</li>
+<li><strong>Éxito del componente de correlación:</strong> haber ejecutado un análisis estadístico riguroso
+entre ese índice y los delitos de violencia de género del SESNSP, reportando el coeficiente y su
+significancia estadística.</li>
+</ul>
+<p><strong>Ventana temporal de medición:</strong> mensual/anual, analizando una ventana de 10 años.</p>
+
+:::
+
+::: {.canvas-block .canvas-block--amber .canvas-span-4}
+#### 3. Evaluación de la Situación
+
+<div class="canvas-inner-grid">
+
+<div>
+<p><strong>Recursos:</strong></p>
+<p>Fuentes de datos: consumo musical en México a lo largo de 10 años (charts/streaming vía Kworb),
+SESNSP (delitos de violencia de género desagregados, series mensuales), ENDIREH 2021 (INEGI, corte
+transversal), mapa de feminicidios de María Salguero como fuente de contraste frente al subregistro
+oficial, lexicón MiSonGyny y corpus de refuerzo para el clasificador (AMI, EXIST).</p>
+<p>Equipo: somos 4 integrantes del curso, con roles de datos (extracción y limpieza de las fuentes
+anteriores), clasificación/NLP (adaptación y validación del clasificador de misoginia), documentación
+(control de fuentes, bitácora, Canvas), y traducción técnica (convertir los hallazgos y necesidades
+reportadas en la literatura académica de género en requerimientos concretos y accionables para el
+resto del equipo).</p>
+<p>Información documentada: el cuerpo de investigación académica ya existente sobre música y
+violencia de género (Vega Montiel, 2011 [1]; el debate ante la ONU de 2019 [2]; Arévalo et al., 2018, sobre
+reguetón [3]; Alcántara, MiSonGyny [4]) sirve como base conceptual y metodológica del proyecto; no
+tenemos que generarla desde cero.</p>
+</div>
+
+<div>
+<p><strong>Requisitos:</strong></p>
+<p>Entrega dentro del calendario del curso, durante 2026.</p>
+<p>Disponibilidad real de al menos 10 años de datos tanto del lado musical (Kworb tiene histórico diario
+desde 2014, es decir, cerca de 11 años) como del lado de violencia de género (SESNSP tiene series
+mensuales desde 2015); la ventana final se ajustará a la intersección de ambas.</p>
+<p>Restricciones de licenciamiento sobre las letras de canciones a reunir a escala.</p>
+<p>Regla operativa: no preseleccionar géneros musicales por reputación; el corpus debe incluir todo lo
+que efectivamente se consume en México durante la ventana de 10 años.</p>
+</div>
+
+<div>
+<p><strong>Supuestos:</strong></p>
+<ul>
+<li>Que el consumo reflejado en plataformas de streaming/charts durante la última década es
+representativo del consumo real de música en México en ese periodo.</li>
+<li>Que las cifras del SESNSP, aunque limitadas a lo denunciado, son útiles como aproximación de
+tendencia si se triangulan con el mapa de feminicidios.</li>
+<li>Que un clasificador basado en MiSonGyny puede adaptarse razonablemente a géneros regionales
+mexicanos y a la evolución del lenguaje musical a lo largo de 10 años, mediante validación manual
+periódica.</li>
+</ul>
+</div>
+
+<div>
+<p><strong>Riesgos:</strong></p>
+<ul>
+<li>Acceso limitado a letras a escala por restricciones de copyright. <em>Mitigación:</em> documentar
+explícitamente el fin educativo/de investigación del corpus, como precedente ya usado por
+MiSonGyny.</li>
+<li>Subregistro en las cifras oficiales de violencia de género. <em>Mitigación:</em> contrastar el SESNSP
+con el mapa de feminicidios.</li>
+<li>Cambios en el lenguaje musical y en el slang regional a lo largo de una década (corridos tumbados,
+por ejemplo, es un subgénero que ni existía al inicio de la ventana). <em>Mitigación:</em> validación
+manual estratificada por periodo, no solo una muestra al final.</li>
+<li>Riesgo de confundir correlación con causalidad. <em>Mitigación:</em> el reporte final debe declarar
+explícitamente que el diseño es asociativo, no causal, en ambos componentes del proyecto.</li>
+</ul>
+</div>
+
+</div>
+
+:::
+
+::: {.canvas-block .canvas-block--purple .canvas-span-2}
+#### 4. Objetivos de Minería de Datos
+
+<ul>
+<li><strong>Tipo de problema:</strong> clasificación de texto (detección de misoginia en letras)
+combinada con análisis de correlación/regresión de series de tiempo a 10 años entre variables
+musicales y de violencia de género, desagregadas geográficamente.</li>
+<li><strong>Entregable técnico:</strong>
+<ol>
+<li>Un índice de misoginia musical por canción, agregable por entidad, género musical, tipo de
+violencia y periodo (mensual/anual) a lo largo de la ventana de 10 años.</li>
+<li>Un análisis de correlación entre ese índice y los indicadores del SESNSP, con su coeficiente y
+significancia estadística reportados independientemente del resultado.</li>
+</ol>
+</li>
+<li><strong>Filtros/transformaciones clave:</strong> desagregación geográfica y temporal del corpus
+musical; limpieza y normalización de letras (incluyendo variantes regionales y su evolución en el
+tiempo); alineación temporal entre la periodicidad del corpus musical (diario/mensual) y la del SESNSP
+(mensual).</li>
+</ul>
+
+:::
+
+::: {.canvas-block .canvas-block--red .canvas-span-2}
+#### 5. Éxito Técnico
+
+<ul>
+<li>Para el componente descriptivo: clasificador de misoginia validado contra una muestra etiquetada
+manualmente, con precisión y recall reportados explícitamente por periodo (para detectar si el
+desempeño se degrada en años más recientes por cambios de lenguaje).</li>
+<li>Para el componente de correlación: el análisis se considera técnicamente exitoso si se ejecuta
+correctamente y se reporta con rigor estadístico (coeficiente, p-value, tamaño de muestra), sin importar
+si el resultado es significativo o no. No hay un umbral mínimo de correlación que deba alcanzarse.</li>
+<li>Resultados desagregables por entidad, género musical, tipo de violencia y periodo, sin pérdida de
+trazabilidad respecto a la fuente de cada dato.</li>
+</ul>
+
+:::
+
+::: {.canvas-block .canvas-block--slate .canvas-span-4}
+#### 6. Plan del Proyecto
+
+<ol>
+<li><strong>Fase 1 (Comprensión y Exploración):</strong> extracción del corpus musical (10 años vía
+Kworb) y de los indicadores de violencia de género (SESNSP, mapa de Salguero, ENDIREH); limpieza;
+análisis exploratorio de ambas fuentes, incluyendo su cobertura temporal real.</li>
+<li><strong>Fase 2 (Modelado y Validación Técnica):</strong> adaptación y validación del clasificador de
+misoginia (con validación estratificada por periodo); cálculo del índice a lo largo de la ventana de 10
+años; ejecución del análisis de correlación.</li>
+<li><strong>Fase 3 (Revisión con stakeholders):</strong> presentación de resultados preliminares, tanto del
+diagnóstico descriptivo como de la correlación, sea cual sea su resultado, para retroalimentación.</li>
+<li><strong>Fase 4 (Evaluación final):</strong> entrega del diagnóstico completo, documentación explícita de
+los resultados de correlación (incluyendo si resultó débil o nula), y propuesta de un mecanismo para
+actualizar el índice periódicamente más allá de 2026.</li>
+</ol>
+
+:::
+
+:::
+
+## Referencias 
+
+1. Vega Montiel, A. (2011). *La responsabilidad de los medios de comunicación en la erradicación de la violencia contra las mujeres y las niñas*. UNAM/ONU Mujeres. <https://new.waccglobal.org/wp-content/uploads/wacc-global/resources/one-year-projects/2187-Aimee_Vega_Montiel_Los_medios_de_comunicacion_frente_a_la_violencia_contra_las_mujeres_y_las_ninas.pdf>
+
+2. Observatorio de la Violencia. (2019). *La violencia contra las mujeres en los medios de comunicación, a debate en la ONU*. <https://observatorioviolencia.org/la-violencia-contra-las-mujeres-en-los-medios-de-comunicacion-a-debate-en-la-onu/>
+
+3. Arévalo, C., Chellew, P., Figueroa-Cofré, C., Arancibia-Villablanca, P., y Schmied, C. (2018). Ni pobre diabla, ni candy: Violencia de género del reggaetón. *Revista de Sociología*. <https://revistadesociologia.uchile.cl/index.php/RDS/article/view/51797>
+
+4. Gaceta Politécnica, IPN. (s.f.). *Del romanticismo a la misoginia, ¿qué dicen las canciones en español?* [Entrevista a Tania Alcántara]. <https://www.ipn.mx/gacetapolitecnica/ver-detalle.html?g=562>

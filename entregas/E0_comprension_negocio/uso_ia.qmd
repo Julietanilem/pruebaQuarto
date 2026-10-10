@@ -1,0 +1,86 @@
+---
+title: "Documentación de uso de herramientas de IA"
+---
+
+Usamos Claude (Anthropic) durante el desarrollo de esta entrega. Documentamos cada uso a
+continuación, tal como lo pide el instructivo de la entrega.
+
+## 1. Herramienta utilizada
+
+Claude (Anthropic), modelo Sonnet, accedido vía la interfaz de conversación web.
+
+## 2. Tareas para las cuales lo usamos
+
+### a) Mejora de redacción y organización de citas
+
+**Tarea:** leíamos las fuentes (estudios académicos, notas periodísticas, documentos institucionales) y
+redactábamos borradores de párrafos para la bitácora y el Canvas a partir de esa lectura. Esos
+borradores, con frecuencia mal redactados o con errores de dedo, se los pasábamos a Claude para que
+mejorara la redacción, les diera un tono más natural, y numerara y organizara las referencias de forma
+consistente a lo largo del documento.
+
+**Prompts empleados:** pegábamos el párrafo tal como lo habíamos escrito después de leer la fuente
+correspondiente, y pedíamos que se corrigiera la redacción, se verificara que las citas coincidieran con
+las fuentes correctas, y se numeraran de forma consecutiva y sin duplicados.
+
+Explícitamente:
+
+> Lee el siguiente texto y entrega una versión que tenga las mismas ideas sin quitar nada ni agregar
+> nada no verificado y dame lo siguiente.
+> 1. un párrafo bien estructurado de forma formal y narrativa que tenga las fuentes de la siguiente
+>    forma [1] [2] [3]
+> 2. Las citas textuales de las fuentes que defienden la idea de [documento de fuentes y citas textuales]
+> 3. Las referencias [1] [2] [3] en APA
+
+**Qué hicimos con la salida obtenida:** revisamos cada párrafo reescrito comparándolo con el contenido
+original que habíamos leído, para confirmar que la mejora de redacción no alterara el sentido de lo que
+queríamos decir, y corregimos a Claude cuando la numeración de referencias quedaba inconsistente
+entre secciones.
+
+### b) Generación de preguntas posibles para la entrevista con el stakeholder
+
+**Tarea:** apoyarnos en Claude para generar posibles preguntas de investigación y de entrevista para
+plantearle al stakeholder simulado, a partir de los temas que queríamos cubrir (metodología de
+clasificación, indicadores de violencia, limitaciones del análisis, etc.).
+
+**Qué hicimos con la salida obtenida:** seleccionamos, descartamos y reformulamos las preguntas
+propuestas según lo que consideramos más relevante para el proyecto, y decidimos cuáles incorporar.
+Esas preguntas pasaron por el mismo procedimiento de revisión de redacción descrito en el inciso (a).
+
+### c) Búsqueda de otras fuentes
+
+**Tarea:** cuando queríamos complementar una idea que ya teníamos en mente para las respuestas del
+stakeholder simulado, le pedíamos a Claude que buscara otras fuentes, además de las que ya habíamos
+leído, que dijeran algo similar o que respaldaran esa idea, para poder redactar la respuesta con más de
+una fuente y de forma más completa.
+
+**Prompts empleados (resumen fiel):** describíamos la idea que queríamos reforzar y pedíamos
+explícitamente que se buscara una fuente real que dijera algo parecido, entregando siempre el link de la
+fuente y un fragmento textual exacto que sustentara la idea, para poder verificarlo antes de usarlo.
+
+**Qué hicimos con la salida obtenida:** abríamos los links entregados y comparábamos el fragmento
+textual citado contra el documento original, para confirmar que la idea era la misma que Claude
+reportaba, antes de incorporarlo a la bitácora.
+
+### d) Generación del andamiaje inicial del sitio Quarto
+
+**Tarea:** generar la estructura inicial del repositorio y del sitio Quarto de esta entrega: carpetas,
+páginas `.qmd` por entregable, configuración de navegación (`_quarto.yml`) y estilos visuales
+(`styles.css`), a partir del instructivo de la entrega E0. Después le pedimos trasladar a esas páginas el
+contenido íntegro de los documentos descritos en los incisos (a) a (c), ya redactados y validados por
+nosotros, sin resumir ni omitir contenido.
+
+**Qué hicimos con la salida obtenida:** revisamos que la estructura generada correspondiera
+exactamente a la exigida por el instructivo, que ningún archivo incluyera información de negocio
+inventada, y que el sitio compilara sin errores (`quarto render`) antes y después de incorporar el
+contenido final.
+
+## 3. Revisión y validación de nuestra parte
+
+El punto de partida de cada párrafo fue siempre nuestra propia lectura de las fuentes, no una
+generación libre de Claude. Leíamos el estudio, la nota periodística o el documento institucional
+correspondiente, redactábamos un borrador propio a partir de esa lectura, y solo entonces le pedíamos
+apoyo a Claude para mejorar la redacción y organizar las citas. No incorporamos ninguna afirmación
+específica (cifras, nombres de estudios, atribuciones) sin poder verificarla contra la fuente original. Las
+decisiones de alcance del proyecto, qué preguntas de investigación priorizar y cómo definir el "éxito"
+del proyecto las tomamos nosotros.

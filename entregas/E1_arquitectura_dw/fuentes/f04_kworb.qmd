@@ -1,0 +1,41 @@
+---
+title: "F4. Kworb — Charts de Spotify en México"
+---
+
+Sitio que recopila diariamente los charts públicos de Spotify. Ofrece dos vistas que usamos:
+
+- **Chart de México:** la lista de las 200 canciones más escuchadas en México en un día. Cada fila es una canción: posición, días en el chart, pico y streams de ese día (figura izquierda).
+- **Historial de una canción:** cada fila es un día y cada columna un país. Por ejemplo, en el historial de "KAROL G – BbY WOW" (<https://kworb.net/spotify/track/3h5T5JypYU7huFiVYhv1dr.html>) la celda del 8 de septiembre de 2026 en la columna `MX` dice `1 (2,427,912)`: ese día fue la número 1 en México con 2,427,912 streams (figura derecha).
+
+| Campo | Descripción |
+|---|---|
+| **Nombre y dueño** | Kworb.net, sitio independiente que recopila charts públicos de música (Spotify, YouTube, iTunes, entre otros). |
+| **URL** | <https://kworb.net/spotify/country/mx_daily.html> |
+| **Acceso** | Páginas HTML públicas. La página cambia a diario. |
+| **Formato y tamaño** | Tabla HTML; chart diario de 200 filas. |
+| **Grano** | Chart: una fila por canción y día. Historial: una fila por día y canción, con posición y streams por país. |
+| **Cobertura** | Desde 2017 hasta hoy; diario y semanal. La canción con más tiempo en el chart de México acumula 3,447 días. |
+| **Información de México** | Página propia "Spotify Daily Chart – Mexico" y columna `MX` en el historial de cada canción. Solo nivel nacional. |
+| **Licencia y restricciones** | Sin licencia explícita; datos agregados públicos. Uso académico; no se republican filas crudas. |
+| **Llaves de integración** | ID de canción de Spotify: código de 22 caracteres en el enlace de cada canción (en el ejemplo, `3h5T5JypYU7huFiVYhv1dr`); se une exacto con Kaggle. Artista y título: unen con MiSonGyny y LRCLIB, que no tienen ese ID. Fecha: se relaciona con el mes de SESNSP. |
+| **Preguntas de E0** | P1, P2, P3. |
+
+::: {layout-ncol=2}
+![Chart diario de México](../img/origen_kworb.png)
+
+![Historial de una canción por país](../img/origen_kworb_track.png)
+:::
+
+![Vista previa del chart diario](../img/vista_kworb_daily.png){width=85% fig-align="center"}
+
+![Vista previa del historial de "BbY WOW"](../img/vista_kworb_track.png){width=60% fig-align="center"}
+
+
+## Problemas anticipados para la integración
+
+- El artista, el título y los artistas invitados aparecen juntos en un mismo texto.
+- En el historial de cada canción, la posición y el número de reproducciones aparecen juntos en una misma celda.
+- Solo hay datos a nivel nacional, por lo que no permite analizar el consumo por entidad.
+- La página se actualiza todos los días y no conserva versiones anteriores del chart.
+
+[← Volver a fuentes de datos](../fuentes.qmd)

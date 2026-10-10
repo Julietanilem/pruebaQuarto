@@ -1,0 +1,140 @@
+---
+title: "Fuentes de datos"
+subtitle: "Búsqueda, criterios de selección y catálogo verificado"
+---
+
+## Glosario
+
+| Término | Significado |
+|---|---|
+| SESNSP | Secretariado Ejecutivo del Sistema Nacional de Seguridad Pública. |
+| RNID | Registro Nacional de Incidencia Delictiva: metodología del SESNSP vigente desde enero de 2026. |
+| INEGI | Instituto Nacional de Estadística y Geografía. |
+| ENDIREH | Encuesta Nacional sobre la Dinámica de las Relaciones en los Hogares (INEGI). |
+| LGAMVLV | Ley General de Acceso de las Mujeres a una Vida Libre de Violencias (antes "…de Violencia"); ver [marco de referencia](#marco). |
+| CONAPO | Consejo Nacional de Población. |
+| MiSonGyny | Corpus de letras de canciones en español etiquetadas por misoginia. |
+| LRCLIB | Biblioteca de letras de canciones libre y abierta, con API y descargas de su base de datos. |
+| RNPDNO | Registro Nacional de Personas Desaparecidas y No Localizadas (Comisión Nacional de Búsqueda). |
+| ITER | Principales resultados por localidad del Censo de Población y Vivienda 2020 (INEGI). |
+| CONEVAL | Consejo Nacional de Evaluación de la Política de Desarrollo Social. |
+| ENDUTIH | Encuesta Nacional sobre Disponibilidad y Uso de Tecnologías de la Información en los Hogares (INEGI). |
+
+## Criterios de selección
+
+Una fuente se acepta en el catálogo si cumple los cuatro criterios:
+
+- **C1. Relevancia:** alimenta al menos una pregunta de E0 (P1–P4).
+- **C2. Cobertura temporal** que se cruza con la ventana 2017–2025 y contiene información de México.
+- **C3. Llave de integración** explícita: clave INEGI de entidad, fecha, o canción/artista.
+- **C4. Licencia o términos de uso** que permiten el uso académico que requiere el proyecto.
+
+| ID | Pregunta de E0 (resumen) |
+|---|---|
+| P1 | Proporción de contenido misógino en la música consumida en México, por género musical y entidad. |
+| P2 | Correlación entre la misoginia musical por entidad y los indicadores oficiales de violencia de género (SESNSP). |
+| P3 | Evolución de la misoginia musical en la última década, por tipo de violencia. |
+| P4 | Tipos de violencia que predominan en la música y si coinciden con los más reportados oficialmente. |
+: {tbl-colwidths="[8,92]"}
+
+### Marco de referencia: tipos de violencia {#marco}
+
+Para comparar fuentes que clasifican la violencia de forma distinta usamos como taxonomía común la
+LGAMVLV (última reforma DOF 15-01-2026) [[1]](referencias.qmd). Su **artículo 6** define los tipos de
+violencias contra las mujeres: I. psicológica, II. física, III. patrimonial, IV. económica, V. sexual,
+VI. a través de interpósita persona (actos dirigidos contra hijas, hijos, familiares o personas
+allegadas con el objetivo de dañar a la mujer) y VII. cualquier otra forma análoga. Además, su
+**artículo 20 Quinquies** define la **violencia mediática**: todo acto a través de cualquier medio de
+comunicación que promueva estereotipos sexistas, haga apología de la violencia contra las mujeres o
+difunda discurso de odio sexista. Es el marco legal más cercano al contenido misógino en la música.
+
+## Proceso de búsqueda
+
+Partimos de las fuentes que ya habíamos identificado en E0 (Kworb, SESNSP, ENDIREH, mapa de Salguero,
+MiSonGyny) y de la propuesta de modelo integrado del equipo. Para ampliar la búsqueda y, sobre todo,
+para entender rápido datasets muy grandes, nos apoyamos en Claude (ver
+[uso de herramientas de IA](uso_ia.qmd)).
+
+La búsqueda se hizo en dos rondas:
+
+| Ronda | Fecha | Qué se buscó | Herramientas |
+|---|---|---|---|
+| 1 | 26 de septiembre de 2026 | Las cuatro clases de datos (A a D) de la tabla siguiente | Claude, portales institucionales, Kaggle, GitHub y las APIs de cada fuente |
+| 2 | 9 de octubre de 2026 | Consumo musical **por entidad**, que ninguna fuente de la ronda 1 resolvía | Claude con búsqueda web, sitio de Google Trends (descargas de CSV), Kaggle con `kagglehub` y Google Colab |
+
+La ronda 2 terminó en un pivote: no existe una fuente abierta de consumo musical por entidad y se usa una
+estimación con Google Trends. La búsqueda completa y las fuentes descartadas están en la
+[página de pivote](pivote.qmd).
+
+| | |
+|---|---|
+| **Fecha de verificación** | 26 de septiembre de 2026. Las capturas de Kworb y las vistas previas se actualizaron el 9 de octubre de 2026. |
+| **Portales revisados** | Datos abiertos del SESNSP (gob.mx), INEGI (5 ediciones de la ENDIREH), datos.gob.mx (CONAPO), Kaggle, Kworb, Spotify Charts, GitHub (MiSonGyny), MusicBrainz, LRCLIB, Google Trends, Google My Maps, Data Cívica (RNPDNO), INEGI (Censo 2020 y ENDUTIH), CONEVAL, México Evalúa, Natural Earth y Last.fm. |
+| **Datos que se buscaron** | (A) consumo musical en México en el tiempo; (B) letras de esas canciones; (C) género musical y etiquetas de misoginia para el clasificador; (D) violencia de género por entidad y periodo, y población para calcular tasas. |
+: {tbl-colwidths="[25,75]"}
+
+### Fuentes evaluadas
+
+| # | Fuente | Tipo | Dato | Decisión | Motivo |
+|---|---|---|:-:|---|---|
+| F1 | [SESNSP, incidencia delictiva estatal](fuentes/f01_sesnsp.qmd) | Archivo CSV de portal abierto | D | **Aceptada** | C1–C4 |
+| F2 | [INEGI, ENDIREH (2003–2021)](fuentes/f02_endireh.qmd) | Microdatos institucionales | D | **Aceptada** | C1–C4 |
+| F3 | [CONAPO, población a mitad de año](fuentes/f03_conapo.qmd) | Archivo CSV de portal abierto | D | **Aceptada** | C1–C4 |
+| F4 | [Kworb, charts de Spotify México](fuentes/f04_kworb.qmd) | Página web | A | **Aceptada** | C1–C4 |
+| F5 | [Kaggle, *Spotify Charts*](fuentes/f05_kaggle.qmd) | Dataset de Kaggle | A | **Aceptada** | C1–C4 |
+| F6 | [MiSonGyny](fuentes/f06_misongyny.qmd) | Repositorio académico | C | **Aceptada** | C1–C4 |
+| F7 | [LRCLIB](fuentes/f07_lrclib.qmd) | API REST | B | **Aceptada** | C1–C4 |
+| F8 | [MusicBrainz](fuentes/f08_musicbrainz.qmd) | API REST | C | **Aceptada** | C1–C4 |
+| F9 | [Spotify Charts (por ciudad)](fuentes/f09_spotify_charts.qmd) | Portal web con cuenta | A | **Aceptada con limitaciones** | C1–C3; C4 parcial |
+| F10 | [Mapa de feminicidios (M. Salguero)](fuentes/f10_salguero.qmd) | Mapa en Google My Maps | D | **Aceptada con limitaciones** | C1, C3; C2 y C4 parciales |
+| F11 | [Google Trends, interés por estado](fuentes/f11_google_trends.qmd) | Servicio web de Google | A | **Aceptada** | C1–C4 |
+| F12 | [Kaggle, *Top Spotify Songs in 73 Countries*](fuentes/f12_kaggle_top73.qmd) | Dataset de Kaggle | A | **Aceptada** | C1–C4 |
+| F13 | [RNPDNO, personas desaparecidas (Data Cívica)](fuentes/f13_rnpdno.qmd) | Archivo CSV de organización civil | D | **Aceptada con limitaciones** | C3; C1, C2 y C4 parciales |
+| F14 | [INEGI, Censo 2020 ITER](fuentes/f14_censo_iter.qmd) | Archivo CSV de portal abierto | D | **Aceptada** | C1–C4 |
+| F15 | [CONEVAL, pobreza por entidad](fuentes/f15_coneval.qmd) | Archivo Excel institucional | D | **Aceptada** | C1–C4 |
+| F16 | [INEGI, ENDUTIH 2024](fuentes/f16_endutih.qmd) | Microdatos institucionales | A | **Aceptada** | C1–C4 |
+| F17 | [México Evalúa, índice de impunidad](fuentes/f17_mexico_evalua.qmd) | Reporte en PDF | D | **Aceptada con limitaciones** | C1, C3; C2 y C4 parciales |
+| F18 | [Natural Earth, límites de estados](fuentes/f18_natural_earth.qmd) | Archivo geográfico (shapefile) | D | **Aceptada** | C1, C3, C4 |
+| F19 | [Last.fm, etiquetas de género](fuentes/f19_lastfm.qmd) | API REST con llave | C | **Aceptada con limitaciones** | C1, C3; C4 condicionado |
+
+### Resultado por tipo de fuente
+
+| Tipo de fuente | Fuentes | Decisión |
+|---|---|---|
+| Archivo CSV de portal abierto | SESNSP (F1), CONAPO (F3), Censo 2020 ITER (F14) | Aceptadas |
+| Microdatos institucionales | ENDIREH (F2), ENDUTIH (F16) | Aceptadas |
+| Página web | Kworb (F4) | Aceptada |
+| Dataset de Kaggle | *Spotify Charts* (F5), *Top Spotify Songs in 73 Countries* (F12) | Aceptadas |
+| Repositorio académico | MiSonGyny (F6) | Aceptada |
+| API REST | LRCLIB (F7), MusicBrainz (F8) | Aceptadas |
+| Servicio web de Google | Google Trends (F11) | Aceptada |
+| Portal web con cuenta | Spotify Charts por ciudad (F9) | Aceptada con limitaciones |
+| Mapa en Google My Maps | Mapa de Salguero (F10) | Aceptada con limitaciones |
+| Archivo CSV de organización civil | RNPDNO vía Data Cívica (F13) | Aceptada con limitaciones |
+| Archivo Excel institucional | CONEVAL (F15) | Aceptada |
+| Reporte en PDF | México Evalúa (F17) | Aceptada con limitaciones |
+| Archivo geográfico (shapefile) | Natural Earth (F18) | Aceptada |
+| API REST con llave | Last.fm (F19) | Aceptada con limitaciones |
+| **Total** | **19 aceptadas, de 14 tipos distintos; cinco de ellas con limitaciones** | |
+
+### Fuentes descartadas
+
+Estas candidatas se evaluaron en la ronda 2 para obtener consumo musical por entidad y no entraron al catálogo.
+La columna "Revisión" distingue lo que el equipo abrió y comprobó de lo que se evaluó con su documentación
+pública.
+
+| Fuente | Tipo | Motivo del descarte | Revisión |
+|---|---|---|---|
+| Google Trends en BigQuery (`google_trends`) | Dataset público de BigQuery | Solo trae los 25 términos principales y los 25 en ascenso por día; un artista casi nunca entra, y no se confirmó que incluya los estados de México | Documentación |
+| Google Trends API oficial (alfa) | API | Acceso restringido a pocos desarrolladores | Documentación |
+| Apple Music City Charts | Portal web | Top 25 de solo tres ciudades, sin historial verificado | Documentación |
+| Shazam, charts por ciudad | Portal web | No se verificó un historial descargable | Documentación |
+| YouTube Trending México | Página web | Nacional y sin historial | Documentación |
+| Monitor Latino | Plataforma comercial | De pago; sus charts públicos son nacionales | Documentación |
+| INEGI, ENCCUM 2012 | Encuesta de hogares | Es de 2012, fuera de la ventana (C2) | Documentación |
+| INEGI, ENCCA 2022 | Encuesta de hogares | Sin nivel estatal | Documentación |
+| INEGI, Cuenta Satélite de la Cultura | Estadística oficial | Mide el PIB cultural, no qué música se escucha (C1) | Documentación |
+| IFT, Banco de Información de Telecomunicaciones | Portal de datos abiertos | Dice qué estaciones hay, no qué música transmiten (C1) | Documentación |
+
+En total se evaluaron **29 fuentes: 19 aceptadas y 10 descartadas**. Cómo entra cada fuente aceptada al
+almacén, capa por capa, está en el [linaje de la arquitectura](arquitectura.qmd#linaje).

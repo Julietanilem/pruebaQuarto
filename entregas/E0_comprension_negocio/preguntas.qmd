@@ -1,0 +1,42 @@
+---
+title: "Preguntas de investigación priorizadas"
+---
+
+## 1. ¿Qué proporción del contenido musical que se consume en México presenta elementos misóginos: cosificación, control/posesividad, glorificación de la violencia o lenguaje degradante hacia las mujeres, y cómo varía esa proporción por género musical y por entidad?
+
+**Prioridad alta · Clasificación**
+
+- **Tarea de minería de datos:** clasificación de texto (detección de misoginia en letras) + agregación
+  descriptiva por categoría.
+- **Por qué es prioritaria:** es el diagnóstico base del proyecto. Sin resolverla primero, no podemos
+  construir el índice que alimenta a las demás preguntas.
+
+## 2. ¿Existe correlación entre el nivel de contenido misógino en la música consumida por entidad y los indicadores oficiales de violencia de género (SESNSP) registrados en la misma ventana temporal y territorio?
+
+**Prioridad alta · Regresión/correlación**
+
+- **Tarea de minería de datos:** análisis de correlación/regresión entre series de tiempo geográficamente
+  desagregadas.
+- **Por qué es prioritaria:** es el segundo entregable central definido en el Canvas. Su resultado, sea cual
+  sea, es el insumo principal que reportaremos.
+
+## 3. ¿Cómo ha evolucionado el nivel de misoginia en la música consumida en México a lo largo de la última década, y ese cambio es parejo entre tipos de violencia física, sexual, simbólica, psicológica o unos tipos aumentan mientras otros disminuyen?
+
+**Prioridad media · Análisis de series de tiempo**
+
+- **Tarea de minería de datos:** análisis de tendencias temporales sobre el índice ya calculado en la
+  pregunta 1, desagregado por tipo de violencia y por género musical.
+- **Por qué es relevante:** la evidencia existente en otros países muestra que la violencia explícita
+  (física, sexual) y la simbólica/psicológica no necesariamente se mueven en la misma dirección con el
+  tiempo. Una cifra agregada de "misoginia total" podría ocultar que el problema simplemente cambió de
+  forma, no que disminuyó. Así también evitamos estigmatizar un género con datos de un solo corte.
+
+## 4. ¿Qué tipos específicos de violencia de género (física, sexual, económica, patrimonial, simbólica) predominan en el contenido musical analizado, y coinciden con los tipos de violencia más reportados en las estadísticas oficiales del SESNSP?
+
+**Prioridad media · Clasificación multiclase**
+
+- **Tarea de minería de datos:** clasificación multiclase del contenido musical, usando la misma
+  taxonomía de la Ley General de Acceso de las Mujeres a una Vida Libre de Violencia, para permitir un
+  cruce directo con los datos oficiales.
+- **Por qué es relevante:** sin esta desagregación, una correlación general (pregunta 2) no dice si el tipo
+  de violencia en la música corresponde al tipo de violencia real que más afecta a las mujeres.

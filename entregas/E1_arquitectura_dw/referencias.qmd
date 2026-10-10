@@ -1,0 +1,23 @@
+---
+title: "Referencias"
+subtitle: "Entrega E1"
+---
+
+1. Cámara de Diputados del H. Congreso de la Unión. *Ley General de Acceso de las Mujeres a una Vida
+   Libre de Violencias*. Última reforma DOF 15-01-2026.
+   <https://www.diputados.gob.mx/LeyesBiblio/pdf/LGAMVLV.pdf>
+
+2. Secretariado Ejecutivo del Sistema Nacional de Seguridad Pública. (2026). *Nota metodológica:
+   comparación histórica de la incidencia delictiva, Registro Nacional de Incidencia Delictiva (RNID)*.
+   <https://www.gob.mx/cms/uploads/attachment/file/1059821/Nota_metodol_gica_comparaci_n_hist_rica_RNID.pdf>
+
+3. Instituto Nacional de Estadística y Geografía. *Encuesta Nacional sobre la Dinámica de las
+   Relaciones en los Hogares (ENDIREH) 2011*, pestaña Microdatos, notas.
+   <https://www.inegi.org.mx/programas/endireh/2011/>
+
+4. InSight Crime. *Mapa de feminicidios muestra patrones complejos de violencia en México* [entrevista
+   a María Salguero].
+   <https://insightcrime.org/es/noticias/entrevistas/mapa-de-feminicidios-muestra-patrones-complejos-de-violencia-en-mexico/>
+
+5. Google. *Preguntas frecuentes sobre los datos de Google Trends*. Ayuda de Google Trends. Consultado el 10 de
+   octubre de 2026. <https://support.google.com/trends/answer/4365533?hl=es>

@@ -1,0 +1,113 @@
+---
+title: "E0 v2 · Secciones actualizadas"
+subtitle: "Cambios a E0 después del pivote de E1"
+---
+
+::: {.callout-note}
+## Qué es esta página
+
+Durante E1 confirmamos que no existe una fuente abierta de consumo musical por entidad y que los streams
+históricos de México solo cubren 2017–2021. Por eso pivotamos (ver [página de pivote](../E1_arquitectura_dw/pivote.qmd)).
+Esta página recoge **solo las secciones de E0 que cambian**, ya actualizadas. La versión original de E0 se conserva
+sin cambios en las demás páginas de esta sección. El tema, el stakeholder y los dos entregables (diagnóstico
+descriptivo y análisis de correlación) no cambian.
+:::
+
+## Resumen de cambios
+
+| Sección de E0 | Antes | Ahora (v2) |
+|---|---|---|
+| Preguntas P1 y P2 | Consumo medido por entidad | Consumo por entidad **estimado** con Google Trends |
+| Pregunta P3 | Última década | 2017–2021 con streams; 2017–2025 con posiciones, sin datos de enero de 2022 a septiembre de 2023 |
+| Pregunta P4 | Tipos física, sexual, económica, patrimonial y simbólica | Los tipos que miden las fuentes; cobertura parcial |
+| Criterio de éxito | Ventana de 10 años | Ventana real de los datos; resultados por entidad marcados como estimación |
+| Canvas 1. Objetivos de negocio | Desagregación por entidad directa | Desagregación por entidad estimada |
+| Canvas 3. Evaluación de la situación | Histórico de 10 años vía Kworb; mapa de Salguero como contraste | Histórico verificado de Kaggle (2017–2021) y Top 73; Salguero fuera del almacén; supuestos y riesgos nuevos |
+| Canvas 4. Objetivos de minería de datos | Índice agregable por entidad | Índice por canción, con la entidad como estimación |
+| Canvas 6. Plan del proyecto | Fase 1 con Kworb a 10 años y mapa de Salguero | Fase 1 con las fuentes del catálogo de E1 |
+
+Las secciones 2 (criterio de éxito de negocio) y 5 (éxito técnico) del Canvas no cambian en su enunciado; solo
+cambia la ventana con la que se verifican, descrita abajo.
+
+## Preguntas de investigación (v2)
+
+**P1 (ajustada) · Prioridad alta · Clasificación.** ¿Qué proporción de la música más escuchada en Spotify México
+presenta elementos misóginos (cosificación, control o posesividad, glorificación de la violencia o lenguaje
+degradante hacia las mujeres), y cómo varía esa proporción por género musical y por entidad? La variación por
+entidad es una estimación: el consumo nacional de cada canción se reparte entre los estados con el interés de
+búsqueda de su artista en Google Trends.
+
+**P2 (ajustada) · Prioridad alta · Correlación.** ¿Existe correlación entre la misoginia de la música consumida y
+los indicadores oficiales de violencia de género? Se responde en dos niveles: una serie mensual nacional y un panel
+por entidad y año, con tasas por 100 mil mujeres del SESNSP y, como indicador adicional, mujeres desaparecidas del
+RNPDNO.
+
+**P3 (ajustada) · Prioridad media · Series de tiempo.** ¿Cómo ha evolucionado la misoginia en la música consumida
+en México entre 2017 y 2025, y ese cambio es parejo entre tipos de violencia? Los tipos son los que distingue el
+clasificador (sexual, física y psicológica); la violencia simbólica no se puede separar con los datos disponibles.
+
+**P4 · Prioridad media · Clasificación multiclase.** ¿Qué tipos de violencia predominan en la música analizada y
+coinciden con los más reportados oficialmente? Se compara con el SESNSP y con la ENDIREH 2021. El SESNSP no mide
+violencia económica, patrimonial ni simbólica, así que la comparación es parcial.
+
+## Criterio de éxito (v2)
+
+El enunciado del stakeholder no cambia (ver [criterio de éxito](criterio_exito.qmd)). Cambia cómo se verifica:
+
+- **Fuente de datos:** charts de Spotify México (Kaggle *Spotify Charts* 2017–2021 con streams; Top 73 desde
+  octubre de 2023 y Kworb, con posiciones), Google Trends por entidad, SESNSP, RNPDNO, ENDIREH 2021 y CONAPO. El
+  mapa de Salguero queda como referencia del subregistro, fuera del almacén, porque no permite exportar datos.
+- **Meta:** un índice reproducible por género musical, tipo de violencia y periodo, y **por entidad como
+  estimación**; un coeficiente de correlación con su significancia, reportado a nivel nacional mensual y por
+  entidad y año.
+- **Ventana temporal:** mensual a nivel nacional y anual por entidad. Con streams, 2017–2021; con posiciones del
+  Top 50, 2017–2025, sin datos de enero de 2022 a septiembre de 2023.
+- **Trazabilidad:** todo resultado por entidad indica que es una estimación y qué parte del reparto salió del
+  propio artista.
+
+## Canvas (v2)
+
+### 1. Objetivos de negocio
+
+El problema, el segmento y la estrategia no cambian. El diagnóstico descriptivo se desagrega por tipo de
+violencia, género musical y tiempo con datos medidos, y **por entidad con una estimación** basada en el interés de
+búsqueda.
+
+### 3. Evaluación de la situación
+
+**Recursos:** charts de Spotify México (Kaggle 2017–2021, Top 73 y Kworb), Google Trends por entidad, SESNSP
+(delitos y víctimas), RNPDNO, ENDIREH, CONAPO y fuentes de contexto (ENDUTIH, Censo 2020, CONEVAL, México Evalúa),
+MiSonGyny, LRCLIB y MusicBrainz. El catálogo completo está en [Fuentes de datos](../E1_arquitectura_dw/fuentes.qmd).
+
+**Requisitos:** la ventana se ajusta a la intersección real de los datos verificados. Hoy el histórico con
+streams que tenemos descargado viene de Kaggle y cubre 2017–2021.
+
+**Supuestos nuevos:**
+
+- Que el consumo de un artista se reparte entre los estados como su interés de búsqueda en Google Trends,
+  escalado por los usuarios de internet de cada estado.
+- Que el Top 200 de Spotify México representa la música más escuchada en streaming en el país (los 100 artistas
+  principales de cada año explican entre el 87 % y el 91 % de sus streams).
+
+**Riesgos nuevos:**
+
+- El interés de búsqueda no es escucha. *Mitigación:* toda salida por entidad se marca como estimación y se
+  reporta también solo con los pesos del propio artista.
+- En periodos cortos, los artistas con poco volumen no tienen valor en muchos estados. *Mitigación:* peso anual
+  por artista y, como respaldo, el del género.
+- El subregistro del SESNSP ya no se contrasta con el mapa de Salguero. *Mitigación:* se triangula de forma
+  parcial con la ENDIREH 2021 y se suma el RNPDNO como indicador que no viene del SESNSP.
+
+### 4. Objetivos de minería de datos
+
+- **Entregable técnico 1:** un índice de misoginia por canción, agregable por género musical, tipo de violencia y
+  mes a nivel nacional, y por entidad y año como estimación.
+- **Entregable técnico 2:** un análisis de correlación entre ese índice y los indicadores oficiales, a nivel
+  nacional mensual y por entidad y año.
+- **Alineación temporal:** los charts diarios se suman al mes, que es el grano del SESNSP.
+
+### 6. Plan del proyecto
+
+**Fase 1 (comprensión y exploración):** extracción de los charts de Spotify México (Kaggle, Top 73 y Kworb), las
+descargas de Google Trends por artista y año, y los indicadores de violencia (SESNSP, RNPDNO, ENDIREH), con su
+carga en la capa staging de BigQuery. Las fases 2 a 4 no cambian.

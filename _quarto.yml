@@ -1,0 +1,76 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Proyecto Integrador — Almacenes y Minería de Datos"
+  site-url: "https://jzarcoo.github.io/almacenes-mineria-proyecto/"
+  description: "Facultad de Ciencias, UNAM · Proyecto Integrador construido de forma incremental bajo la metodología CRISP-DM."
+  page-navigation: true
+  back-to-top-navigation: true
+  reader-mode: true
+  search:
+    location: navbar
+    type: overlay
+
+  navbar:
+    logo: assets/logo.svg
+    background: primary
+    pinned: true
+    left:
+      - href: index.qmd
+        text: Inicio
+      - text: "E0 · Comprensión del negocio"
+        menu:
+          - href: entregas/E0_comprension_negocio/bitacora.qmd
+            text: "Bitácora del stakeholder"
+          - href: entregas/E0_comprension_negocio/canvas.qmd
+            text: "Business Understanding Canvas"
+          - href: entregas/E0_comprension_negocio/preguntas.qmd
+            text: "Preguntas de investigación"
+          - href: entregas/E0_comprension_negocio/criterio_exito.qmd
+            text: "Criterio de éxito"
+          - href: entregas/E0_comprension_negocio/riesgos_supuestos.qmd
+            text: "Riesgos y supuestos"
+          - href: entregas/E0_comprension_negocio/uso_ia.qmd
+            text: "Uso de herramientas de IA"
+          - href: entregas/E0_comprension_negocio/e0_v2.qmd
+            text: "E0 v2 · Secciones actualizadas"
+      - text: "E1 · Arquitectura del DW"
+        menu:
+          - href: entregas/E1_arquitectura_dw/fuentes.qmd
+            text: "Fuentes de datos"
+          - href: entregas/E1_arquitectura_dw/arquitectura.qmd
+            text: "Arquitectura de tres capas"
+          - href: entregas/E1_arquitectura_dw/estrella.qmd
+            text: "Esquema estrella"
+          - href: entregas/E1_arquitectura_dw/trazabilidad.qmd
+            text: "Trazabilidad a E0"
+          - href: entregas/E1_arquitectura_dw/pivote.qmd
+            text: "Pivote"
+          - href: entregas/E1_arquitectura_dw/uso_ia.qmd
+            text: "Uso de herramientas de IA"
+          - href: entregas/E1_arquitectura_dw/referencias.qmd
+            text: "Referencias"
+    right:
+      - icon: github
+        href: "https://github.com/jzarcoo/almacenes-mineria-proyecto"
+        text: "Repositorio"
+
+  page-footer:
+    center: "Facultad de Ciencias, UNAM — Almacenes y Minería de Datos"
+    border: true
+
+format:
+  html:
+    theme: [cosmo, theme.scss]
+    toc: true
+    toc-title: "En esta página"
+    number-sections: false
+    smooth-scroll: true
+    link-external-icon: true
+    link-external-newwindow: true
+    include-after-body: assets/enhance.html
+
+execute:
+  freeze: auto

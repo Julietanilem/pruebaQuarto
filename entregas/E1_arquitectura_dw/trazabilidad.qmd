@@ -1,0 +1,71 @@
+---
+title: "Trazabilidad a E0"
+subtitle: "Matriz pregunta → tarea de minería → métrica → dimensión → fuente → estado"
+---
+
+Las preguntas se ajustan como se explica en la [página de pivote](pivote.qmd). Las cuatro quedan **cubiertas
+parcialmente** y cada limitación se dice en la matriz.
+
+## Matriz de trazabilidad
+
+| Pregunta | Tarea de minería | Métrica | Dimensiones | Fuentes | Estado |
+|---|---|---|---|---|---|
+| **P1 (ajustada):** proporción de contenido misógino en la música más escuchada en Spotify México, por género musical y por entidad. La entidad es una estimación hecha con el interés de búsqueda. | Clasificación de texto y agregación | Proporción misógina de `streams_estimados`, de `puntos_top50_estimados` y de `dias_en_chart_nacional`; `popularidad_nacional`; `peso_entidad` | `dim_cancion`, `dim_fecha`, `dim_entidad`, `dim_contexto_entidad` | Kaggle *Spotify Charts* (F5), Top 73 (F12), Kworb (F4), Google Trends (F11), ENDUTIH (F16), CONAPO (F3), MiSonGyny (F6), LRCLIB (F7), MusicBrainz (F8), Last.fm (F19) | **Parcial:** el consumo real solo existe a nivel nacional; por entidad se reparte con búsquedas, que no son reproducciones. Solo cuenta canciones con letra clasificada. |
+| **P2 (ajustada):** correlación entre la misoginia musical y los indicadores oficiales de violencia de género, en una serie mensual nacional y en un panel por entidad y año. | Correlación | Proporción misógina; tasas por 100 mil mujeres con `carpetas`, `victimas_mujeres` y la población de mujeres; variables de control | `dim_fecha`, `dim_entidad`, `dim_tipo_violencia`, `dim_contexto_entidad`, `dim_cancion` | SESNSP (F1), RNPDNO (F13), CONAPO (F3), Google Trends (F11), ENDUTIH (F16), CONEVAL (F15), México Evalúa (F17), Censo (F14) | **Parcial:** la serie nacional con streams tiene 60 meses (2017–2021). El panel por entidad depende del reparto y se calcula por año, no por mes. El diseño es asociativo, no causal. El RNPDNO termina en agosto de 2023. |
+| **P3 (ajustada):** evolución de la misoginia en la música consumida, por tipo de violencia. | Análisis de series de tiempo | Participación mensual de cada tipo en `puntos_top50_estimados`, media móvil de 12 meses, cambio anual; `mejor_posicion_nacional` | `dim_fecha`, `dim_cancion`, `dim_tipo_violencia` | Kaggle *Spotify Charts* (F5), Top 73 (F12), Kworb (F4), MiSonGyny (F6), LRCLIB (F7) | **Parcial:** la serie empieza en 2017, no en 2014, y no hay datos de enero de 2022 a septiembre de 2023. Los tipos salen de las categorías del clasificador (sexualización, violencia y odio), no de los cuatro tipos que plantea E0. |
+| **P4:** tipos de violencia que predominan en la música y si coinciden con los más reportados oficialmente. | Clasificación multiclase y comparación | Participación de cada tipo en la música misógina, en `carpetas` del SESNSP y prevalencia de la ENDIREH | `dim_tipo_violencia`, `dim_cancion`, `dim_contexto_entidad` | SESNSP (F1), ENDIREH (F2), MiSonGyny (F6), LRCLIB (F7) | **Parcial:** el SESNSP no mide violencia económica, patrimonial ni mediática; la ENDIREH solo aporta 2021 dentro de la ventana; las categorías del clasificador se mapean a la LGAMVLV de forma aproximada. |
+
+## Justificación de cada dimensión
+
+| Dimensión | Preguntas | Para qué se usa |
+|---|---|---|
+| `dim_fecha` | P1, P2, P3 | Serie mensual de consumo y de violencia; subtotales por año en P1; marcos de 12 meses en P3; etapa de la pandemia como control en P2 y P3. |
+| `dim_entidad` | P1, P2 | Proporción misógina estimada por entidad; panel entidad-año de P2. |
+| `dim_cancion` | P1, P2, P3, P4 | Clasificación de cada canción y su origen (MiSonGyny o clasificador), su género y macrogénero, y el término de búsqueda que define su peso por entidad. |
+| `dim_tipo_violencia` | P2, P3, P4 | Tipos de violencia comparables entre la música y las fuentes oficiales. |
+| `dim_contexto_entidad` | P1, P2, P4 | Usuarios de internet para el peso (P1); población de mujeres y variables de control (P2); prevalencias de la ENDIREH (P4); propuestas estatales de restricción musical, para el criterio de éxito de E0. |
+
+Ninguna dimensión queda sin pregunta.
+
+## Justificación de cada métrica
+
+| Métrica | Hecho | Preguntas | Vista del DataMart |
+|---|---|---|---|
+| `streams_estimados` | `fact_consumo_musical` | P1, P2, P3 | `p1_proporcion_misogina_genero`, `p1_proporcion_misogina_entidad`, `p2_serie_mensual_nacional`, `p3_tendencia_tipo_violencia` |
+| `puntos_top50_estimados` | `fact_consumo_musical` | P1, P2, P3, P4 | Todas las vistas de consumo |
+| `peso_entidad` | `fact_consumo_musical` | P1 | Base de las medidas estimadas; se revisa en la preparación |
+| `interes_busqueda` | `fact_consumo_musical` | P1 | Dato de origen del peso, para auditarlo |
+| `dias_en_chart_nacional` | `fact_consumo_musical` | P1 | `p1_proporcion_misogina_genero` |
+| `mejor_posicion_nacional` | `fact_consumo_musical` | P3 | `p3_tendencia_tipo_violencia` |
+| `popularidad_nacional` | `fact_consumo_musical` | P1 | `p1_proporcion_misogina_genero` |
+| `carpetas` | `fact_violencia` | P2, P3, P4 | `p2_serie_mensual_nacional`, `p2_panel_entidad_anio`, `p4_tipos_musica_vs_oficial` |
+| `victimas_mujeres` | `fact_violencia` | P2 | `p2_serie_mensual_nacional`, `p2_panel_entidad_anio` |
+
+Las columnas `fuente` y `origen_peso` no son métricas: guardan de qué fuente sale cada fila y de dónde salió el
+peso, que es la trazabilidad a la fuente que pide el criterio de éxito de E0.
+
+## Fuentes que no alimentan directamente los hechos
+
+| Fuente | Cómo llega al esquema |
+|---|---|
+| MiSonGyny (F6) | Entrena y valida el clasificador; sus resultados llegan a `dim_cancion`. |
+| LRCLIB (F7) | Aporta las letras que clasifica el modelo; las letras no se guardan en el almacén. |
+| MusicBrainz (F8) y Last.fm (F19) | Asignan el género y el país del artista en `dim_cancion`. |
+| CONAPO, ENDIREH, ENDUTIH, Censo, CONEVAL y México Evalúa | Atributos anuales de `dim_contexto_entidad`. |
+| Natural Earth (F18) | Geometría de `dim_entidad`, para mapas. |
+| Spotify Charts por ciudad (F9) | Solo consulta de referencia; sus términos de uso no permiten cargar los datos. |
+| Mapa de Salguero (F10) | Queda en el catálogo como referencia del subregistro; no entra al almacén porque el mapa no permite exportar datos. |
+
+## Ajustes y relación con el criterio de éxito de E0
+
+- **P1 y P2 se ajustan** porque ninguna fuente abierta da reproducciones por entidad. El reparto con Google
+  Trends mantiene la desagregación por entidad que pide el criterio de éxito, pero como estimación.
+- **La ventana se ajusta a 2017–2025**, con streams solo en 2017–2021 y un hueco entre enero de 2022 y septiembre
+  de 2023.
+- **P2 se calcula por entidad y año.** Un análisis por entidad y mes repetiría observaciones que no son
+  independientes.
+- **Los tipos de violencia de la música** salen del clasificador entrenado con MiSonGyny y se mapean a la LGAMVLV.
+  La comparación con los registros oficiales es posible para los tipos sexual y física. Queda limitada para
+  la psicológica, la económica o patrimonial y la mediática, y la feminicida no tiene contraparte en las letras.
+- Estos ajustes cambian el alcance del objetivo de minería y la ventana del criterio de éxito, por eso se
+  documentan en la [página de pivote](pivote.qmd) y en E0 v2.

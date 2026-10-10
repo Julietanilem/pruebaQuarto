@@ -1,0 +1,101 @@
+---
+title: "Documentación de uso de herramientas de IA"
+subtitle: "Entrega E1"
+---
+
+Usamos Claude (Anthropic) durante la búsqueda y verificación de fuentes de esta entrega. Documentamos
+su uso a continuación, tal como lo pide el instructivo de la entrega.
+
+## 1. Herramienta utilizada
+
+Claude (Anthropic), modelo Opus:
+
+- Del 26 de septiembre al 9 de octubre de 2026, mediante Claude Code (asistente con acceso a terminal y
+  navegador) y Claude con búsqueda web.
+- El 10 de octubre de 2026, en la app de Claude, en una sesión con acceso a archivos y a una terminal en la nube,
+  para revisar la arquitectura.
+
+## 2. Tareas para las cuales lo usamos
+
+### a) Búsqueda de fuentes candidatas
+
+Le describimos el problema y las preguntas P1–P4 y le pedimos fuentes reales con su URL, además de
+revisar las que ya teníamos de E0 y de nuestra propuesta de modelo.
+
+### b) Entender datasets muy grandes
+
+Varias fuentes traen demasiada información para revisarla a mano (decenas de tablas por edición de la
+ENDIREH, el CSV de 3.5 GB de Kaggle, el formato ancho del SESNSP). Le pedimos abrirlas, describir
+columnas, contar filas, comprobar que hubiera información de México e identificar llaves de unión.
+
+### c) Pruebas de cobertura
+
+Pruebas de LRCLIB y MusicBrainz con las canciones más escuchadas en México.
+
+### d) Vistas previas de los datos y formato
+
+Tablas de vista previa generadas a partir de los archivos descargados y formato del documento.
+
+### e) Revisión del esquema estrella, DDL y consultas
+
+Le compartimos el esquema estrella que diseñó el equipo y le pedimos revisarlo contra los criterios del
+instructivo. Con sus observaciones ajustamos el diseño a cinco dimensiones y un grano mensual, y le pedimos
+redactar el DDL, las consultas del DataMart y el borrador de la matriz de trazabilidad.
+
+### f) Búsqueda de fuentes de consumo musical por entidad (9 de octubre de 2026)
+
+Le pedimos buscar fuentes con consumo musical por estado (radio, YouTube, televisión, streaming, encuestas,
+Google Trends) y proponer alternativas. Las fuentes que propuso y su decisión están en la
+[página de pivote](pivote.qmd). Las descargas de Google Trends y la medición de cobertura en Kaggle las hicimos
+nosotros.
+
+### g) Revisión de la arquitectura (10 de octubre de 2026)
+
+Le compartimos el repositorio, el instructivo de E1, nuestros borradores (pivote, esquema anual, diagrama
+dw_gold) y las descargas de Google Trends, y le pedimos mejorar la arquitectura. Revisó el diseño contra el
+instructivo, señaló problemas (grano mezclado, doble conteo en la consulta de P2, uso del SCD tipo 2), propuso el
+esquema actual, redactó el DDL, las vistas y estas páginas, y probó las vistas en DuckDB con datos inventados
+(una base de datos local, no BigQuery) para comprobar que el reparto suma el total nacional y que no hay doble
+conteo.
+
+## 3. Prompts empleados (resumen fiel)
+
+Le dimos el instructivo de E1 y las preguntas de E0 y le pedimos evaluar al menos cinco fuentes,
+comprobar que cada una existiera y tuviera datos de México, y documentar formato, grano, cobertura,
+licencia y llaves de integración, sin incluir nada que no se pudiera abrir.
+
+Para la ronda 2 (9 de octubre) le pedimos fuentes abiertas con consumo musical por entidad federativa en
+México, con URL, cobertura y grano, y alternativas si no existían.
+
+Para la revisión de la arquitectura (10 de octubre) el primer prompt fue: "ayúdame a mejorar esa arquitectura que
+está en main", con los archivos adjuntos. Después le pedimos explicaciones y comparaciones antes de aprobar cada
+cambio: cuántas dimensiones convenían, si respondían las preguntas con el mismo detalle que E0, qué es el término
+ancla, cuál es la mejor práctica para el contexto anual de cada entidad y cómo integrar el enfoque medallion.
+
+## 4. Qué hicimos con la salida obtenida
+
+- Definimos los criterios de selección y decidimos qué fuentes aceptar o no.
+- Identificamos que la ENDIREH tiene cinco ediciones y pedimos verificarlas todas.
+- Descargamos con nuestras cuentas el dataset de Kaggle y elegimos el recurso de CONAPO adecuado para
+  calcular tasas.
+- Entramos a Spotify Charts, revisamos sus términos de uso y documentamos por qué no se acepta.
+- Revisamos las cifras contra los archivos descargados y corregimos lo que no coincidía con las fuentes
+  oficiales (por ejemplo, la comparabilidad de la serie del SESNSP).
+- Descartamos propuestas que no tenían cobertura suficiente o requerían credenciales.
+- Decidimos no guardar ni publicar letras de canciones por derechos de autor.
+- Diseñamos el esquema estrella original y validamos los ajustes propuestos; el DDL y las consultas se
+  ejecutan en nuestro proyecto de BigQuery, donde tomamos las capturas de evidencia.
+- En la revisión del 10 de octubre corregimos a la herramienta: había afirmado que Google Trends solo da un valor
+  por estado para todo el periodo, y le mostramos que se puede descargar por mes. Descargamos nosotros los
+  archivos de prueba (Tones And I y Bobby Pulido, 2021 y tres meses de 2026), que mostraron que en periodos
+  cortos un artista de poco volumen queda en cero en la mayoría de los estados.
+- Decidimos nosotros: grano por canción y no por artista; dejar el mapa de Salguero fuera del almacén; incluir
+  las desaparecidas del RNPDNO; conservar cinco dimensiones con la mini-dimensión de contexto; usar el peso
+  anual por artista como caso principal; agregar la etapa de la pandemia y las propuestas de restricción.
+- La prueba en Colab con MusicBrainz, hecha por el equipo, mostró una coincidencia falsa (Sebastián Yatra con
+  etiquetas de un compositor clásico alemán); por eso las coincidencias se validan en silver.
+
+## 5. Revisión y validación de nuestra parte
+
+Las decisiones de alcance, los criterios y la elección de fuentes fueron nuestras; la herramienta nos
+ayudó a hacer la búsqueda y la verificación más rápido.

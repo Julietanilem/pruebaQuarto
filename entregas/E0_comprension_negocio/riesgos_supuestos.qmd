@@ -1,0 +1,67 @@
+---
+title: "Supuestos y riesgos"
+---
+
+## Supuestos
+
+- Que el consumo reflejado en plataformas de streaming/charts durante la última década es
+  representativo del consumo real de música en México en ese periodo.
+- Que las cifras del SESNSP, aunque limitadas a lo denunciado, son útiles como aproximación de
+  tendencia si se triangulan con el mapa de feminicidios.
+- Que un clasificador basado en MiSonGyny puede adaptarse razonablemente a géneros regionales
+  mexicanos y a la evolución del lenguaje musical a lo largo de 10 años, mediante validación manual
+  periódica.
+
+## Riesgos
+
+::: {.cell}
+<table class="riesgos">
+<thead>
+<tr>
+<th>#</th>
+<th>Riesgo</th>
+<th>Por qué es específico a este proyecto</th>
+<th>Mitigación propuesta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Acceso limitado a letras de canciones a escala por restricciones de copyright.</td>
+<td>Reunir letras de canciones a escala tiene restricciones de copyright que no existen de la misma
+forma al analizar televisión o prensa, lo que puede limitar el tamaño y la representatividad del corpus
+musical construido.</td>
+<td>Documentaremos explícitamente el fin educativo/de investigación del corpus, como precedente ya
+usado por el proyecto MiSonGyny.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Subregistro en las cifras oficiales de violencia de género (SESNSP).</td>
+<td>Las cifras del SESNSP miden solo lo denunciado, y hay evidencia de subregistro considerable frente
+a conteos alternativos como el mapa de feminicidios construido con notas de prensa, lo que podría
+sesgar el análisis de correlación si se usan como única fuente.</td>
+<td>Contrastaremos el SESNSP con el mapa de feminicidios de María Salguero para dimensionar el
+subregistro.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Cambios en el lenguaje musical y en el slang regional a lo largo de una década.</td>
+<td>La ventana de análisis es de 10 años, y en ese periodo han surgido subgéneros que ni siquiera
+existían al inicio (por ejemplo, los corridos tumbados), lo que puede degradar el desempeño de un
+clasificador entrenado sobre lenguaje más antiguo.</td>
+<td>Haremos una validación manual estratificada por periodo, no solo con una muestra tomada al final
+de la ventana.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Riesgo de confundir correlación con causalidad.</td>
+<td>El proyecto busca explícitamente una asociación entre contenido musical e indicadores de violencia
+de género; sin un diseño causal, cualquier correlación encontrada podría interpretarse erróneamente
+como causa-efecto, sobre todo considerando que la literatura indica que géneros como los corridos
+tumbados pueden ser manifestación cultural de condiciones ya existentes, no su causa.</td>
+<td>En el reporte final declararemos explícitamente que el diseño es asociativo, no causal, en ambos
+componentes del proyecto (descriptivo y de correlación).</td>
+</tr>
+</tbody>
+</table>
+:::

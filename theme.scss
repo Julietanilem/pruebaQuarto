@@ -1,0 +1,682 @@
+/*-- scss:defaults --*/
+
+// ============================================================
+// 1. PALETA — navy / azul / cian, uso académico y profesional
+// ============================================================
+$navy-950: #0a1830 !default;
+$navy-900: #0f2547 !default;
+$navy-800: #163461 !default;
+$blue-600: #2563eb !default;
+$blue-500: #3b82f6 !default;
+$blue-100: #e6edfb !default;
+$blue-50:  #f3f7fd !default;
+$cyan-500: #0ea5c4 !default;
+$cyan-100: #dff4f8 !default;
+$green-600: #16a34a !default;
+$green-100: #e0f5e7 !default;
+$purple-600: #7c4fd1 !default;
+$slate-900: #101828 !default;
+$slate-700: #344054 !default;
+$slate-600: #475467 !default;
+$slate-400: #98a2b3 !default;
+$slate-200: #e4e7ec !default;
+$slate-100: #f2f4f7 !default;
+$bg-page:  #fbfcfe !default;
+
+$primary:   $blue-600 !default;
+$body-bg:   $bg-page !default;
+$body-color: $slate-900 !default;
+$link-color: $blue-600 !default;
+$border-color: $slate-200 !default;
+$border-radius: 0.6rem !default;
+$border-radius-lg: 0.9rem !default;
+
+$font-family-sans-serif: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif !default;
+$headings-font-weight: 800 !default;
+$headings-color: $slate-900 !default;
+
+$navbar-bg: $navy-900 !default;
+$navbar-fg: #ffffff !default;
+
+/*-- scss:rules --*/
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+// ============================================================
+// 2. BASE / LAYOUT GENERAL
+// ============================================================
+body {
+  background-color: $bg-page;
+  color: $slate-900;
+  overflow-x: hidden;
+  position: relative;
+}
+
+p, li {
+  line-height: 1.7;
+  color: $slate-700;
+}
+
+main.content {
+  padding-top: 1.75rem;
+}
+
+// Aprovecha mejor el ancho disponible: ensancha la columna de contenido y
+// la del TOC lateral (por defecto Quarto las deja muy angostas). Solo en
+// escritorio; en mobile se respeta el layout responsive nativo de Quarto.
+@media (min-width: 992px) {
+  #quarto-content.page-columns {
+    grid-template-columns:
+      [screen-start] 1.5em
+      [screen-start-inset] 2fr
+      [page-start page-start-inset] 35px
+      [body-start-outset] 35px
+      [body-start] 1.5em
+      [body-content-start] minmax(500px, calc(980px - 3em))
+      [body-content-end] 1.5em
+      [body-end] 35px
+      [body-end-outset] minmax(220px, 300px)
+      [page-end-inset] 35px
+      [page-end] 2fr
+      [screen-end-inset] 1.5em
+      [screen-end] !important;
+  }
+}
+
+// Fondo decorativo muy sutil: puntos + formas suaves, no interactivo
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  pointer-events: none;
+  z-index: -1;
+}
+
+body::before {
+  top: 0;
+  left: 0;
+  width: 220px;
+  height: 220px;
+  background-image: radial-gradient(circle, rgba($blue-600, 0.16) 1.5px, transparent 1.6px);
+  background-size: 18px 18px;
+  -webkit-mask-image: linear-gradient(135deg, black 0%, transparent 70%);
+  mask-image: linear-gradient(135deg, black 0%, transparent 70%);
+}
+
+body::after {
+  bottom: -80px;
+  right: -80px;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba($cyan-500, 0.14), rgba($blue-500, 0.05) 60%, transparent 72%);
+  filter: blur(2px);
+}
+
+// ============================================================
+// 3. NAVBAR — plataforma académica moderna
+// ============================================================
+.navbar {
+  background: linear-gradient(180deg, $navy-900, $navy-950) !important;
+  min-height: 56px;
+  padding-top: 0.35rem;
+  padding-bottom: 0.35rem;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06), 0 4px 14px rgba(10, 24, 48, 0.18);
+}
+
+.navbar-brand-container {
+  gap: 0.15rem;
+}
+
+.navbar-logo {
+  height: 28px;
+  width: 28px;
+  border-radius: 8px;
+  margin-right: 0.15rem;
+}
+
+// El título es largo y, en flexbox, un elemento con texto no se encoge por
+// debajo de su ancho de contenido a menos que se lo indiquemos: sin esto,
+// el navbar se "amontona"/se desborda en vez de ajustarse en pantallas
+// angostas.
+.navbar-brand-container {
+  min-width: 0;
+}
+
+.navbar-title {
+  min-width: 0;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+@media (max-width: 991.98px) {
+  .navbar-title {
+    font-size: 0.9rem;
+    line-height: 1.2;
+  }
+
+  .navbar-logo {
+    height: 24px;
+    width: 24px;
+  }
+
+  .navbar-toggler {
+    flex-shrink: 0;
+    padding: 0.25rem 0.45rem;
+    border: none;
+    box-shadow: none !important;
+  }
+
+  .navbar-nav {
+    gap: 0.2rem;
+  }
+
+  .navbar-nav .nav-link {
+    padding: 0.6rem 0.9rem !important;
+    border-radius: 0.55rem;
+  }
+
+  .navbar-collapse {
+    margin-top: 0.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    padding-top: 0.5rem;
+  }
+
+  .navbar-nav.navbar-nav-scroll.ms-auto {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.4rem;
+  }
+
+  .navbar .dropdown-menu {
+    margin-top: 0.2rem;
+  }
+}
+
+.navbar-title {
+  font-weight: 700;
+  font-size: 1.02rem;
+  letter-spacing: -0.01em;
+  color: #ffffff !important;
+}
+
+.navbar-nav .nav-link {
+  font-weight: 500;
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.82) !important;
+  padding: 0.45rem 0.85rem !important;
+  border-radius: 999px;
+  transition: background-color 0.18s ease, color 0.18s ease;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.09);
+}
+
+.navbar-nav .nav-link.active,
+.navbar-nav .dropdown-toggle.active,
+.navbar-nav .show > .dropdown-toggle {
+  color: #ffffff !important;
+  background-color: rgba($blue-500, 0.32);
+}
+
+.navbar .dropdown-menu {
+  border: 1px solid $slate-200;
+  border-radius: $border-radius;
+  box-shadow: 0 12px 28px rgba(10, 24, 48, 0.14);
+  padding: 0.4rem;
+  margin-top: 0.4rem;
+}
+
+.navbar .dropdown-item {
+  border-radius: 0.45rem;
+  padding: 0.5rem 0.7rem;
+  font-size: 0.9rem;
+  color: $slate-700;
+}
+
+.navbar .dropdown-item:hover,
+.navbar .dropdown-item:focus {
+  background-color: $blue-50;
+  color: $navy-900;
+}
+
+.navbar .dropdown-item.active {
+  background-color: $blue-100;
+  color: $navy-900;
+  font-weight: 600;
+}
+
+.navbar-nav.navbar-nav-scroll.ms-auto .nav-link {
+  border-radius: 0.5rem;
+}
+
+.aa-DetachedSearchButton,
+.navbar .quarto-search .aa-DetachedSearchButtonPlaceholder,
+.navbar-nav .quarto-navbar-tools .quarto-navigation-tool {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+// ============================================================
+// 4. TIPOGRAFÍA / ENCABEZADOS
+// ============================================================
+a {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  transition: color 0.15s ease;
+}
+
+a:hover {
+  color: $navy-900;
+}
+
+.quarto-title-block .quarto-title h1.title {
+  font-size: 2.35rem;
+  font-weight: 800;
+  color: $slate-900;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin-bottom: 0.55rem;
+  position: relative;
+}
+
+.quarto-title-block .quarto-title h1.title::after {
+  content: "";
+  display: block;
+  width: 56px;
+  height: 5px;
+  margin-top: 0.85rem;
+  border-radius: 3px;
+  background: linear-gradient(90deg, $blue-600, $cyan-500);
+}
+
+.quarto-title-block .quarto-title .subtitle {
+  font-size: 1.08rem;
+  font-weight: 400;
+  color: $slate-600;
+  margin-top: 1.1rem;
+  margin-bottom: 1.4rem;
+  max-width: 62ch;
+}
+
+main.content h2 {
+  font-weight: 800;
+  font-size: 1.5rem;
+  color: $slate-900;
+  letter-spacing: -0.01em;
+  margin-top: 2.75rem;
+  margin-bottom: 1.1rem;
+  padding-left: 0.85rem;
+  border-left: 5px solid $blue-600;
+  border-radius: 2px;
+}
+
+main.content h3 {
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: $slate-900;
+  margin-top: 1.9rem;
+}
+
+main.content h4 {
+  font-weight: 700;
+  font-size: 1rem;
+  color: $slate-900;
+}
+
+// ============================================================
+// 5. TARJETAS DE METADATOS DE REUNIÓN (Fecha / Horario / Modalidad)
+// ============================================================
+.meeting-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  list-style: none;
+  padding: 0;
+  margin: 1.4rem 0 1.3rem 0;
+}
+
+.meeting-info li {
+  flex: 1 1 200px;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: #ffffff;
+  border: 1px solid $slate-200;
+  border-radius: $border-radius-lg;
+  padding: 0.95rem 1.05rem;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.03);
+  transition: box-shadow 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+
+.meeting-info li:hover {
+  box-shadow: 0 8px 20px rgba(16, 24, 40, 0.08);
+  border-color: $slate-400;
+  transform: translateY(-1px);
+}
+
+.meeting-info li::before {
+  content: "";
+  flex: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 18px 18px;
+}
+
+.meeting-info li:nth-child(1)::before {
+  background-color: $blue-100;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2'/%3E%3Cline x1='16' y1='2' x2='16' y2='6'/%3E%3Cline x1='8' y1='2' x2='8' y2='6'/%3E%3Cline x1='3' y1='10' x2='21' y2='10'/%3E%3C/svg%3E");
+}
+
+.meeting-info li:nth-child(2)::before {
+  background-color: $cyan-100;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230ea5c4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpolyline points='12 7 12 12 16 14'/%3E%3C/svg%3E");
+}
+
+.meeting-info li:nth-child(3)::before {
+  background-color: #ece5fa;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237c4fd1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='10' cy='7' r='4'/%3E%3Cpath d='M22 21v-2a4 4 0 0 0-3-3.87'/%3E%3Cpath d='M16 3.13a4 4 0 0 1 0 7.75'/%3E%3C/svg%3E");
+}
+
+.meeting-info li strong {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: $slate-600;
+  margin-bottom: 0.15rem;
+}
+
+// El texto del valor (después del <strong>) queda como nodo hermano
+.meeting-info li {
+  font-size: 0.95rem;
+  color: $slate-900;
+}
+
+// ============================================================
+// 6. CALLOUTS NATIVOS DE QUARTO — reskin a la paleta del sitio
+// ============================================================
+div.callout {
+  border-radius: $border-radius-lg;
+  border: 1px solid $slate-200;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.03);
+}
+
+div.callout-note {
+  border-left-color: $blue-600;
+}
+div.callout-note .callout-header {
+  background-color: $blue-50;
+}
+div.callout-note > div.callout-body-container.callout-body,
+div.callout-note .callout-body {
+  background-color: $blue-50;
+}
+
+div.callout.callout-style-simple .callout-icon::before {
+  color: $blue-600;
+}
+
+div.callout.callout-style-default .callout-header {
+  font-weight: 700;
+}
+
+// ============================================================
+// 7. TABLAS
+// ============================================================
+main.content table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid $slate-200;
+  border-radius: $border-radius;
+  overflow: hidden;
+  font-size: 0.93rem;
+  margin: 1.2rem 0 1.6rem 0;
+}
+
+main.content table thead th {
+  background-color: $blue-50;
+  color: $slate-600;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 0.75rem 0.95rem;
+  border-bottom: 1px solid $slate-200;
+  vertical-align: middle;
+}
+
+main.content table td {
+  padding: 0.75rem 0.95rem;
+  vertical-align: top;
+  border-bottom: 1px solid $slate-100;
+  color: $slate-700;
+}
+
+main.content table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+main.content table tbody tr:hover td {
+  background-color: $blue-50;
+}
+
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: $border-radius;
+}
+
+// Badges/pills dentro de tablas (categorías tipo Alto Poder / Bajo Interés)
+.badge-pill {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.badge-pill + .badge-pill {
+  margin-left: 0.35rem;
+}
+
+.badge-blue {
+  background-color: $blue-100;
+  color: $navy-900;
+}
+
+.badge-green {
+  background-color: $green-100;
+  color: darken($green-600, 8%);
+}
+
+// ============================================================
+// 8. TABLA DE OBJETO "RIESGOS" (encabezado explícito ya existente)
+// ============================================================
+table.riesgos {
+  width: 100%;
+}
+
+// ============================================================
+// 9. TARJETAS DEL BUSINESS UNDERSTANDING CANVAS
+// ============================================================
+.canvas-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.9rem;
+  margin: 1.6rem 0 2.2rem 0;
+}
+
+.canvas-block {
+  border: 1px solid $slate-200;
+  border-radius: $border-radius-lg;
+  padding: 1rem 1.15rem;
+  background: #ffffff;
+  min-height: 120px;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+  transition: box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.canvas-block:hover {
+  box-shadow: 0 8px 20px rgba(16, 24, 40, 0.08);
+}
+
+.canvas-block h4 {
+  margin-top: 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid $slate-200;
+  padding-bottom: 0.45rem;
+  margin-bottom: 0.55rem;
+}
+
+.canvas-block p, .canvas-block ul {
+  font-size: 0.92rem;
+  margin: 0;
+  color: $slate-700;
+}
+
+.canvas-span-2 { grid-column: span 2; }
+.canvas-span-4 { grid-column: span 4; }
+
+.canvas-block--blue   { border: 2px solid $blue-600; }
+.canvas-block--blue h4   { color: $blue-600; border-bottom-color: $blue-100; }
+
+.canvas-block--green  { border: 2px solid $green-600; }
+.canvas-block--green h4  { color: $green-600; border-bottom-color: $green-100; }
+
+.canvas-block--amber   { border: 2px solid #c9932f; }
+.canvas-block--amber h4  { color: #a8761f; border-bottom-color: #f3e6cb; }
+
+.canvas-block--purple  { border: 2px solid $purple-600; }
+.canvas-block--purple h4 { color: $purple-600; border-bottom-color: #e6ddf8; }
+
+.canvas-block--red   { border: 2px solid #d1495b; }
+.canvas-block--red h4  { color: #c2374a; border-bottom-color: #f6dade; }
+
+.canvas-block--slate  { border: 2px solid $slate-600; }
+.canvas-block--slate h4  { color: $slate-700; border-bottom-color: $slate-200; }
+
+.canvas-inner-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 1.5rem;
+}
+
+.canvas-inner-grid > div {
+  font-size: 0.92rem;
+}
+
+.canvas-inner-grid p {
+  margin: 0 0 0.4rem 0;
+}
+
+.canvas-inner-grid ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.canvas-inner-grid li {
+  margin-bottom: 0.35rem;
+}
+
+@media (max-width: 760px) {
+  .canvas-grid {
+    grid-template-columns: 1fr;
+  }
+  .canvas-span-2, .canvas-span-4 {
+    grid-column: span 1;
+  }
+  .canvas-inner-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ============================================================
+// 10. TOC — "En esta página"
+// ============================================================
+#TOC {
+  background: #ffffff;
+  border: 1px solid $slate-200;
+  border-radius: $border-radius-lg;
+  padding: 1.1rem 1rem;
+  box-shadow: 0 1px 3px rgba(16, 24, 40, 0.04);
+}
+
+#TOC .toc-title,
+#quarto-margin-sidebar nav[role="doc-toc"] > h2 {
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: $slate-600;
+  margin-bottom: 0.6rem;
+}
+
+#TOC ul.nav {
+  border-left: none;
+}
+
+#TOC .nav-link {
+  font-size: 0.86rem;
+  color: $slate-600;
+  padding: 0.4rem 0.6rem;
+  border-left: 3px solid transparent;
+  border-radius: 0 0.4rem 0.4rem 0;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+#TOC .nav-link:hover {
+  color: $navy-900;
+  background-color: $blue-50;
+}
+
+#TOC .nav-link.active {
+  color: $navy-900;
+  font-weight: 700;
+  background-color: $blue-100;
+  border-left-color: $blue-600;
+}
+
+// ============================================================
+// 11. PIE DE PÁGINA
+// ============================================================
+.page-footer {
+  color: $slate-600;
+  border-top: 1px solid $slate-200;
+  font-size: 0.85rem;
+}
+
+// ============================================================
+// 12. RESPONSIVE
+// ============================================================
+@media (max-width: 991.98px) {
+  .meeting-info {
+    flex-direction: column;
+  }
+  main.content .quarto-title-block .quarto-title h1.title {
+    font-size: 1.9rem;
+  }
+}
+
+@media (max-width: 767.98px) {
+  main.content h2 {
+    font-size: 1.28rem;
+    margin-top: 2.1rem;
+  }
+  body::before,
+  body::after {
+    display: none;
+  }
+}

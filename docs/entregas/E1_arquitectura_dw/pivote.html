@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Pivote – Proyecto Integrador — Almacenes y Minería de Datos</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-f4fa8f9e41c0a31fddc41c970ba8ea53.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../assets/logo.svg" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Proyecto Integrador — Almacenes y Minería de Datos</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Inicio</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-e0-·-comprensión-del-negocio" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">E0 · Comprensión del negocio</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-e0-·-comprensión-del-negocio">    
+        <li>
+    <a class="dropdown-item" href="../../entregas/E0_comprension_negocio/bitacora.html">
+ <span class="dropdown-text">Bitácora del stakeholder</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../entregas/E0_comprension_negocio/canvas.html">
+ <span class="dropdown-text">Business Understanding Canvas</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../entregas/E0_comprension_negocio/preguntas.html">
+ <span class="dropdown-text">Preguntas de investigación</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../entregas/E0_comprension_negocio/criterio_exito.html">
+ <span class="dropdown-text">Criterio de éxito</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../entregas/E0_comprension_negocio/riesgos_supuestos.html">
+ <span class="dropdown-text">Riesgos y supuestos</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../entregas/E0_comprension_negocio/uso_ia.html">
+ <span class="dropdown-text">Uso de herramientas de IA</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../entregas/E0_comprension_negocio/e0_v2.html">
+ <span class="dropdown-text">E0 v2 · Secciones actualizadas</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-e1-·-arquitectura-del-dw" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">E1 · Arquitectura del DW</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-e1-·-arquitectura-del-dw">    
+        <li>
+    <a class="dropdown-item" href="../../entregas/E1_arquitectura_dw/fuentes.html">
+ <span class="dropdown-text">Fuentes de datos</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../entregas/E1_arquitectura_dw/arquitectura.html">
+ <span class="dropdown-text">Arquitectura de tres capas</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../entregas/E1_arquitectura_dw/estrella.html">
+ <span class="dropdown-text">Esquema estrella</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../entregas/E1_arquitectura_dw/trazabilidad.html">
+ <span class="dropdown-text">Trazabilidad a E0</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../entregas/E1_arquitectura_dw/pivote.html">
+ <span class="dropdown-text">Pivote</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../entregas/E1_arquitectura_dw/uso_ia.html">
+ <span class="dropdown-text">Uso de herramientas de IA</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../entregas/E1_arquitectura_dw/referencias.html">
+ <span class="dropdown-text">Referencias</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://github.com/jzarcoo/almacenes-mineria-proyecto"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text">Repositorio</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#búsqueda-realizada" id="toc-búsqueda-realizada" class="nav-link active" data-scroll-target="#búsqueda-realizada">1. Búsqueda realizada</a>
+  <ul class="collapse">
+  <li><a href="#herramientas" id="toc-herramientas" class="nav-link" data-scroll-target="#herramientas">Herramientas</a></li>
+  <li><a href="#fuentes-revisadas-para-el-consumo-por-entidad" id="toc-fuentes-revisadas-para-el-consumo-por-entidad" class="nav-link" data-scroll-target="#fuentes-revisadas-para-el-consumo-por-entidad">Fuentes revisadas para el consumo por entidad</a></li>
+  </ul></li>
+  <li><a href="#evidencia-trends" id="toc-evidencia-trends" class="nav-link" data-scroll-target="#evidencia-trends">2. Evidencia de la verificación de Google Trends</a></li>
+  <li><a href="#evidencia-para-elegir-los-términos-de-búsqueda" id="toc-evidencia-para-elegir-los-términos-de-búsqueda" class="nav-link" data-scroll-target="#evidencia-para-elegir-los-términos-de-búsqueda">3. Evidencia para elegir los términos de búsqueda</a></li>
+  <li><a href="#pregunta-u-objetivo-afectado" id="toc-pregunta-u-objetivo-afectado" class="nav-link" data-scroll-target="#pregunta-u-objetivo-afectado">4. Pregunta u objetivo afectado</a></li>
+  <li><a href="#qué-cambia-antes-y-después" id="toc-qué-cambia-antes-y-después" class="nav-link" data-scroll-target="#qué-cambia-antes-y-después">5. Qué cambia: antes y después</a></li>
+  <li><a href="#por-qué-sigue-en-la-línea-de-e0" id="toc-por-qué-sigue-en-la-línea-de-e0" class="nav-link" data-scroll-target="#por-qué-sigue-en-la-línea-de-e0">6. Por qué sigue en la línea de E0</a></li>
+  <li><a href="#efecto-en-el-criterio-de-éxito" id="toc-efecto-en-el-criterio-de-éxito" class="nav-link" data-scroll-target="#efecto-en-el-criterio-de-éxito">7. Efecto en el criterio de éxito</a></li>
+  <li><a href="#resumen-de-las-secciones-de-e0-que-se-actualizan-e0-v2" id="toc-resumen-de-las-secciones-de-e0-que-se-actualizan-e0-v2" class="nav-link" data-scroll-target="#resumen-de-las-secciones-de-e0-que-se-actualizan-e0-v2">8. Resumen de las secciones de E0 que se actualizan (E0 v2)</a></li>
+  <li><a href="#riesgos-y-limitaciones-nuevos" id="toc-riesgos-y-limitaciones-nuevos" class="nav-link" data-scroll-target="#riesgos-y-limitaciones-nuevos">9. Riesgos y limitaciones nuevos</a></li>
+  <li><a href="#cómo-queda-en-el-almacén-de-datos" id="toc-cómo-queda-en-el-almacén-de-datos" class="nav-link" data-scroll-target="#cómo-queda-en-el-almacén-de-datos">10. Cómo queda en el almacén de datos</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Pivote</h1>
+<p class="subtitle lead">Del consumo por entidad al consumo estimado por entidad</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Resumen
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>En E0 planteamos medir la misoginia de la música <strong>consumida en cada entidad</strong> durante <strong>10 años</strong>. Tras una búsqueda documentada, <strong>no existe una fuente abierta de consumo musical por estado</strong>: Spotify, Kworb y Kaggle solo publican datos nacionales.</p>
+<p>El pivote es el mínimo necesario y mantiene el tema y las cuatro preguntas de E0:</p>
+<ol type="1">
+<li>El consumo por entidad pasa a ser una <strong>estimación</strong>: el consumo nacional de cada canción se reparte entre los estados con el interés de búsqueda de su artista en Google Trends, descargado por año.</li>
+<li>La ventana con streams verificados es <strong>2017–2021</strong>. Con posiciones del Top 50 la serie llega a 2025, con un hueco de enero de 2022 a septiembre de 2023.</li>
+<li>La correlación con el SESNSP se hace por <strong>estado y año</strong>, y por mes solo a nivel nacional.</li>
+<li><strong>P4 queda parcialmente cubierta.</strong></li>
+</ol>
+</div>
+</div>
+<section id="búsqueda-realizada" class="level2">
+<h2 class="anchored" data-anchor-id="búsqueda-realizada">1. Búsqueda realizada</h2>
+<section id="herramientas" class="level3">
+<h3 class="anchored" data-anchor-id="herramientas">Herramientas</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Herramienta</th>
+<th>Uso</th>
+<th>Fecha</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Claude (Anthropic), con búsqueda web</td>
+<td>Buscar fuentes de consumo musical con detalle por estado (radio, YouTube, TV, streaming, encuestas, Trends) y proponer alternativas</td>
+<td>9 de octubre de 2026</td>
+</tr>
+<tr class="even">
+<td>Google Trends (sitio web)</td>
+<td>Verificación manual: descarga de CSV por subregión</td>
+<td>9 de octubre de 2026</td>
+</tr>
+<tr class="odd">
+<td>Kaggle (<code>kagglehub</code>) y Google Colab</td>
+<td>Medir la cobertura de streams por artista</td>
+<td>9 de octubre de 2026</td>
+</tr>
+</tbody>
+</table>
+<p>El catálogo base de fuentes se verificó el 26 de septiembre de 2026 (ver <a href="../../entregas/E1_arquitectura_dw/fuentes.html">Fuentes de datos</a>). Los prompts están en <a href="../../entregas/E1_arquitectura_dw/uso_ia.html">uso de herramientas de IA</a>.</p>
+</section>
+<section id="fuentes-revisadas-para-el-consumo-por-entidad" class="level3">
+<h3 class="anchored" data-anchor-id="fuentes-revisadas-para-el-consumo-por-entidad">Fuentes revisadas para el consumo por entidad</h3>
+<p>La columna “Revisión” distingue lo que el equipo <strong>abrió y comprobó</strong> de lo que solo se evaluó con su documentación pública.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fuente</th>
+<th>Tipo</th>
+<th>Qué ofrece</th>
+<th>Decisión y motivo</th>
+<th>Revisión</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Spotify Charts (Kaggle <code>dhruvildave/spotify-charts</code>)</td>
+<td>Dataset de Kaggle</td>
+<td>Top 200 diario de México con streams, 2017–2021</td>
+<td><strong>Aceptada</strong>, pero es nacional</td>
+<td>Abierta y consultada</td>
+</tr>
+<tr class="even">
+<td>Kworb</td>
+<td>Página web</td>
+<td>Charts de Spotify por país</td>
+<td>Aceptada, pero es nacional</td>
+<td>Abierta y consultada</td>
+</tr>
+<tr class="odd">
+<td>Google Trends, sitio web</td>
+<td>Descarga de CSV</td>
+<td>Interés de búsqueda por estado</td>
+<td><strong>Aceptada como proxy</strong></td>
+<td>Abierta y descargada (sección 2)</td>
+</tr>
+<tr class="even">
+<td>Google Trends en BigQuery (<code>google_trends</code>)</td>
+<td>Dataset público de BigQuery</td>
+<td>Solo los 25 términos principales y 25 en ascenso por día, con ventana móvil de unos 5 años</td>
+<td>Descartada: un artista casi nunca entra al top 25 de una región, y no se confirmó que los estados de México estén incluidos</td>
+<td>Documentación</td>
+</tr>
+<tr class="odd">
+<td>Google Trends API oficial (alfa)</td>
+<td>API</td>
+<td>Datos por región y subregión (ISO 3166-2), unos 5 años hacia atrás</td>
+<td>Descartada: acceso restringido a pocos desarrolladores</td>
+<td>Documentación</td>
+</tr>
+<tr class="even">
+<td>Spotify Charts por ciudad (F9)</td>
+<td>Portal web con cuenta</td>
+<td>Charts por ciudad</td>
+<td>Aceptada con limitaciones solo como referencia: sus términos de uso no permiten cargar los datos</td>
+<td>Abierta y consultada (ver su ficha)</td>
+</tr>
+<tr class="odd">
+<td>Apple Music City Charts</td>
+<td>Portal web</td>
+<td>Top 25 de solo tres ciudades (Guadalajara, Ciudad de México y Monterrey)</td>
+<td>Descartada: cobertura de tres ciudades, top 25 y sin historial verificado</td>
+<td>Documentación</td>
+</tr>
+<tr class="even">
+<td>Shazam, charts por ciudad</td>
+<td>Portal web</td>
+<td>Charts actuales por ciudad</td>
+<td>Descartada: no se verificó historial descargable</td>
+<td>Documentación</td>
+</tr>
+<tr class="odd">
+<td>YouTube Trending México</td>
+<td>Página web</td>
+<td>Tendencias del día a nivel país</td>
+<td>Descartada: nacional y sin historial</td>
+<td>Documentación</td>
+</tr>
+<tr class="even">
+<td>Monitor Latino</td>
+<td>Plataforma comercial</td>
+<td>Monitoreo de estaciones de radio</td>
+<td>Descartada: de pago, y sus charts públicos son nacionales</td>
+<td>Documentación</td>
+</tr>
+<tr class="odd">
+<td>INEGI, ENCCUM 2012</td>
+<td>Encuesta de hogares</td>
+<td>Consumo cultural, con entidad federativa en la base</td>
+<td>Descartada: es de 2012, fuera de la ventana</td>
+<td>Documentación</td>
+</tr>
+<tr class="even">
+<td>INEGI, ENCCA 2022</td>
+<td>Encuesta de hogares</td>
+<td>Consumo de contenidos audiovisuales, con indicadores nacionales</td>
+<td>Descartada: sin nivel estatal</td>
+<td>Documentación</td>
+</tr>
+<tr class="odd">
+<td>INEGI, Cuenta Satélite de la Cultura</td>
+<td>Estadística oficial</td>
+<td>Indicador económico por entidad</td>
+<td>Descartada: mide PIB cultural, no qué música se escucha</td>
+<td>Documentación</td>
+</tr>
+<tr class="even">
+<td>IFT, Banco de Información de Telecomunicaciones</td>
+<td>Portal de datos abiertos</td>
+<td>Estaciones y cobertura de radio y TV abierta</td>
+<td>Descartada para consumo: no dice qué música se transmite</td>
+<td>Documentación</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="evidencia-trends" class="level2">
+<h2 class="anchored" data-anchor-id="evidencia-trends">2. Evidencia de la verificación de Google Trends</h2>
+<p>Se descargaron cuatro archivos desde el sitio web de Trends (país México, desglose por subregión). Los archivos se guardan en <code>datos/trends/</code> y se cargan sin cambios en staging.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Archivo</th>
+<th>Términos</th>
+<th>Periodo</th>
+<th>Estados con valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>by_region_MX_20170101-0000_20261009-2245.csv</code></td>
+<td>regueton</td>
+<td>Rango largo desde 2017</td>
+<td>32 de 32</td>
+</tr>
+<tr class="even">
+<td><code>by_region_MX_20170101-0000_20261009-2247.csv</code></td>
+<td>karol g, bad bunny, tusa</td>
+<td>Rango largo desde 2017</td>
+<td>32 de 32</td>
+</tr>
+<tr class="odd">
+<td><code>by_region_MX_20180101-0000_20261009-2250.csv</code></td>
+<td>Reguetón</td>
+<td>Año 2018</td>
+<td>32 de 32</td>
+</tr>
+<tr class="even">
+<td><code>by_region_MX_20210101-0000_20261009-2251.csv</code></td>
+<td>Reguetón</td>
+<td>Año 2021</td>
+<td>32 de 32</td>
+</tr>
+<tr class="odd">
+<td><code>by_region_MX_20201231-1800_20261010-0031.csv</code></td>
+<td>Tones And I, Bobby Pulido</td>
+<td>Año 2021</td>
+<td>32 de 32 (Tones And I en cero en 3)</td>
+</tr>
+<tr class="even">
+<td><code>by_region_MX_20260710-0032_20261010-0032.csv</code></td>
+<td>Tones And I, Bobby Pulido</td>
+<td>10 de julio a 10 de octubre de 2026</td>
+<td>32 de 32 (Tones And I en cero en 25)</td>
+</tr>
+</tbody>
+</table>
+<p>Lo que se concluyó:</p>
+<ul>
+<li><strong>Hay un valor por estado y término para el periodo elegido.</strong> El periodo puede ser un año o un solo mes. Para el reparto se descarga un archivo por artista y año; la descarga por mes queda como mejora opcional.</li>
+<li><strong>Con un solo término</strong>, el estado con más interés vale 100 y los demás son proporcionales. Sirve para comparar estados entre sí.</li>
+<li><strong>Con varios términos en una misma descarga</strong>, cada estado suma exactamente 100. Esos valores son un reparto entre términos dentro del estado y no permiten comparar estados. Por eso cada término se descarga por separado.</li>
+<li><strong>El patrón geográfico es estable entre archivos:</strong> el sureste (Chiapas, Tabasco, Campeche, Yucatán, Veracruz) queda arriba en todos, con una correlación de rangos de Spearman de 0.78 a 0.88 entre los tres archivos de “regueton”.</li>
+<li><strong>Cada archivo se normaliza por separado.</strong> Entre años se compara la posición relativa de un estado, no el nivel de búsquedas.</li>
+<li><strong>Con periodos cortos, un artista de poco volumen queda en cero en la mayoría de los estados.</strong> Tones And I (lugar 87 de 2021) tiene valor en 29 estados en todo 2021, pero solo en 7 en tres meses de 2026. Por eso el reparto tiene respaldos: el peso del género o el de los usuarios de internet.</li>
+<li><strong>Los nombres de los estados dependen del idioma del sitio:</strong> en inglés aparecen “Mexico City” o “State of Mexico”, y en español “Estado de México” o “Coahuila de Zaragoza”. Las descargas se hacen siempre en español y el catálogo de entidades guarda las dos versiones.</li>
+<li><strong>Hay que usar siempre el texto exacto del término</strong>: el primer archivo usó <code>regueton</code> y los siguientes <code>Reguetón</code>.</li>
+</ul>
+</section>
+<section id="evidencia-para-elegir-los-términos-de-búsqueda" class="level2">
+<h2 class="anchored" data-anchor-id="evidencia-para-elegir-los-términos-de-búsqueda">3. Evidencia para elegir los términos de búsqueda</h2>
+<p>El grano del consumo es la canción, pero Trends se consulta por artista: el interés de búsqueda de cada artista reparte el consumo de sus canciones. Para saber cuántos artistas consultar, con el dataset de Spotify Charts México (Top 200 diario, 2017–2021) se calculó qué porcentaje de los streams cubren los artistas más escuchados de cada año:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Año</th>
+<th>Top 50 del año</th>
+<th>Top 100 del año</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>2017</td>
+<td>66.4 %</td>
+<td>87.0 %</td>
+</tr>
+<tr class="even">
+<td>2018</td>
+<td>69.9 %</td>
+<td>88.1 %</td>
+</tr>
+<tr class="odd">
+<td>2019</td>
+<td>67.3 %</td>
+<td>86.7 %</td>
+</tr>
+<tr class="even">
+<td>2020</td>
+<td>73.9 %</td>
+<td>90.6 %</td>
+</tr>
+<tr class="odd">
+<td>2021</td>
+<td>72.1 %</td>
+<td>89.3 %</td>
+</tr>
+</tbody>
+</table>
+<p>Se consultan los <strong>100 artistas con más streams de cada año</strong>. La selección es por consumo y no por reputación del género, como pide la regla operativa de E0. Las canciones de los demás artistas se reparten con el interés del género del artista y, si tampoco hay, con los usuarios de internet de cada estado.</p>
+<p>En MusicBrainz, 48 de los 50 artistas más escuchados devolvieron etiquetas de género, pero no todas son correctas: a Sebastián Yatra la búsqueda le asignó las de un compositor clásico alemán, porque se toma el primer resultado. Las coincidencias se validan (país, tipo de artista, puntaje de la búsqueda) y los casos dudosos se completan a mano.</p>
+</section>
+<section id="pregunta-u-objetivo-afectado" class="level2">
+<h2 class="anchored" data-anchor-id="pregunta-u-objetivo-afectado">4. Pregunta u objetivo afectado</h2>
+<ul>
+<li><strong>Objetivo de minería de datos:</strong> el índice por canción deja de ser “agregable por entidad” de forma directa y pasa a ser una <strong>estimación por entidad</strong>.</li>
+<li><strong>P1 y P2:</strong> dependían del consumo por entidad.</li>
+<li><strong>P3:</strong> depende de la ventana de 10 años.</li>
+<li><strong>P4:</strong> depende de que el SESNSP distinga todos los tipos de violencia.</li>
+</ul>
+</section>
+<section id="qué-cambia-antes-y-después" class="level2">
+<h2 class="anchored" data-anchor-id="qué-cambia-antes-y-después">5. Qué cambia: antes y después</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Antes (E0)</th>
+<th>Después (E0 v2)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>P1</strong></td>
+<td>Proporción de misoginia en la música consumida en México, por género musical y entidad</td>
+<td>Proporción de misoginia en la música más escuchada en Spotify México (Top 200), por género musical y por entidad. La variación por entidad es una <strong>estimación</strong>: el consumo nacional de cada canción repartido con el interés de búsqueda anual de su artista por estado</td>
+</tr>
+<tr class="even">
+<td><strong>P2</strong></td>
+<td>Correlación entre la misoginia musical por entidad y los indicadores del SESNSP en la misma ventana y territorio</td>
+<td>Correlación entre la <strong>exposición estimada</strong> por estado y año y las tasas por 100 mil mujeres del SESNSP por estado y año (160 observaciones con streams en 2017–2021, más los años con posiciones). Se reporta también una correlación nacional mensual</td>
+</tr>
+<tr class="odd">
+<td><strong>P3</strong></td>
+<td>Evolución de la misoginia a lo largo de la última década, por tipo de violencia</td>
+<td>Evolución mensual nacional por tipo de violencia, con streams en <strong>2017–2021</strong> y con puntos del Top 50 de 2017 a 2025, sin datos de enero de 2022 a septiembre de 2023</td>
+</tr>
+<tr class="even">
+<td><strong>P4</strong></td>
+<td>Tipos de violencia predominantes en la música y su coincidencia con los más reportados oficialmente</td>
+<td><strong>Cobertura parcial:</strong> el SESNSP no distingue violencia económica, patrimonial ni simbólica. ENDIREH sí las mide, pero solo tiene dos cortes (2016 y 2021). La comparación cuantitativa se limita a los tipos que el SESNSP separa (sexual, familiar, feminicida)</td>
+</tr>
+<tr class="odd">
+<td><strong>Consumo por entidad</strong></td>
+<td>Consumo musical medido por entidad</td>
+<td>Estimación: consumo nacional repartido con el interés de búsqueda por estado (Trends), un archivo por artista y año</td>
+</tr>
+<tr class="even">
+<td><strong>Ventana</strong></td>
+<td>10 años</td>
+<td>2017–2021 con streams; 2017–2025 con posiciones, con hueco</td>
+</tr>
+<tr class="odd">
+<td><strong>Contraste del subregistro</strong></td>
+<td>Mapa de feminicidios de María Salguero</td>
+<td>Queda en el catálogo, fuera del almacén: el mapa no permite exportar datos (ver su ficha). La triangulación se hace con la ENDIREH, de forma parcial, y el RNPDNO se suma como indicador que no viene del SESNSP</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="por-qué-sigue-en-la-línea-de-e0" class="level2">
+<h2 class="anchored" data-anchor-id="por-qué-sigue-en-la-línea-de-e0">6. Por qué sigue en la línea de E0</h2>
+<ul>
+<li><strong>El tema no cambia:</strong> misoginia en la música consumida en México y su relación con la violencia de género oficial.</li>
+<li><strong>Las cuatro preguntas se conservan</strong>, ajustadas en grano o cobertura.</li>
+<li><strong>Los dos entregables de E0 se mantienen:</strong> el diagnóstico descriptivo y el análisis de correlación.</li>
+<li><strong>Los cambios son los que la guía permite sin cambiar de tema:</strong> un proxy para una variable que no existe en abierto, una cobertura temporal menor y un grano más agregado.</li>
+<li><strong>Se respeta la regla operativa de E0:</strong> los artistas se eligen por streams, sin preseleccionar géneros.</li>
+</ul>
+</section>
+<section id="efecto-en-el-criterio-de-éxito" class="level2">
+<h2 class="anchored" data-anchor-id="efecto-en-el-criterio-de-éxito">7. Efecto en el criterio de éxito</h2>
+<p>El criterio de E0 sigue siendo alcanzable. Cambia su alcance, no su forma.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Criterio de E0</th>
+<th>En E0 v2</th>
+<th>Efecto</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Índice reproducible, desagregado por entidad, género, tipo de violencia y periodo</td>
+<td>Se mantiene. La desagregación por entidad es estimada y toda salida debe indicarlo</td>
+<td>Menor precisión geográfica</td>
+</tr>
+<tr class="even">
+<td>Correlación con el SESNSP, con coeficiente y significancia</td>
+<td>Se mantiene. La unidad pasa a ser estado y año</td>
+<td>Menos observaciones que un análisis mensual, y observaciones no independientes que hay que tratar con cuidado</td>
+</tr>
+<tr class="odd">
+<td>Ventana de 10 años, mensual o anual</td>
+<td>Anual por entidad y mensual a nivel nacional; streams en 2017–2021 y posiciones hasta 2025</td>
+<td>Ventana más corta y con hueco</td>
+</tr>
+<tr class="even">
+<td>Clasificador validado con precisión y recall por periodo</td>
+<td>Sin cambios</td>
+<td>Ninguno</td>
+</tr>
+<tr class="odd">
+<td>Resultados desagregables sin perder trazabilidad a la fuente</td>
+<td>Se mantiene. Se distingue el dato real del proxy</td>
+<td>Ninguno</td>
+</tr>
+<tr class="even">
+<td>No hay umbral mínimo de correlación</td>
+<td>Sin cambios</td>
+<td>Ninguno</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="resumen-de-las-secciones-de-e0-que-se-actualizan-e0-v2" class="level2">
+<h2 class="anchored" data-anchor-id="resumen-de-las-secciones-de-e0-que-se-actualizan-e0-v2">8. Resumen de las secciones de E0 que se actualizan (E0 v2)</h2>
+<p>La versión original de E0 se conserva sin cambios.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Sección de E0</th>
+<th>Cambio</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1. Objetivos de negocio</td>
+<td>La desagregación por entidad pasa a ser aproximada</td>
+</tr>
+<tr class="even">
+<td>2. Criterio de éxito</td>
+<td>Ventana y unidad de análisis (sección 7)</td>
+</tr>
+<tr class="odd">
+<td>3. Evaluación de la situación</td>
+<td>El mapa de Salguero queda fuera del almacén; el supuesto de triangulación y el riesgo de subregistro se apoyan en la ENDIREH; se agregan los riesgos de la sección 9</td>
+</tr>
+<tr class="even">
+<td>4. Objetivos de minería de datos</td>
+<td>Consumo por entidad como proxy; alineación anual entre el consumo por estado y el SESNSP</td>
+</tr>
+<tr class="odd">
+<td>6. Plan del proyecto</td>
+<td>Fase 1 sin carga del mapa de Salguero</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="riesgos-y-limitaciones-nuevos" class="level2">
+<h2 class="anchored" data-anchor-id="riesgos-y-limitaciones-nuevos">9. Riesgos y limitaciones nuevos</h2>
+<ul>
+<li><strong>El interés de búsqueda no es escucha.</strong> Se declara en la matriz de trazabilidad y en todo resultado por entidad.</li>
+<li><strong>El reparto es un supuesto.</strong> Supone que el consumo de un artista se reparte entre estados como su interés de búsqueda, escalado por los usuarios de internet.</li>
+<li><strong>Trends es relativo y se normaliza por consulta.</strong> El reparto solo usa cómo se distribuye el interés entre estados dentro de cada descarga, por eso no necesita un término ancla.</li>
+<li><strong>Usuarios de internet:</strong> el catálogo solo tiene la ENDUTIH 2024; mientras no se agreguen otras ediciones, su proporción se usa para todos los años.</li>
+<li><strong>Nombres ambiguos:</strong> artistas como Matisse, Aleman o Intocable comparten nombre con palabras o con otras personas. Se revisa el término de cada artista y, si es ambiguo, se usa el peso del género.</li>
+<li><strong>Número de descargas:</strong> una por artista y año, unas 500 para los 100 artistas principales de 2017 a 2021, más las de géneros. La descarga por mes es opcional.</li>
+<li><strong>Trends trabaja con una muestra,</strong> por lo que los valores pueden variar un poco entre descargas.</li>
+<li><strong>Artistas de menor volumen</strong> podrían salir con pocos estados con valor en un mes. Esos estados toman el peso del género y quedan marcados en <code>origen_peso</code>; todo resultado se reporta también solo con pesos observados.</li>
+<li><strong>Hueco de datos:</strong> entre 2022 y octubre de 2023 no hay streams, y el dataset de Kaggle posterior trae posición pero no streams.</li>
+<li><strong>Cobertura de los artistas:</strong> el top 100 anual explica entre 87 % y 91 % de los streams del Top 200 de Spotify México, no de todo el consumo musical del país.</li>
+<li><strong>Tipos de violencia:</strong> la clasificación del SESNSP no coincide uno a uno con la LGAMVLV.</li>
+</ul>
+</section>
+<section id="cómo-queda-en-el-almacén-de-datos" class="level2">
+<h2 class="anchored" data-anchor-id="cómo-queda-en-el-almacén-de-datos">10. Cómo queda en el almacén de datos</h2>
+<ul>
+<li><code>fact_consumo_musical</code>: una fila por canción, entidad y mes, con el consumo estimado y la marca <code>origen_peso</code>.</li>
+<li><code>fact_violencia</code>: una fila por entidad, delito o registro y mes.</li>
+<li>La fórmula del reparto está en <a href="../../entregas/E1_arquitectura_dw/estrella.html#estimacion">Esquema estrella</a>.</li>
+</ul>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  // Envuelve las tablas en un contenedor con scroll horizontal en pantallas
+  // angostas. No modifica ningún texto ni dato de las tablas.
+  document.querySelectorAll("main.content table").forEach(function (table) {
+    if (table.closest(".table-responsive")) return;
+    var wrapper = document.createElement("div");
+    wrapper.className = "table-responsive";
+    table.parentNode.insertBefore(wrapper, table);
+    wrapper.appendChild(table);
+  });
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/jzarcoo\.github\.io\/almacenes-mineria-proyecto\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+          // default icon
+          link.classList.add("external");
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Facultad de Ciencias, UNAM — Almacenes y Minería de Datos</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

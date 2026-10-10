@@ -1,0 +1,13 @@
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  // Envuelve las tablas en un contenedor con scroll horizontal en pantallas
+  // angostas. No modifica ningún texto ni dato de las tablas.
+  document.querySelectorAll("main.content table").forEach(function (table) {
+    if (table.closest(".table-responsive")) return;
+    var wrapper = document.createElement("div");
+    wrapper.className = "table-responsive";
+    table.parentNode.insertBefore(wrapper, table);
+    wrapper.appendChild(table);
+  });
+});
+</script>

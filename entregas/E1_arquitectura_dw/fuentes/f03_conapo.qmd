@@ -1,0 +1,38 @@
+---
+title: "F3. CONAPO — Población a mitad de año"
+---
+
+Población por entidad, edad y sexo. Es necesaria porque los conteos de delitos no se pueden comparar entre entidades de tamaño muy distinto: en 2025 el Estado de México registró 55 carpetas de investigación por feminicidio y Morelos 37, pero con la población de mujeres de CONAPO la tasa es de 0.60 y 3.48 por cada 100 mil mujeres; es decir, el riesgo en Morelos es casi seis veces mayor. La correlación de P2 se calcula sobre tasas, no sobre conteos.
+
+| Entidad | Carpetas por feminicidio, 2025 (SESNSP) | Mujeres a mitad de 2025 (CONAPO) | Tasa por 100 mil mujeres |
+|---|--:|--:|--:|
+| Estado de México (15) | 55 | 9,121,081 | 0.60 |
+| Morelos (17) | 37 | 1,062,217 | 3.48 |
+
+*Fuentes:* las carpetas de investigación salen del archivo estatal de delitos del SESNSP, [F1](f01_sesnsp.qmd), sumando de enero a diciembre de 2025 todas las modalidades de feminicidio. La población sale de este archivo de CONAPO, sumando todas las edades de las mujeres en 2025.
+
+| Campo | Descripción |
+|---|---|
+| **Nombre y dueño** | *Población a mitad de año, 1950-2070*, conjunto *Proyecciones de población*. Secretaría General del Consejo Nacional de Población, dependencia federal encargada de la planeación demográfica. |
+| **URL** | <https://repodatos.atdt.gob.mx/CONAPO/proyecciones/00_Pob_Mitad_1950_2070.csv> (publicado en datos.gob.mx). |
+| **Acceso** | Descarga directa del CSV desde datos.gob.mx. Última actualización del conjunto: 27 oct 2025. |
+| **Formato y tamaño** | CSV, 45.2 MB, 711,040 filas, 9 columnas. |
+| **Grano** | Una fila por entidad, año, edad simple (0–109) y sexo. |
+| **Cobertura** | 1970–2070, anual. |
+| **Información de México** | 32 entidades. Mujeres en 2025: 68.1 millones (suma de entidades). |
+| **Licencia y restricciones** | Creative Commons Attribution 4.0. Puede tener revisiones retroactivas. |
+| **Llaves de integración** | `CVE_GEO`: clave INEGI de la entidad, se une con `Clave_Ent` del SESNSP y `CVE_ENT` de ENDIREH. `ANIO`: año al que corresponde la población. `SEXO` y `EDAD`: permiten usar solo mujeres, o solo mujeres de 15 años y más para comparar con ENDIREH. |
+| **Preguntas de E0** | P2, P4. |
+
+![Recurso elegido en datos.gob.mx](../img/equipo_conapo.png){width=55% fig-align="center"}
+
+![Vista previa del CSV](../img/vista_conapo.png){width=100% fig-align="center"}
+
+
+## Problemas anticipados para la integración
+
+- El archivo empieza en 1970, aunque su título indica que cubre desde 1950.
+- La población es anual, mientras que los delitos del SESNSP y el consumo musical son mensuales.
+- CONAPO actualiza sus proyecciones de forma retroactiva, por lo que las cifras de años pasados pueden cambiar en versiones futuras.
+
+[← Volver a fuentes de datos](../fuentes.qmd)
