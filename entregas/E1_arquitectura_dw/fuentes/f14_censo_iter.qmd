@@ -9,7 +9,7 @@ Resultados del Censo de Población y Vivienda 2020 por entidad, municipio y loca
 | **Nombre y dueño** | Censo de Población y Vivienda 2020, Principales resultados por localidad (ITER). Instituto Nacional de Estadística y Geografía. |
 | **URL** | <https://www.inegi.org.mx/programas/ccpv/2020/> (pestaña *Datos abiertos*). |
 | **Acceso** | Descarga directa del ZIP nacional (`iter_00_cpv2020_csv.zip`, 36.6 MB). |
-| **Formato y tamaño** | CSV UTF-8, 150 MB, 195,662 filas; incluye diccionario de datos. |
+| **Formato y tamaño** | CSV UTF-8 con BOM, 142.73 MiB, 195,662 filas y 286 columnas; incluye diccionario de datos. La carga a BigQuery usa Cloud Storage y no elimina localidades. |
 | **Grano** | Una fila por localidad, con filas de total por municipio, por entidad y nacional. |
 | **Cobertura** | Un solo levantamiento: 2020. |
 | **Información de México** | 33 filas a nivel entidad (nacional + 32 entidades), con `POBTOT`, `POBFEM`, `VPH_INTER` (viviendas con internet) y `TVIVPARHAB`. |
@@ -21,6 +21,10 @@ Resultados del Censo de Población y Vivienda 2020 por entidad, municipio y loca
 
 ![Filas a nivel entidad](../img/vista_iter.png){width=85% fig-align="center"}
 
+
+## Carga y verificación en BigQuery
+
+El ZIP nacional se extrajo en Colab sin filtrar registros. Se verificaron **195,662 filas y 286 columnas** en el CSV original, que se subió a Cloud Storage y se cargó a una tabla temporal. La carga temporal conservó las mismas dimensiones. Luego se sustituyó la tabla definitiva `misoginia_staging.stg_censo_iter`. No se utilizó la muestra técnica inicial de 675 filas.
 
 ## Problemas anticipados para la integración
 

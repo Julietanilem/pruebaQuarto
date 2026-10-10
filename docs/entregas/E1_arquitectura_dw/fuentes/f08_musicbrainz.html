@@ -1,12 +1,9 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
-<meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.42">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
-
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta charset="utf-8"/>
+<meta content="quarto-1.6.42" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
 <title>F8. MusicBrainz — artistas y género musical – Proyecto Integrador — Almacenes y Minería de Datos</title>
 <style>
 code{white-space: pre-wrap;}
@@ -21,23 +18,21 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 </style>
-
-
 <script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../../">
+<meta content="../../../" name="quarto:offset"/>
 <script src="../../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet"/>
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" id="quarto-text-highlighting-styles" rel="stylesheet"/>
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-f4fa8f9e41c0a31fddc41c970ba8ea53.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet"/>
+<link append-hash="true" data-mode="light" href="../../../site_libs/bootstrap/bootstrap-f4fa8f9e41c0a31fddc41c970ba8ea53.min.css" id="quarto-bootstrap" rel="stylesheet"/>
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -65,160 +60,144 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
-
-
 </head>
-
 <body class="nav-fixed">
-
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../../../assets/logo.svg" alt="" class="navbar-logo">
-    </a>
-    <a class="navbar-brand" href="../../../index.html">
-    <span class="navbar-title">Proyecto Integrador — Almacenes y Minería de Datos</span>
-    </a>
-  </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="../../../index.html"> 
-<span class="menu-text">Inicio</span></a>
-  </li>  
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-e0-·-comprensión-del-negocio" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">E0 · Comprensión del negocio</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-e0-·-comprensión-del-negocio">    
-        <li>
-    <a class="dropdown-item" href="../../../entregas/E0_comprension_negocio/bitacora.html">
- <span class="dropdown-text">Bitácora del stakeholder</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../../entregas/E0_comprension_negocio/canvas.html">
- <span class="dropdown-text">Business Understanding Canvas</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../../entregas/E0_comprension_negocio/preguntas.html">
- <span class="dropdown-text">Preguntas de investigación</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../../entregas/E0_comprension_negocio/criterio_exito.html">
- <span class="dropdown-text">Criterio de éxito</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../../entregas/E0_comprension_negocio/riesgos_supuestos.html">
- <span class="dropdown-text">Riesgos y supuestos</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../../entregas/E0_comprension_negocio/uso_ia.html">
- <span class="dropdown-text">Uso de herramientas de IA</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../../entregas/E0_comprension_negocio/e0_v2.html">
- <span class="dropdown-text">E0 v2 · Secciones actualizadas</span></a>
-  </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-e1-·-arquitectura-del-dw" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">E1 · Arquitectura del DW</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-e1-·-arquitectura-del-dw">    
-        <li>
-    <a class="dropdown-item" href="../../../entregas/E1_arquitectura_dw/fuentes.html">
- <span class="dropdown-text">Fuentes de datos</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../../entregas/E1_arquitectura_dw/arquitectura.html">
- <span class="dropdown-text">Arquitectura de tres capas</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../../entregas/E1_arquitectura_dw/estrella.html">
- <span class="dropdown-text">Esquema estrella</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../../entregas/E1_arquitectura_dw/trazabilidad.html">
- <span class="dropdown-text">Trazabilidad a E0</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../../entregas/E1_arquitectura_dw/pivote.html">
- <span class="dropdown-text">Pivote</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../../entregas/E1_arquitectura_dw/uso_ia.html">
- <span class="dropdown-text">Uso de herramientas de IA</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../../entregas/E1_arquitectura_dw/referencias.html">
- <span class="dropdown-text">Referencias</span></a>
-  </li>  
-    </ul>
-  </li>
-</ul>
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="https://github.com/jzarcoo/almacenes-mineria-proyecto"> <i class="bi bi-github" role="img">
-</i> 
-<span class="menu-text">Repositorio</span></a>
-  </li>  
-</ul>
-          </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
-  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
-  <div class="quarto-reader-toggle-btn">
-  <i class="bi"></i>
-  </div>
+<header class="headroom fixed-top" id="quarto-header">
+<nav class="navbar navbar-expand-lg" data-bs-theme="dark">
+<div class="navbar-container container-fluid">
+<div class="navbar-brand-container mx-auto">
+<a class="navbar-brand navbar-brand-logo" href="../../../index.html">
+<img alt="" class="navbar-logo" src="../../../assets/logo.svg"/>
+</a>
+<a class="navbar-brand" href="../../../index.html">
+<span class="navbar-title">Proyecto Integrador — Almacenes y Minería de Datos</span>
 </a>
 </div>
-      </div> <!-- /container-fluid -->
-    </nav>
+<div class="" id="quarto-search" title="Search"></div>
+<button aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarCollapse" data-bs-toggle="collapse" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }" role="menu" type="button">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navbarCollapse">
+<ul class="navbar-nav navbar-nav-scroll me-auto">
+<li class="nav-item">
+<a class="nav-link" href="../../../index.html">
+<span class="menu-text">Inicio</span></a>
+</li>
+<li class="nav-item dropdown">
+<a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="nav-menu-e0-·-comprensión-del-negocio" role="link">
+<span class="menu-text">E0 · Comprensión del negocio</span>
+</a>
+<ul aria-labelledby="nav-menu-e0-·-comprensión-del-negocio" class="dropdown-menu">
+<li>
+<a class="dropdown-item" href="../../../entregas/E0_comprension_negocio/bitacora.html">
+<span class="dropdown-text">Bitácora del stakeholder</span></a>
+</li>
+<li>
+<a class="dropdown-item" href="../../../entregas/E0_comprension_negocio/canvas.html">
+<span class="dropdown-text">Business Understanding Canvas</span></a>
+</li>
+<li>
+<a class="dropdown-item" href="../../../entregas/E0_comprension_negocio/preguntas.html">
+<span class="dropdown-text">Preguntas de investigación</span></a>
+</li>
+<li>
+<a class="dropdown-item" href="../../../entregas/E0_comprension_negocio/criterio_exito.html">
+<span class="dropdown-text">Criterio de éxito</span></a>
+</li>
+<li>
+<a class="dropdown-item" href="../../../entregas/E0_comprension_negocio/riesgos_supuestos.html">
+<span class="dropdown-text">Riesgos y supuestos</span></a>
+</li>
+<li>
+<a class="dropdown-item" href="../../../entregas/E0_comprension_negocio/uso_ia.html">
+<span class="dropdown-text">Uso de herramientas de IA</span></a>
+</li>
+<li>
+<a class="dropdown-item" href="../../../entregas/E0_comprension_negocio/e0_v2.html">
+<span class="dropdown-text">E0 v2 · Secciones actualizadas</span></a>
+</li>
+</ul>
+</li>
+<li class="nav-item dropdown">
+<a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="nav-menu-e1-·-arquitectura-del-dw" role="link">
+<span class="menu-text">E1 · Arquitectura del DW</span>
+</a>
+<ul aria-labelledby="nav-menu-e1-·-arquitectura-del-dw" class="dropdown-menu">
+<li>
+<a class="dropdown-item" href="../../../entregas/E1_arquitectura_dw/fuentes.html">
+<span class="dropdown-text">Fuentes de datos</span></a>
+</li>
+<li>
+<a class="dropdown-item" href="../../../entregas/E1_arquitectura_dw/arquitectura.html">
+<span class="dropdown-text">Arquitectura de tres capas</span></a>
+</li>
+<li>
+<a class="dropdown-item" href="../../../entregas/E1_arquitectura_dw/estrella.html">
+<span class="dropdown-text">Esquema estrella</span></a>
+</li>
+<li>
+<a class="dropdown-item" href="../../../entregas/E1_arquitectura_dw/trazabilidad.html">
+<span class="dropdown-text">Trazabilidad a E0</span></a>
+</li>
+<li>
+<a class="dropdown-item" href="../../../entregas/E1_arquitectura_dw/pivote.html">
+<span class="dropdown-text">Pivote</span></a>
+</li>
+<li>
+<a class="dropdown-item" href="../../../entregas/E1_arquitectura_dw/uso_ia.html">
+<span class="dropdown-text">Uso de herramientas de IA</span></a>
+</li>
+<li>
+<a class="dropdown-item" href="../../../entregas/E1_arquitectura_dw/referencias.html">
+<span class="dropdown-text">Referencias</span></a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item">
+<a class="nav-link" href="https://github.com/jzarcoo/almacenes-mineria-proyecto"> <i class="bi bi-github" role="img">
+</i>
+<span class="menu-text">Repositorio</span></a>
+</li>
+</ul>
+</div> <!-- /navcollapse -->
+<div class="quarto-navbar-tools">
+<a class="quarto-reader-toggle quarto-navigation-tool px-1" href="" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+<div class="quarto-reader-toggle-btn">
+<i class="bi"></i>
+</div>
+</a>
+</div>
+</div> <!-- /container-fluid -->
+</nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div class="quarto-container page-columns page-rows-contents page-layout-article page-navbar" id="quarto-content">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">En esta página</h2>
-   
-  <ul>
-  <li><a href="#problemas-anticipados-para-la-integración" id="toc-problemas-anticipados-para-la-integración" class="nav-link active" data-scroll-target="#problemas-anticipados-para-la-integración">Problemas anticipados para la integración</a></li>
-  </ul>
+<div class="sidebar margin-sidebar" id="quarto-margin-sidebar">
+<nav class="toc-active" id="TOC" role="doc-toc">
+<h2 id="toc-title">En esta página</h2>
+<ul>
+<li><a class="nav-link active" data-scroll-target="#problemas-anticipados-para-la-integración" href="#problemas-anticipados-para-la-integración" id="toc-problemas-anticipados-para-la-integración">Problemas anticipados para la integración</a></li>
+</ul>
 </nav>
-    </div>
+</div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
+<main class="content" id="quarto-document-content"><header class="quarto-title-block default" id="title-block-header">
 <div class="quarto-title">
 <h1 class="title">F8. MusicBrainz — artistas y género musical</h1>
 </div>
-
-
-
 <div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<p>Enciclopedia musical abierta; aporta país y etiquetas de género de cada artista para desagregar por género musical.</p>
-<table class="caption-top table">
+</div>
+</header><p>MusicBrainz se incorporó como fuente de referencia para contrastar nombres de artistas presentes en el catálogo mexicano de Kworb. La tabla Bronze <code>stg_musicbrainz_tags</code> conserva el nombre consultado y la respuesta íntegra de búsqueda en formato JSON. Esta distinción es relevante: <strong>un resultado de búsqueda no es todavía una identificación inequívoca del artista ni una etiqueta musical validada</strong>.</p>
+<table>
+<colgroup>
+<col style="width: 50%"/>
+<col style="width: 50%"/>
+</colgroup>
 <thead>
 <tr class="header">
 <th>Campo</th>
@@ -227,79 +206,44 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td><strong>Nombre y dueño</strong></td>
-<td>MusicBrainz, enciclopedia musical de código abierto mantenida por su comunidad y sostenida por la MetaBrainz Foundation (organización sin fines de lucro).</td>
+<td><strong>Responsable</strong></td>
+<td>MusicBrainz, proyecto de MetaBrainz Foundation.</td>
 </tr>
 <tr class="even">
-<td><strong>URL</strong></td>
-<td><a href="https://musicbrainz.org/doc/MusicBrainz_API" class="uri">https://musicbrainz.org/doc/MusicBrainz_API</a></td>
-</tr>
-<tr class="odd">
 <td><strong>Acceso</strong></td>
-<td>API REST sin llave, máximo 1 petición por segundo.</td>
-</tr>
-<tr class="even">
-<td><strong>Formato y tamaño</strong></td>
-<td>JSON; ≈1 KB por artista.</td>
+<td>API pública REST: <a class="uri" href="https://musicbrainz.org/doc/MusicBrainz_API">https://musicbrainz.org/doc/MusicBrainz_API</a>. Se aplica una pausa mayor a un segundo entre peticiones y se declara un agente de usuario.</td>
 </tr>
 <tr class="odd">
-<td><strong>Grano</strong></td>
-<td>Una fila por artista (identificador, nombre, país, etiquetas con votos).</td>
+<td><strong>Universo consultado</strong></td>
+<td>Nombres de artista distintos extraídos de las 300 canciones del catálogo Kworb; 112 textos distintos identificados en la preparación previa. Un texto puede designar una colaboración y no equivale necesariamente a un artista único.</td>
 </tr>
 <tr class="even">
-<td><strong>Cobertura</strong></td>
-<td>Global, sin fecha.</td>
+<td><strong>Formato y grano de Bronze</strong></td>
+<td>Una respuesta JSON por nombre consultado, con <code>artista_buscado</code> y <code>respuesta_json</code> como <code>STRING</code>.</td>
 </tr>
 <tr class="odd">
-<td><strong>Información de México</strong></td>
-<td>De los 36 artistas del top 60 de México, 30 se encontraron; 10 tienen país MX y 11 la etiqueta “regional mexicano”.</td>
+<td><strong>Restricciones</strong></td>
+<td>Los datos centrales de MusicBrainz son CC0; las etiquetas comunitarias y otros contenidos complementarios deben revisarse conforme a sus licencias específicas antes de redistribuirlos.</td>
 </tr>
 <tr class="even">
-<td><strong>Licencia y restricciones</strong></td>
-<td>Datos centrales CC0 (dominio público).</td>
-</tr>
-<tr class="odd">
-<td><strong>Llaves de integración</strong></td>
-<td>Nombre del artista: se busca con el artista de Kworb y Kaggle. Identificador de MusicBrainz: código único y estable por artista que evita confundir homónimos una vez encontrado.</td>
-</tr>
-<tr class="even">
-<td><strong>Preguntas de E0</strong></td>
-<td>P1, P3.</td>
+<td><strong>Integración</strong></td>
+<td>La resolución de identidades, homónimos, coincidencias y etiquetas se realizará en Silver, conservando el identificador MusicBrainz y la confianza de cada correspondencia.</td>
 </tr>
 </tbody>
 </table>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../img/origen_musicbrainz.png" class="img-fluid figure-img" style="width:55.0%"></p>
-<figcaption>Ficha de etiquetas de un artista</figcaption>
+<h2 id="carga-realizada">Carga realizada</h2>
+<p>El proceso de consultas tomó como punto de partida los nombres presentes en <code>stg_kworb_catalogo_canciones</code>, sin limitar arbitrariamente la búsqueda a los doce nombres del ensayo inicial. La interfaz de BigQuery permite comprobar la existencia de <code>stg_musicbrainz_tags</code> y sus dos columnas. No se atribuye todavía un total de respuestas exitosas ni de identidades resueltas sin consultar los conteos y los errores del conjunto cargado.</p>
+<figure>
+<img alt="Esquema de la tabla MusicBrainz en BigQuery" data-fig-align="center" src="../img/bq_final_mb_esquema.png" style="width:85.0%"/>
+<figcaption aria-hidden="true">Esquema de la tabla MusicBrainz en BigQuery</figcaption>
 </figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../img/vista_musicbrainz.png" class="img-fluid figure-img" style="width:90.0%"></p>
-<figcaption>Prueba con los artistas del top 60 de México</figcaption>
+<figure>
+<img alt="Vista previa de las respuestas JSON de MusicBrainz" data-fig-align="center" src="../img/bq_final_mb_vista.png" style="width:85.0%"/>
+<figcaption aria-hidden="true">Vista previa de las respuestas JSON de MusicBrainz</figcaption>
 </figure>
-</div>
-<p>Prueba con los 50 artistas con más streams de 2017 a 2021 (código y salida completa en <code>datos/pruebas/</code>):</p>
-<pre class="text"><code>Con etiquetas: 48 de 50
-Sin etiquetas: ['León Larregui', 'Cartel De Santa']
-Bad Bunny ['reggaeton', 'trap latino', 'latin', 'latin trap', 'hip hop', 'pop', 'spanish', 'english']
-Christian Nodal ['ranchera', 'latin', 'mariachi', 'regional mexicano', 'vivo en el 6']
-Luis Miguel ['pop', 'latin ballad', 'mexican', 'ballad', 'latin', 'bolero', 'ranchera', 'national folk']
-Sebastian Yatra ['classical', 'baroque', 'composer', 'german', 'european', 'gramophone selection', 'instrumental', 'german composer']</code></pre>
-<section id="problemas-anticipados-para-la-integración" class="level2">
-<h2 class="anchored" data-anchor-id="problemas-anticipados-para-la-integración">Problemas anticipados para la integración</h2>
-<ul>
-<li>Las etiquetas de género las asignan los usuarios, no siguen un catálogo fijo y algunas no describen un género musical.</li>
-<li>Algunos artistas tienen el mismo nombre que otros y varios no tienen país registrado.</li>
-<li>Tomar solo el primer resultado de la búsqueda produce coincidencias falsas: en la prueba con los 50 artistas más escuchados, a Sebastián Yatra se le asignaron las etiquetas de un compositor clásico alemán. Cada coincidencia se valida con el país, el tipo de artista y el puntaje de la búsqueda, y los casos dudosos se revisan a mano.</li>
-</ul>
-<p><a href="../../../entregas/E1_arquitectura_dw/fuentes.html">← Volver a fuentes de datos</a></p>
-
-
-</section>
-
-<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<p>El procedimiento reproducible figura en <a href="../datos/staging/preparar_staging_colab.py"><code>preparar_staging_colab.py</code></a>, bloque I, y en su versión <a href="../datos/staging/preparar_staging_colab.ipynb"><code>preparar_staging_colab.ipynb</code></a>.</p>
+<p><a href="../fuentes.html">← Volver a fuentes de datos</a></p>
+</main> <!-- /main -->
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   // Envuelve las tablas en un contenedor con scroll horizontal en pantallas
@@ -739,21 +683,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 </div> <!-- /content -->
 <footer class="footer">
-  <div class="nav-footer">
-    <div class="nav-footer-left">
-      &nbsp;
-    </div>   
-    <div class="nav-footer-center">
+<div class="nav-footer">
+<div class="nav-footer-left">
+       
+    </div>
+<div class="nav-footer-center">
 <p>Facultad de Ciencias, UNAM — Almacenes y Minería de Datos</p>
 </div>
-    <div class="nav-footer-right">
-      &nbsp;
+<div class="nav-footer-right">
+       
     </div>
-  </div>
+</div>
 </footer>
-
-
-
-
 <script src="../../../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

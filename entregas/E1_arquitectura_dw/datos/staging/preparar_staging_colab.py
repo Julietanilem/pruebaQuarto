@@ -16,7 +16,7 @@
 # 4. Con ese archivo y ese esquema haces la carga en la consola de BigQuery (ver la guía del chat).
 #
 # Regla de staging: los datos van **sin limpiar**. Aquí solo se (a) quitan los nombres de personas del RNPDNO,
-# (b) se toma una muestra de los archivos que pasan los 100 MB, y (c) se pasan a CSV los que vienen en otro formato.
+# (b) se convierten formatos cuando se requiere. No se hace muestreo automático por tamaño.
 # No pegues contraseñas ni tokens en ninguna celda.
 
 # %% [markdown]
@@ -136,42 +136,88 @@ assert not any(re.search(r"nombre|apellido", c, re.I) for c in rnpdno.columns)
 guardar_y_bajar(rnpdno, "stg_rnpdno")
 
 # %% [markdown]
-# ## D. Censo 2020 ITER (muestra) → `stg_censo_iter`
+# ## D. Censo 2020 ITER completo → `stg_censo_iter`
 #
-# El archivo pesa 150 MB y no entra por la consola. Sube el **ZIP** (`iter_00_cpv2020_csv.zip`, 36.6 MB).
-# La muestra conserva las **filas de total por entidad** (las que se usan: `POBTOT`, `POBFEM`, `VPH_INTER`,
-# `TVIVPARHAB`) y 20 localidades por entidad. Deben salir **33 filas de total** (nacional + 32 entidades).
+# Conserva las 195,662 filas y 286 columnas del CSV original de INEGI, sin filtrar ni muestrear.
+# El CSV de 142.73 MiB se sube directamente desde Colab a Cloud Storage; no se descarga por consola.
+# Requiere un bucket privado con ubicación compatible con `misoginia_staging`.
+# Se carga a tabla temporal, se comprueba y solamente después se reemplaza la tabla definitiva.
 
 # %%
+from google.colab import auth
+from google.cloud import storage, bigquery
+
 subido = files.upload()
-ruta = next(iter(subido))
-z = zipfile.ZipFile(ruta)
-candidatos = [n for n in z.namelist() if n.lower().endswith(".csv") and "conjunto_de_datos" in n.lower()]
-print("Archivos CSV dentro del ZIP:", candidatos)
-
-def leer_zip(z, nombre):
-    for cod in ("utf-8-sig", "latin-1"):
-        try:
-            with z.open(nombre) as f:
-                return pd.read_csv(f, dtype=str, encoding=cod)
-        except UnicodeDecodeError:
-            continue
-
-iter_df = leer_zip(z, candidatos[0])
-assert {"ENTIDAD", "NOM_LOC"} <= set(iter_df.columns), iter_df.columns.tolist()[:15]
-
-es_total = iter_df["NOM_LOC"].str.contains("Total de la entidad|Total nacional", case=False, na=False)
-totales = iter_df[es_total]
-resto = iter_df[~es_total].groupby("ENTIDAD").head(20)
-print("Filas de total por entidad (esperado 33):", len(totales))
-
-guardar_y_bajar(pd.concat([totales, resto], ignore_index=True), "stg_censo_iter")
+ruta_zip = next(iter(subido))
+with zipfile.ZipFile(ruta_zip) as archivo:
+    candidatos = [n for n in archivo.namelist()
+                  if n.lower().endswith('.csv') and 'conjunto_de_datos' in n.lower()]
+    assert len(candidatos) == 1, f'Archivos encontrados: {candidatos}'
+    archivo.extract(candidatos[0], 'iter_completo')
+ruta_csv_iter = Path('iter_completo') / candidatos[0]
+with ruta_csv_iter.open('r', encoding='utf-8-sig', newline='') as f:
+    lector = csv.reader(f)
+    columnas_iter = next(lector)
+    filas_iter = sum(1 for _ in lector)
+assert len(columnas_iter) == 286, len(columnas_iter)
+print('Archivo ITER original:', ruta_csv_iter)
+print(f'Filas: {filas_iter:,}; columnas: {len(columnas_iter)}; MiB: {ruta_csv_iter.stat().st_size/1024**2:.2f}')
+assert filas_iter == 195662, 'El número de filas difiere de la versión documentada: verificar fuente.'
 
 # %% [markdown]
-# ## E. ENDUTIH 2024, usuarios → `stg_endutih_usuarios`
+# Antes de correr: crear un bucket privado en Cloud Storage en ubicación compatible con BigQuery.
+# Sustituir el nombre del bucket solo si el proyecto usa otro.
+
+# %%
+auth.authenticate_user()
+PROJECT_ID = 'proyecto-511216'
+BUCKET_ITER = 'proyecto-511216-datos-iter2020'
+OBJETO_ITER = 'iter2020/conjunto_de_datos_iter_00CSV20.csv'
+cliente_storage = storage.Client(project=PROJECT_ID)
+blob = cliente_storage.bucket(BUCKET_ITER).blob(OBJETO_ITER)
+blob.upload_from_filename(str(ruta_csv_iter), content_type='text/csv', timeout=600)
+uri_iter = f'gs://{BUCKET_ITER}/{OBJETO_ITER}'
+print('Archivo subido:', uri_iter)
+
+# %% [markdown]
+# La tabla temporal se carga usando el esquema STRING ya existente de 286 columnas.
+# Ninguna tabla definitiva se modifica durante esta primera validación.
+
+# %%
+cliente_bq = bigquery.Client(project=PROJECT_ID)
+tabla_final_iter = f'{PROJECT_ID}.misoginia_staging.stg_censo_iter'
+tabla_temp_iter = f'{PROJECT_ID}.misoginia_staging.stg_censo_iter_completo'
+esquema_iter_bq = cliente_bq.get_table(tabla_final_iter).schema
+config_iter = bigquery.LoadJobConfig(
+    source_format=bigquery.SourceFormat.CSV,
+    skip_leading_rows=1,
+    schema=esquema_iter_bq,
+    encoding='UTF-8',
+    allow_quoted_newlines=True,
+    max_bad_records=0,
+    source_column_match='POSITION',
+    write_disposition=bigquery.WriteDisposition.WRITE_TRUNCATE,
+)
+cliente_bq.load_table_from_uri(uri_iter, tabla_temp_iter, job_config=config_iter).result()
+tabla_iter = cliente_bq.get_table(tabla_temp_iter)
+print(f'Original: {filas_iter:,} filas / {len(columnas_iter)} columnas')
+print(f'Temporal: {tabla_iter.num_rows:,} filas / {len(tabla_iter.schema)} columnas')
+assert tabla_iter.num_rows == filas_iter and len(tabla_iter.schema) == len(columnas_iter)
+print('Verificación de dimensiones correcta. Ya se puede reemplazar la tabla definitiva.')
+
+# %% [markdown]
+# Ejecutar en BigQuery SOLO después de validar:
+# CREATE OR REPLACE TABLE `proyecto-511216.misoginia_staging.stg_censo_iter`
+# AS SELECT * FROM `proyecto-511216.misoginia_staging.stg_censo_iter_completo`;
+# Comprobar 195662 filas en la definitiva, y entonces eliminar la temporal y el objeto del bucket.
+
+# %% [markdown]
+# ## E. ENDUTIH 2024, usuarios completos → `stg_endutih_usuarios`
 #
-# Sube el ZIP de microdatos en DBF (`endutih2024_bd_dbf.zip`, 8.8 MB). La celda lo pasa a CSV.
-# Si el CSV pasa de ~90 MB, toma una muestra por entidad. **Filas esperadas: 58,080** (o menos si salió muestra).
+# Convierte todos los registros del DBF original `tic_2024_usuarios.dbf` a CSV UTF-8.
+# Validación realizada: DBF original = 58,080 filas y 232 columnas;
+# CSV preparado = 58,080 filas y 232 columnas; BigQuery = 58,080 filas y 232 columnas.
+# No se muestrea por tamaño. La comparación de dimensiones no comprueba cada valor.
 
 # %%
 !pip -q install dbfread
@@ -179,24 +225,29 @@ from dbfread import DBF
 
 subido = files.upload()
 ruta = next(iter(subido))
-zipfile.ZipFile(ruta).extractall("endutih")
-tablas = sorted(p for p in Path("endutih").rglob("*") if p.suffix.lower() == ".dbf")
-print("Tablas DBF encontradas:", [p.name for p in tablas])
-
-usuarios = [p for p in tablas if p.stem.lower() == "tic_2024_usuarios"]
-assert usuarios, "Elige a mano el archivo de usuarios de la lista de arriba"
-
-dbf = DBF(str(usuarios[0]), encoding="latin-1", load=False)
-endutih = pd.DataFrame(iter(dbf)).astype("string")
-print("Filas completas:", len(endutih))
-
-endutih.to_csv("salida/_prueba_tamano.csv", index=False)
-if os.path.getsize("salida/_prueba_tamano.csv") > 90e6:
-    endutih = endutih.groupby("CVE_ENT").head(150)
-    print("Muy grande: se toma una muestra de 150 filas por entidad")
-os.remove("salida/_prueba_tamano.csv")
-
-guardar_y_bajar(endutih, "stg_endutih_usuarios")
+with zipfile.ZipFile(ruta) as archivo:
+    archivo.extractall('endutih')
+tablas = sorted(p for p in Path('endutih').rglob('*') if p.suffix.lower() == '.dbf')
+usuarios = [p for p in tablas if p.stem.lower() == 'tic_2024_usuarios']
+assert len(usuarios) == 1, f'Archivo DBF de usuarios ambiguo: {usuarios}'
+dbf = DBF(str(usuarios[0]), encoding='latin-1', load=False)
+filas_dbf = len(dbf)
+columnas_dbf = len(dbf.field_names)
+endutih = pd.DataFrame(iter(dbf)).astype('string')
+# BigQuery no admite campos que comiencen con guion bajo en el esquema preparado.
+endutih.columns = [str(c).lower().lstrip('_') for c in endutih.columns]
+assert len(endutih) == filas_dbf and len(endutih.columns) == columnas_dbf
+assert len(set(endutih.columns)) == columnas_dbf, 'Nombres de columna duplicados'
+ruta_endutih = 'salida/stg_endutih_usuarios.csv'
+endutih.to_csv(ruta_endutih, index=False, encoding='utf-8', quoting=csv.QUOTE_ALL)
+with open(ruta_endutih, newline='', encoding='utf-8') as f:
+    filas_csv = sum(1 for _ in csv.reader(f)) - 1
+assert filas_csv == filas_dbf, 'Error en el CSV generado'
+print(f'DBF original: {filas_dbf:,} filas / {columnas_dbf} columnas')
+print(f'CSV completo: {filas_csv:,} filas / {len(endutih.columns)} columnas')
+print('Esquema BigQuery:')
+print(','.join(f'{c}:STRING' for c in endutih.columns))
+files.download(ruta_endutih)
 
 # %% [markdown]
 # ## F. Natural Earth, solo México → `stg_naturalearth_mx`
@@ -269,27 +320,82 @@ misongyny = pd.concat(partes, ignore_index=True)
 guardar_y_bajar(misongyny, "stg_misongyny")
 
 # %% [markdown]
-# ## I. MusicBrainz, muestra de artistas → `stg_musicbrainz_tags`
+# ## I. MusicBrainz — búsquedas de todo el catálogo Kworb → `stg_musicbrainz_tags`
 #
-# Consulta la API (1 por segundo) para 12 artistas y guarda **la respuesta tal como la devuelve**
-# en una columna de texto. En la línea `set_useragent` pon tu correo de la facultad.
+# La selección de artistas se obtiene de `stg_kworb_catalogo_canciones` en BigQuery.
+# Se conserva el JSON de resultados de búsqueda, incluidos mensajes de error; no se decide
+# automáticamente que el primer resultado corresponde a la identidad del artista.
+# Las etiquetas completas se consultarán únicamente después de resolver identidades en Silver.
+# Respetar el límite de una solicitud por segundo e identificar la aplicación.
 
 # %%
-!pip -q install musicbrainzngs
+!pip -q install musicbrainzngs google-cloud-bigquery
+from google.colab import auth
+from google.cloud import bigquery
 import musicbrainzngs as mb
+import csv, json, time
 
-mb.set_useragent("ProyectoMisoginiaMusical", "0.1", "TU_CORREO@ciencias.unam.mx")
-
-artistas = ["Bad Bunny", "J Balvin", "Maluma", "Christian Nodal", "Ozuna", "Rauw Alejandro",
-            "Piso 21", "KAROL G", "Luis Miguel", "Sebastian Yatra", "León Larregui", "Cartel De Santa"]
-
-filas = []
-for a in artistas:
+auth.authenticate_user()
+cliente_bq = bigquery.Client(project='proyecto-511216')
+consulta_artistas = """
+SELECT DISTINCT TRIM(artista) AS artista
+FROM `proyecto-511216.misoginia_staging.stg_kworb_catalogo_canciones`
+WHERE artista IS NOT NULL AND TRIM(artista) != ''
+  AND LENGTH(TRIM(track_id)) = 22
+ORDER BY artista
+"""
+artistas = [r.artista for r in cliente_bq.query(consulta_artistas).result()]
+assert artistas, 'El catálogo Kworb no devolvió artistas'
+print('Nombres de artista para consultar:', len(artistas))
+mb.set_useragent('misoginia-dw-unam', '1.0', 'TU_CORREO@ciencias.unam.mx')
+resultados = []
+for i, a in enumerate(artistas, start=1):
     try:
-        respuesta = mb.search_artists(artist=a, limit=3)
-    except Exception as e:
-        respuesta = {"error": str(e)}
-    filas.append({"artista_buscado": a, "respuesta_json": json.dumps(respuesta, ensure_ascii=False, default=str)})
-    time.sleep(1.1)
+        respuesta = mb.search_artists(artist=a, limit=5)
+    except Exception as exc:
+        respuesta = {'error': str(exc)}
+    resultados.append({
+        'artista_buscado': a,
+        'respuesta_json': json.dumps(respuesta, ensure_ascii=False, default=str),
+    })
+    print(f'{i}/{len(artistas)}: {a}')
+    time.sleep(1.2)
 
-guardar_y_bajar(pd.DataFrame(filas), "stg_musicbrainz_tags")
+ruta_mb = 'salida/stg_musicbrainz_tags.csv'
+pd.DataFrame(resultados).to_csv(ruta_mb, index=False, encoding='utf-8', quoting=csv.QUOTE_ALL)
+assert len(resultados) == len(artistas)
+print('Filas generadas:', len(resultados))
+print('Búsquedas con error:', sum('"error"' in r['respuesta_json'] for r in resultados))
+print('Esquema: artista_buscado:STRING,respuesta_json:STRING')
+files.download(ruta_mb)
+
+# %% [markdown]
+# ## J. México Evalúa — 12 índices del reporte Hallazgos 2023
+#
+# Se cargan todas las barras publicadas de las doce gráficas por delito, incluyendo
+# los valores nacionales; las entidades excluidas por la fuente no se completan.
+# El extractor utiliza las coordenadas de texto del PDF, verifica el alineamiento
+# y registra página, abreviatura original, unidad y referencia bibliográfica.
+# No se realiza reconocimiento óptico de caracteres ni se estiman valores.
+
+# %%
+!pip -q install pymupdf pandas
+import importlib.util
+subido = files.upload()  # seleccionar HALLAZGOS2023.pdf
+pdf_hallazgos = next((n for n in subido if n.lower().endswith('.pdf')), None)
+assert pdf_hallazgos, 'Debes subir Hallazgos 2023 en formato PDF'
+# Subir también extraer_hallazgos_2023_completo.py si no está en la sesión.
+if not Path('extraer_hallazgos_2023_completo.py').exists():
+    print('Sube ahora extraer_hallazgos_2023_completo.py del repositorio')
+    files.upload()
+spec = importlib.util.spec_from_file_location('hallazgos', 'extraer_hallazgos_2023_completo.py')
+mod = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(mod)
+valores = mod.extraer(pdf_hallazgos)
+assert len(valores) == 314 and valores.delito.nunique() == 12
+ruta_evalua = 'salida/stg_mexico_evalua_12_indices.csv'
+valores.to_csv(ruta_evalua, index=False, encoding='utf-8')
+print(valores.groupby('delito').size().to_string())
+print('Filas:', len(valores), 'Índices:', valores.delito.nunique())
+print('Esquema:', ','.join(f'{c}:STRING' for c in valores.columns))
+files.download(ruta_evalua)

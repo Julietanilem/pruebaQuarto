@@ -1,12 +1,9 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
-<meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.42">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
-
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta charset="utf-8"/>
+<meta content="quarto-1.6.42" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
 <title>F13. RNPDNO — Personas desaparecidas (vía Data Cívica) – Proyecto Integrador — Almacenes y Minería de Datos</title>
 <style>
 code{white-space: pre-wrap;}
@@ -21,23 +18,21 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 </style>
-
-
 <script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../../">
+<meta content="../../../" name="quarto:offset"/>
 <script src="../../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet"/>
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" id="quarto-text-highlighting-styles" rel="stylesheet"/>
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-f4fa8f9e41c0a31fddc41c970ba8ea53.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet"/>
+<link append-hash="true" data-mode="light" href="../../../site_libs/bootstrap/bootstrap-f4fa8f9e41c0a31fddc41c970ba8ea53.min.css" id="quarto-bootstrap" rel="stylesheet"/>
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -65,160 +60,144 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
-
-
 </head>
-
 <body class="nav-fixed">
-
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../../../assets/logo.svg" alt="" class="navbar-logo">
-    </a>
-    <a class="navbar-brand" href="../../../index.html">
-    <span class="navbar-title">Proyecto Integrador — Almacenes y Minería de Datos</span>
-    </a>
-  </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="../../../index.html"> 
-<span class="menu-text">Inicio</span></a>
-  </li>  
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-e0-·-comprensión-del-negocio" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">E0 · Comprensión del negocio</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-e0-·-comprensión-del-negocio">    
-        <li>
-    <a class="dropdown-item" href="../../../entregas/E0_comprension_negocio/bitacora.html">
- <span class="dropdown-text">Bitácora del stakeholder</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../../entregas/E0_comprension_negocio/canvas.html">
- <span class="dropdown-text">Business Understanding Canvas</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../../entregas/E0_comprension_negocio/preguntas.html">
- <span class="dropdown-text">Preguntas de investigación</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../../entregas/E0_comprension_negocio/criterio_exito.html">
- <span class="dropdown-text">Criterio de éxito</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../../entregas/E0_comprension_negocio/riesgos_supuestos.html">
- <span class="dropdown-text">Riesgos y supuestos</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../../entregas/E0_comprension_negocio/uso_ia.html">
- <span class="dropdown-text">Uso de herramientas de IA</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../../entregas/E0_comprension_negocio/e0_v2.html">
- <span class="dropdown-text">E0 v2 · Secciones actualizadas</span></a>
-  </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-e1-·-arquitectura-del-dw" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">E1 · Arquitectura del DW</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-e1-·-arquitectura-del-dw">    
-        <li>
-    <a class="dropdown-item" href="../../../entregas/E1_arquitectura_dw/fuentes.html">
- <span class="dropdown-text">Fuentes de datos</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../../entregas/E1_arquitectura_dw/arquitectura.html">
- <span class="dropdown-text">Arquitectura de tres capas</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../../entregas/E1_arquitectura_dw/estrella.html">
- <span class="dropdown-text">Esquema estrella</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../../entregas/E1_arquitectura_dw/trazabilidad.html">
- <span class="dropdown-text">Trazabilidad a E0</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../../entregas/E1_arquitectura_dw/pivote.html">
- <span class="dropdown-text">Pivote</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../../entregas/E1_arquitectura_dw/uso_ia.html">
- <span class="dropdown-text">Uso de herramientas de IA</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../../entregas/E1_arquitectura_dw/referencias.html">
- <span class="dropdown-text">Referencias</span></a>
-  </li>  
-    </ul>
-  </li>
-</ul>
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="https://github.com/jzarcoo/almacenes-mineria-proyecto"> <i class="bi bi-github" role="img">
-</i> 
-<span class="menu-text">Repositorio</span></a>
-  </li>  
-</ul>
-          </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
-  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
-  <div class="quarto-reader-toggle-btn">
-  <i class="bi"></i>
-  </div>
+<header class="headroom fixed-top" id="quarto-header">
+<nav class="navbar navbar-expand-lg" data-bs-theme="dark">
+<div class="navbar-container container-fluid">
+<div class="navbar-brand-container mx-auto">
+<a class="navbar-brand navbar-brand-logo" href="../../../index.html">
+<img alt="" class="navbar-logo" src="../../../assets/logo.svg"/>
+</a>
+<a class="navbar-brand" href="../../../index.html">
+<span class="navbar-title">Proyecto Integrador — Almacenes y Minería de Datos</span>
 </a>
 </div>
-      </div> <!-- /container-fluid -->
-    </nav>
+<div class="" id="quarto-search" title="Search"></div>
+<button aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarCollapse" data-bs-toggle="collapse" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }" role="menu" type="button">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navbarCollapse">
+<ul class="navbar-nav navbar-nav-scroll me-auto">
+<li class="nav-item">
+<a class="nav-link" href="../../../index.html">
+<span class="menu-text">Inicio</span></a>
+</li>
+<li class="nav-item dropdown">
+<a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="nav-menu-e0-·-comprensión-del-negocio" role="link">
+<span class="menu-text">E0 · Comprensión del negocio</span>
+</a>
+<ul aria-labelledby="nav-menu-e0-·-comprensión-del-negocio" class="dropdown-menu">
+<li>
+<a class="dropdown-item" href="../../../entregas/E0_comprension_negocio/bitacora.html">
+<span class="dropdown-text">Bitácora del stakeholder</span></a>
+</li>
+<li>
+<a class="dropdown-item" href="../../../entregas/E0_comprension_negocio/canvas.html">
+<span class="dropdown-text">Business Understanding Canvas</span></a>
+</li>
+<li>
+<a class="dropdown-item" href="../../../entregas/E0_comprension_negocio/preguntas.html">
+<span class="dropdown-text">Preguntas de investigación</span></a>
+</li>
+<li>
+<a class="dropdown-item" href="../../../entregas/E0_comprension_negocio/criterio_exito.html">
+<span class="dropdown-text">Criterio de éxito</span></a>
+</li>
+<li>
+<a class="dropdown-item" href="../../../entregas/E0_comprension_negocio/riesgos_supuestos.html">
+<span class="dropdown-text">Riesgos y supuestos</span></a>
+</li>
+<li>
+<a class="dropdown-item" href="../../../entregas/E0_comprension_negocio/uso_ia.html">
+<span class="dropdown-text">Uso de herramientas de IA</span></a>
+</li>
+<li>
+<a class="dropdown-item" href="../../../entregas/E0_comprension_negocio/e0_v2.html">
+<span class="dropdown-text">E0 v2 · Secciones actualizadas</span></a>
+</li>
+</ul>
+</li>
+<li class="nav-item dropdown">
+<a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="nav-menu-e1-·-arquitectura-del-dw" role="link">
+<span class="menu-text">E1 · Arquitectura del DW</span>
+</a>
+<ul aria-labelledby="nav-menu-e1-·-arquitectura-del-dw" class="dropdown-menu">
+<li>
+<a class="dropdown-item" href="../../../entregas/E1_arquitectura_dw/fuentes.html">
+<span class="dropdown-text">Fuentes de datos</span></a>
+</li>
+<li>
+<a class="dropdown-item" href="../../../entregas/E1_arquitectura_dw/arquitectura.html">
+<span class="dropdown-text">Arquitectura de tres capas</span></a>
+</li>
+<li>
+<a class="dropdown-item" href="../../../entregas/E1_arquitectura_dw/estrella.html">
+<span class="dropdown-text">Esquema estrella</span></a>
+</li>
+<li>
+<a class="dropdown-item" href="../../../entregas/E1_arquitectura_dw/trazabilidad.html">
+<span class="dropdown-text">Trazabilidad a E0</span></a>
+</li>
+<li>
+<a class="dropdown-item" href="../../../entregas/E1_arquitectura_dw/pivote.html">
+<span class="dropdown-text">Pivote</span></a>
+</li>
+<li>
+<a class="dropdown-item" href="../../../entregas/E1_arquitectura_dw/uso_ia.html">
+<span class="dropdown-text">Uso de herramientas de IA</span></a>
+</li>
+<li>
+<a class="dropdown-item" href="../../../entregas/E1_arquitectura_dw/referencias.html">
+<span class="dropdown-text">Referencias</span></a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item">
+<a class="nav-link" href="https://github.com/jzarcoo/almacenes-mineria-proyecto"> <i class="bi bi-github" role="img">
+</i>
+<span class="menu-text">Repositorio</span></a>
+</li>
+</ul>
+</div> <!-- /navcollapse -->
+<div class="quarto-navbar-tools">
+<a class="quarto-reader-toggle quarto-navigation-tool px-1" href="" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+<div class="quarto-reader-toggle-btn">
+<i class="bi"></i>
+</div>
+</a>
+</div>
+</div> <!-- /container-fluid -->
+</nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div class="quarto-container page-columns page-rows-contents page-layout-article page-navbar" id="quarto-content">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">En esta página</h2>
-   
-  <ul>
-  <li><a href="#problemas-anticipados-para-la-integración" id="toc-problemas-anticipados-para-la-integración" class="nav-link active" data-scroll-target="#problemas-anticipados-para-la-integración">Problemas anticipados para la integración</a></li>
-  </ul>
+<div class="sidebar margin-sidebar" id="quarto-margin-sidebar">
+<nav class="toc-active" id="TOC" role="doc-toc">
+<h2 id="toc-title">En esta página</h2>
+<ul>
+<li><a class="nav-link active" data-scroll-target="#problemas-anticipados-para-la-integración" href="#problemas-anticipados-para-la-integración" id="toc-problemas-anticipados-para-la-integración">Problemas anticipados para la integración</a></li>
+</ul>
 </nav>
-    </div>
+</div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
+<main class="content" id="quarto-document-content"><header class="quarto-title-block default" id="title-block-header">
 <div class="quarto-title">
 <h1 class="title">F13. RNPDNO — Personas desaparecidas (vía Data Cívica)</h1>
 </div>
-
-
-
 <div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<p>Registro oficial de personas desaparecidas y no localizadas, en la versión pública que reúne y republica Data Cívica. Aporta un indicador de violencia contra las mujeres que no está en el SESNSP: las mujeres desaparecidas.</p>
-<table class="caption-top table">
+</div>
+</header><p>La versión pública del Registro Nacional de Personas Desaparecidas y No Localizadas (RNPDNO) difundida por Data Cívica se incorporó como información complementaria del contexto de violencia en México. Su interpretación requiere diferenciar la fecha de desaparición del corte del registro y evitar equiparar, sin validación, el número de filas al número de personas únicas.</p>
+<table>
+<colgroup>
+<col style="width: 50%"/>
+<col style="width: 50%"/>
+</colgroup>
 <thead>
 <tr class="header">
 <th>Campo</th>
@@ -227,84 +206,48 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td><strong>Nombre y dueño</strong></td>
-<td>Versión Pública del Registro Nacional de Personas Desaparecidas y No Localizadas (RNPDNO), publicada por la Comisión Nacional de Búsqueda; republicada por Data Cívica (organización de la sociedad civil) en su proyecto <em>Volver a desaparecer</em>.</td>
+<td><strong>Responsable</strong></td>
+<td>Comisión Nacional de Búsqueda; versión pública difundida por Data Cívica.</td>
 </tr>
 <tr class="even">
-<td><strong>URL</strong></td>
-<td><a href="https://volveradesaparecer.datacivica.org/datos-abiertos" class="uri">https://volveradesaparecer.datacivica.org/datos-abiertos</a></td>
+<td><strong>Procedencia</strong></td>
+<td><a class="uri" href="https://volveradesaparecer.datacivica.org/datos-abiertos">https://volveradesaparecer.datacivica.org/datos-abiertos</a>. Publicación identificada en la página como 22/09/2023; el archivo descargado se denomina <code>RNPDNO-22-08-2023.csv</code>. Ambas fechas se conservan diferenciadas.</td>
 </tr>
 <tr class="odd">
-<td><strong>Acceso</strong></td>
-<td>Descarga directa de CSV desde Google Drive. Se revisaron la versión pública del RNPDNO (22/09/2023) y la reconstrucción de Data Cívica “registros de 2017 a 2024”.</td>
+<td><strong>Formato original</strong></td>
+<td>CSV, 11 columnas: datos demográficos, nominales, fechas, entidad y campos administrativos.</td>
 </tr>
 <tr class="even">
-<td><strong>Formato y tamaño</strong></td>
-<td>Versión pública: CSV latin-1, 13 MB, 116,945 filas, 11 columnas (edad, sexo, nacionalidad, fecha y entidad de desaparición, autoridad, nombre). Reconstrucción: CSV, 337 MB, 89,720 filas, 13 columnas, sin sexo.</td>
+<td><strong>Bronze</strong></td>
+<td><code>stg_rnpdno</code>, ocho columnas <code>STRING</code>. El proceso generó 116,945 filas; se requiere una comparación de conteo independiente con el CSV de origen para acreditar integridad de filas.</td>
 </tr>
 <tr class="odd">
-<td><strong>Grano</strong></td>
-<td>Una fila por reporte de persona desaparecida.</td>
+<td><strong>Minimización de datos</strong></td>
+<td>Se excluyeron <code>Nombre</code>, <code>Primer Apellido</code> y <code>Segundo Apellido</code> antes de cargar a BigQuery por no ser necesarios para los indicadores agregados. No se aplicó eliminación automática de duplicados.</td>
 </tr>
 <tr class="even">
-<td><strong>Cobertura</strong></td>
-<td>Versión pública: fechas hasta el 20 de agosto de 2023. La reconstrucción también termina en agosto de 2023 aunque su título dice 2024.</td>
+<td><strong>Granularidad</strong></td>
+<td>Registro de la fuente pública. No se presupone que cada fila identifique una persona distinta; los campos <code>consecutivo_reportes_por_persona</code> y <code>consecutivo_registro</code> no se utilizan como identificadores únicos sin diccionario verificado.</td>
 </tr>
 <tr class="odd">
-<td><strong>Información de México</strong></td>
-<td>32 entidades. 18,770 registros de mujeres; de ellos, 3,311 tienen fecha de desaparición entre 2017 y 2023.</td>
-</tr>
-<tr class="even">
-<td><strong>Licencia y restricciones</strong></td>
-<td>Información publicada por el Estado; Data Cívica la difunde con fines de memoria y rendición de cuentas. <strong>Contiene nombres de personas:</strong> solo se usan conteos agregados y los nombres no se cargan ni se publican.</td>
-</tr>
-<tr class="odd">
-<td><strong>Llaves de integración</strong></td>
-<td>Entidad de desaparición: nombre en mayúsculas, que se relaciona con la clave INEGI. Fecha de desaparición: se relaciona con el mes de SESNSP. Sexo y edad: permiten contar solo mujeres.</td>
-</tr>
-<tr class="even">
-<td><strong>Preguntas de E0</strong></td>
-<td>P2.</td>
-</tr>
-<tr class="odd">
-<td><strong>Decisión</strong></td>
-<td><strong>Aceptada con limitaciones:</strong> cumple el criterio C3. Cumple C1 de forma parcial, porque las preguntas de E0 no mencionan la desaparición de personas, aunque es un indicador de violencia contra las mujeres útil para P2. Cumple C2 de forma parcial, porque termina en 2023 y muchos registros no tienen fecha. Cumple C4 de forma parcial, porque incluye datos personales.</td>
+<td><strong>Integración</strong></td>
+<td>Fecha, sexo y entidad permitirán una lectura temporal y geográfica con limitaciones de cobertura, ausencia de datos y posible registro múltiple.</td>
 </tr>
 </tbody>
 </table>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../img/origen_datacivica.png" class="img-fluid figure-img" style="width:55.0%"></p>
-<figcaption>Página de datos abiertos de Data Cívica</figcaption>
+<h2 id="evidencia-y-consideraciones-de-calidad">Evidencia y consideraciones de calidad</h2>
+<figure>
+<img alt="Esquema de ocho columnas de RNPDNO en BigQuery" data-fig-align="center" src="../img/bq_final_rn_esquema.png" style="width:85.0%"/>
+<figcaption aria-hidden="true">Esquema de ocho columnas de RNPDNO en BigQuery</figcaption>
 </figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../img/vista_rnpdno.png" class="img-fluid figure-img" style="width:55.0%"></p>
-<figcaption>Registros por año de desaparición y sexo, 2017–2023 (conteos agregados)</figcaption>
+<figure>
+<img alt="Vista previa de registros de RNPDNO" data-fig-align="center" src="../img/bq_final_rn_vista.png" style="width:85.0%"/>
+<figcaption aria-hidden="true">Vista previa de registros de RNPDNO</figcaption>
 </figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../img/vista_rnpdno_sexo.png" class="img-fluid figure-img" style="width:40.0%"></p>
-<figcaption>Registros por valor de Sexo</figcaption>
-</figure>
-</div>
-<section id="problemas-anticipados-para-la-integración" class="level2">
-<h2 class="anchored" data-anchor-id="problemas-anticipados-para-la-integración">Problemas anticipados para la integración</h2>
-<ul>
-<li>Una tercera parte de los registros tiene ocultos el sexo y la entidad, y la mayoría no tiene una fecha de desaparición válida.</li>
-<li>Termina en agosto de 2023, por lo que no cubre 2024 ni 2025.</li>
-<li>La entidad está escrita con su nombre y sin acentos, en lugar de usar la clave del INEGI.</li>
-<li>Contiene nombres de personas, por lo que solo pueden usarse conteos agregados.</li>
-<li>La reconstrucción de Data Cívica no indica el sexo de las personas.</li>
-</ul>
-<p><a href="../../../entregas/E1_arquitectura_dw/fuentes.html">← Volver a fuentes de datos</a></p>
-
-
-</section>
-
-<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<p>En la vista previa aparecen edades nulas y posibles inconsistencias en categorías textuales de nacionalidad. Tales valores permanecen en Bronze para no alterar el archivo preparado; se examinarán en Silver, con comprobaciones de codificación, nulidad y granularidad. Los identificadores administrativos tampoco se expondrán en las vistas públicas del DataMart.</p>
+<p>El proceso de minimización y exportación se documenta en el bloque C del <a href="../datos/staging/preparar_staging_colab.ipynb"><code>notebook de preparación</code></a>.</p>
+<p><a href="../fuentes.html">← Volver a fuentes de datos</a></p>
+</main> <!-- /main -->
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   // Envuelve las tablas en un contenedor con scroll horizontal en pantallas
@@ -744,21 +687,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 </div> <!-- /content -->
 <footer class="footer">
-  <div class="nav-footer">
-    <div class="nav-footer-left">
-      &nbsp;
-    </div>   
-    <div class="nav-footer-center">
+<div class="nav-footer">
+<div class="nav-footer-left">
+       
+    </div>
+<div class="nav-footer-center">
 <p>Facultad de Ciencias, UNAM — Almacenes y Minería de Datos</p>
 </div>
-    <div class="nav-footer-right">
-      &nbsp;
+<div class="nav-footer-right">
+       
     </div>
-  </div>
+</div>
 </footer>
-
-
-
-
 <script src="../../../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

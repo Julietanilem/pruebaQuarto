@@ -1,42 +1,26 @@
 ---
-title: "F8. MusicBrainz — artistas y género musical"
+title: "F8. MusicBrainz — recuperación de metadatos de artistas"
 ---
 
-Enciclopedia musical abierta; aporta país y etiquetas de género de cada artista para desagregar por género musical.
+MusicBrainz se incorporó como fuente de referencia para contrastar nombres de artistas presentes en el catálogo mexicano de Kworb. La tabla Bronze `stg_musicbrainz_tags` conserva el nombre consultado y la respuesta íntegra de búsqueda en formato JSON. Esta distinción es relevante: **un resultado de búsqueda no es todavía una identificación inequívoca del artista ni una etiqueta musical validada**.
 
 | Campo | Descripción |
 |---|---|
-| **Nombre y dueño** | MusicBrainz, enciclopedia musical de código abierto mantenida por su comunidad y sostenida por la MetaBrainz Foundation (organización sin fines de lucro). |
-| **URL** | <https://musicbrainz.org/doc/MusicBrainz_API> |
-| **Acceso** | API REST sin llave, máximo 1 petición por segundo. |
-| **Formato y tamaño** | JSON; ≈1 KB por artista. |
-| **Grano** | Una fila por artista (identificador, nombre, país, etiquetas con votos). |
-| **Cobertura** | Global, sin fecha. |
-| **Información de México** | De los 36 artistas del top 60 de México, 30 se encontraron; 10 tienen país MX y 11 la etiqueta "regional mexicano". |
-| **Licencia y restricciones** | Datos centrales CC0 (dominio público). |
-| **Llaves de integración** | Nombre del artista: se busca con el artista de Kworb y Kaggle. Identificador de MusicBrainz: código único y estable por artista que evita confundir homónimos una vez encontrado. |
-| **Preguntas de E0** | P1, P3. |
+| **Responsable** | MusicBrainz, proyecto de MetaBrainz Foundation. |
+| **Acceso** | API pública REST: <https://musicbrainz.org/doc/MusicBrainz_API>. Se aplica una pausa mayor a un segundo entre peticiones y se declara un agente de usuario. |
+| **Universo consultado** | Nombres de artista distintos extraídos de las 300 canciones del catálogo Kworb; 112 textos distintos identificados en la preparación previa. Un texto puede designar una colaboración y no equivale necesariamente a un artista único. |
+| **Formato y grano de Bronze** | Una respuesta JSON por nombre consultado, con `artista_buscado` y `respuesta_json` como `STRING`. |
+| **Restricciones** | Los datos centrales de MusicBrainz son CC0; las etiquetas comunitarias y otros contenidos complementarios deben revisarse conforme a sus licencias específicas antes de redistribuirlos. |
+| **Integración** | La resolución de identidades, homónimos, coincidencias y etiquetas se realizará en Silver, conservando el identificador MusicBrainz y la confianza de cada correspondencia. |
 
-![Ficha de etiquetas de un artista](../img/origen_musicbrainz.png){width=55% fig-align="center"}
+## Carga realizada
 
-![Prueba con los artistas del top 60 de México](../img/vista_musicbrainz.png){width=90% fig-align="center"}
+El proceso de consultas tomó como punto de partida los nombres presentes en `stg_kworb_catalogo_canciones`, sin limitar arbitrariamente la búsqueda a los doce nombres del ensayo inicial. La interfaz de BigQuery permite comprobar la existencia de `stg_musicbrainz_tags` y sus dos columnas. No se atribuye todavía un total de respuestas exitosas ni de identidades resueltas sin consultar los conteos y los errores del conjunto cargado.
 
-Prueba con los 50 artistas con más streams de 2017 a 2021 (código y salida completa en `datos/pruebas/`):
+![Esquema de la tabla MusicBrainz en BigQuery](../img/bq_final_mb_esquema.png){width=85% fig-align="center"}
 
-```text
-Con etiquetas: 48 de 50
-Sin etiquetas: ['León Larregui', 'Cartel De Santa']
-Bad Bunny ['reggaeton', 'trap latino', 'latin', 'latin trap', 'hip hop', 'pop', 'spanish', 'english']
-Christian Nodal ['ranchera', 'latin', 'mariachi', 'regional mexicano', 'vivo en el 6']
-Luis Miguel ['pop', 'latin ballad', 'mexican', 'ballad', 'latin', 'bolero', 'ranchera', 'national folk']
-Sebastian Yatra ['classical', 'baroque', 'composer', 'german', 'european', 'gramophone selection', 'instrumental', 'german composer']
-```
+![Vista previa de las respuestas JSON de MusicBrainz](../img/bq_final_mb_vista.png){width=85% fig-align="center"}
 
-
-## Problemas anticipados para la integración
-
-- Las etiquetas de género las asignan los usuarios, no siguen un catálogo fijo y algunas no describen un género musical.
-- Algunos artistas tienen el mismo nombre que otros y varios no tienen país registrado.
-- Tomar solo el primer resultado de la búsqueda produce coincidencias falsas: en la prueba con los 50 artistas más escuchados, a Sebastián Yatra se le asignaron las etiquetas de un compositor clásico alemán. Cada coincidencia se valida con el país, el tipo de artista y el puntaje de la búsqueda, y los casos dudosos se revisan a mano.
+El procedimiento reproducible figura en [`preparar_staging_colab.py`](../datos/staging/preparar_staging_colab.py), bloque I, y en su versión [`preparar_staging_colab.ipynb`](../datos/staging/preparar_staging_colab.ipynb).
 
 [← Volver a fuentes de datos](../fuentes.qmd)

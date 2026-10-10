@@ -1,36 +1,27 @@
 ---
-title: "F13. RNPDNO — Personas desaparecidas (vía Data Cívica)"
+title: "F13. RNPDNO — versión pública difundida por Data Cívica"
 ---
 
-Registro oficial de personas desaparecidas y no localizadas, en la versión pública que reúne y republica Data Cívica. Aporta un indicador de violencia contra las mujeres que no está en el SESNSP: las mujeres desaparecidas.
+La versión pública del Registro Nacional de Personas Desaparecidas y No Localizadas (RNPDNO) difundida por Data Cívica se incorporó como información complementaria del contexto de violencia en México. Su interpretación requiere diferenciar la fecha de desaparición del corte del registro y evitar equiparar, sin validación, el número de filas al número de personas únicas.
 
 | Campo | Descripción |
 |---|---|
-| **Nombre y dueño** | Versión Pública del Registro Nacional de Personas Desaparecidas y No Localizadas (RNPDNO), publicada por la Comisión Nacional de Búsqueda; republicada por Data Cívica (organización de la sociedad civil) en su proyecto *Volver a desaparecer*. |
-| **URL** | <https://volveradesaparecer.datacivica.org/datos-abiertos> |
-| **Acceso** | Descarga directa de CSV desde Google Drive. Se revisaron la versión pública del RNPDNO (22/09/2023) y la reconstrucción de Data Cívica "registros de 2017 a 2024". |
-| **Formato y tamaño** | Versión pública: CSV latin-1, 13 MB, 116,945 filas, 11 columnas (edad, sexo, nacionalidad, fecha y entidad de desaparición, autoridad, nombre). Reconstrucción: CSV, 337 MB, 89,720 filas, 13 columnas, sin sexo. |
-| **Grano** | Una fila por reporte de persona desaparecida. |
-| **Cobertura** | Versión pública: fechas hasta el 20 de agosto de 2023. La reconstrucción también termina en agosto de 2023 aunque su título dice 2024. |
-| **Información de México** | 32 entidades. 18,770 registros de mujeres; de ellos, 3,311 tienen fecha de desaparición entre 2017 y 2023. |
-| **Licencia y restricciones** | Información publicada por el Estado; Data Cívica la difunde con fines de memoria y rendición de cuentas. **Contiene nombres de personas:** solo se usan conteos agregados y los nombres no se cargan ni se publican. |
-| **Llaves de integración** | Entidad de desaparición: nombre en mayúsculas, que se relaciona con la clave INEGI. Fecha de desaparición: se relaciona con el mes de SESNSP. Sexo y edad: permiten contar solo mujeres. |
-| **Preguntas de E0** | P2. |
-| **Decisión** | **Aceptada con limitaciones:** cumple el criterio C3. Cumple C1 de forma parcial, porque las preguntas de E0 no mencionan la desaparición de personas, aunque es un indicador de violencia contra las mujeres útil para P2. Cumple C2 de forma parcial, porque termina en 2023 y muchos registros no tienen fecha. Cumple C4 de forma parcial, porque incluye datos personales. |
+| **Responsable** | Comisión Nacional de Búsqueda; versión pública difundida por Data Cívica. |
+| **Procedencia** | <https://volveradesaparecer.datacivica.org/datos-abiertos>. Publicación identificada en la página como 22/09/2023; el archivo descargado se denomina `RNPDNO-22-08-2023.csv`. Ambas fechas se conservan diferenciadas. |
+| **Formato original** | CSV, 11 columnas: datos demográficos, nominales, fechas, entidad y campos administrativos. |
+| **Bronze** | `stg_rnpdno`, ocho columnas `STRING`. El proceso generó 116,945 filas; se requiere una comparación de conteo independiente con el CSV de origen para acreditar integridad de filas. |
+| **Minimización de datos** | Se excluyeron `Nombre`, `Primer Apellido` y `Segundo Apellido` antes de cargar a BigQuery por no ser necesarios para los indicadores agregados. No se aplicó eliminación automática de duplicados. |
+| **Granularidad** | Registro de la fuente pública. No se presupone que cada fila identifique una persona distinta; los campos `consecutivo_reportes_por_persona` y `consecutivo_registro` no se utilizan como identificadores únicos sin diccionario verificado. |
+| **Integración** | Fecha, sexo y entidad permitirán una lectura temporal y geográfica con limitaciones de cobertura, ausencia de datos y posible registro múltiple. |
 
-![Página de datos abiertos de Data Cívica](../img/origen_datacivica.png){width=55% fig-align="center"}
+## Evidencia y consideraciones de calidad
 
-![Registros por año de desaparición y sexo, 2017–2023 (conteos agregados)](../img/vista_rnpdno.png){width=55% fig-align="center"}
+![Esquema de ocho columnas de RNPDNO en BigQuery](../img/bq_final_rn_esquema.png){width=85% fig-align="center"}
 
-![Registros por valor de Sexo](../img/vista_rnpdno_sexo.png){width=40% fig-align="center"}
+![Vista previa de registros de RNPDNO](../img/bq_final_rn_vista.png){width=85% fig-align="center"}
 
+En la vista previa aparecen edades nulas y posibles inconsistencias en categorías textuales de nacionalidad. Tales valores permanecen en Bronze para no alterar el archivo preparado; se examinarán en Silver, con comprobaciones de codificación, nulidad y granularidad. Los identificadores administrativos tampoco se expondrán en las vistas públicas del DataMart.
 
-## Problemas anticipados para la integración
-
-- Una tercera parte de los registros tiene ocultos el sexo y la entidad, y la mayoría no tiene una fecha de desaparición válida.
-- Termina en agosto de 2023, por lo que no cubre 2024 ni 2025.
-- La entidad está escrita con su nombre y sin acentos, en lugar de usar la clave del INEGI.
-- Contiene nombres de personas, por lo que solo pueden usarse conteos agregados.
-- La reconstrucción de Data Cívica no indica el sexo de las personas.
+El proceso de minimización y exportación se documenta en el bloque C del [`notebook de preparación`](../datos/staging/preparar_staging_colab.ipynb).
 
 [← Volver a fuentes de datos](../fuentes.qmd)

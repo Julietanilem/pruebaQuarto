@@ -11,7 +11,7 @@ pide la entrega (staging, DW y DataMart) se acomodan en esos niveles así:
 
 | Nivel medallion | Capa de la entrega | Dónde vive | Prefijo | Qué garantiza | Quién la lee |
 |---|---|---|---|---|---|
-| **Bronze** | Staging | Dataset `misoginia_staging` | `stg_` | Copia fiel de cada archivo o descarga, sin cambios. La descripción de la tabla dice de qué fuente (F1–F19) y en qué fecha se cargó. | Solo silver |
+| **Bronze** | Staging | Dataset `misoginia_staging` | `stg_` | Registros de origen sin muestreo técnico; se documentan los filtros de alcance y la exclusión preventiva de identificadores directos en RNPDNO. Los campos se conservan como texto para su tratamiento posterior. | Solo silver |
 | **Silver** | Preparación | En E1, notebooks del equipo con archivos Parquet; en la entrega de preparación, dataset `misoginia_silver` | `slv_` | Datos limpios, con tipos correctos, sin duplicados y con las llaves comunes: `cve_ent`, fecha al primer día del mes, `spotify_id` y `clave_cancion`. | Solo gold |
 | **Gold** | DW | Dataset `misoginia_dw` | `dim_`, `fact_` | Esquema estrella: dos hechos y cinco dimensiones, cada una ligada a una pregunta de E0. | El DataMart |
 | **Gold** | DataMart | Dataset `misoginia_mart` | `p1_` a `p4_` | Una o más vistas por pregunta, con lógica OLAP. | El equipo, el stakeholder y, más adelante, Looker Studio |
@@ -77,9 +77,9 @@ flowchart LR
 
 ## Bronze · staging
 
-Contiene una tabla por archivo o descarga, con los datos tal como vienen: mismos nombres de columna, sin limpiar ni
-transformar. Nada se corrige en esta capa; si una fuente cambia, se carga una tabla nueva. Basta una muestra de
-cada fuente, porque la carga desde la consola de BigQuery admite archivos de hasta unos 100 MB.
+Conservamos los registros de las fuentes seleccionadas, sin aplicar muestreos arbitrarios ni depuración analítica. En RNPDNO se omitieron tres columnas nominales antes de la carga para reducir el tratamiento de datos personales; esta exclusión se registra como decisión de minimización y no como una limpieza o deduplicación. No se descartan filas para reducir el tamaño de la carga: los archivos mayores al límite
+de la consola se cargan mediante Cloud Storage. Los recortes por fuente, región o periodo se justifican
+según el alcance del proyecto; no son muestreos arbitrarios.
 
 | Tabla de staging | Fuente, archivo y tamaño | Observación |
 |---|---|---|
@@ -91,14 +91,14 @@ cada fuente, porque la carga desde la consola de BigQuery admite archivos de has
 | `stg_kworb_catalogo_canciones` | [F4](fuentes/f04_kworb.qmd): catálogo recuperado de `mx_weekly_totals` el 10-10-2026 | Una fila por `track_id`, con artista, título, enlace de origen y fecha de consulta. La extracción de 300 canciones quedó validada en Colab; la carga en BigQuery requiere verificar un posible encabezado adicional. |
 | `stg_kaggle_charts_mx` | [F5](fuentes/f05_kaggle.qmd): charts.csv, filas de México, 60.8 MB | Solo para validar a Kworb en 2017–2021. El archivo global de 3.48 GB excede el límite; se carga la parte de México. |
 | `stg_trends_<tema>_<anio>` | [F11](fuentes/f11_google_trends.qmd): un CSV por tema (o término) y año, < 1 KB cada uno | Una tabla por descarga, sin modificar. La muestra son las descargas de 2021 de la [página de pivote](pivote.qmd#evidencia-trends), en `datos/trends/`. |
-| `stg_rnpdno` | [F13](fuentes/f13_rnpdno.qmd): versión pública del RNPDNO, 13 MB | Sin las columnas de nombres, por ser datos personales. |
-| `stg_censo_iter` | [F14](fuentes/f14_censo_iter.qmd): conjunto_de_datos_iter_00CSV20.csv, 150 MB | Excede el límite de la consola; se carga desde Cloud Storage o una muestra de filas por entidad. |
+| `stg_rnpdno` | [F13](fuentes/f13_rnpdno.qmd): RNPDNO, archivo `RNPDNO-22-08-2023.csv` | 116,945 registros preparados y ocho columnas; se excluyeron nombre y dos apellidos sin eliminar filas por duplicidad. |
+| `stg_censo_iter` | [F14](fuentes/f14_censo_iter.qmd): conjunto_de_datos_iter_00CSV20.csv, 150 MB | Archivo nacional completo: 195,662 filas y 286 columnas; carga desde Cloud Storage, sin muestreo. |
 | `stg_coneval_pobreza` | [F15](fuentes/f15_coneval.qmd): anexo estadístico entidades 2022, 318 KB | BigQuery no carga Excel; se carga cada hoja como CSV. |
-| `stg_endutih_usuarios` | [F16](fuentes/f16_endutih.qmd): tic_2024_usuarios, 156 MB | Viene en DBF; se exporta a CSV para cargarlo. |
-| `stg_mexico_evalua` | [F17](fuentes/f17_mexico_evalua.qmd): hallazgos 2023, < 1 MB | Valores por entidad tomados del reporte en PDF. |
+| `stg_endutih_usuarios` | [F16](fuentes/f16_endutih.qmd): tic_2024_usuarios, 156 MB | DBF de usuarios completo convertido a CSV: 58,080 filas y 232 columnas, verificado contra el original. |
+| `stg_mexico_evalua_12_indices` | [F17](fuentes/f17_mexico_evalua.qmd): *Hallazgos 2023* (PDF) | 314 valores de 12 indicadores por delito, con entidad, fuente y página; las ausencias corresponden a exclusiones del informe. |
 | `stg_naturalearth_mx` | [F18](fuentes/f18_natural_earth.qmd): ne_10m_admin_1_states_provinces, < 1 MB | Registros de México con su geometría en texto. |
 | `stg_misongyny` | [F6](fuentes/f06_misongyny.qmd): TRAIN y TEST de las tareas 1 y 2, < 1 MB | Etiquetas de referencia para validar el clasificador. |
-| `stg_musicbrainz_tags` | [F8](fuentes/f08_musicbrainz.qmd): respuestas de la API para los artistas de la muestra, < 1 MB | JSON por artista con sus etiquetas, tal como lo devuelve la API. |
+| `stg_musicbrainz_tags` | [F8](fuentes/f08_musicbrainz.qmd): búsquedas de MusicBrainz a partir del catálogo Kworb | Respuesta JSON por texto de artista; los resultados todavía no constituyen identificaciones confirmadas ni etiquetas depuradas. |
 : {tbl-colwidths="[28,36,36]"}
 
 No entran a staging:
@@ -158,7 +158,7 @@ quedan vacías en esta entrega.
 | `dim_entidad` | `slv_cat_entidades` | `stg_naturalearth_mx` y los nombres de todas las tablas | F18 y todas las que traen entidad |
 | `dim_cancion` | `slv_canciones` | `stg_kworb_mx_semanal`, `stg_kworb_catalogo_canciones`, `stg_musicbrainz_tags`, `stg_misongyny` | F4, F6, F7, F8, F19 |
 | `dim_tipo_violencia` | `slv_tipos_violencia` | `stg_sesnsp_delitos`, `stg_sesnsp_victimas`, `stg_rnpdno`, `stg_misongyny` | F1, F6, F13 |
-| `dim_contexto_entidad` | `slv_contexto_entidad_anio` | `stg_conapo_poblacion`, `stg_endutih_usuarios`, `stg_censo_iter`, `stg_coneval_pobreza`, `stg_mexico_evalua`, `stg_endireh_*` | F2, F3, F14, F15, F16, F17 |
+| `dim_contexto_entidad` | `slv_contexto_entidad_anio` | `stg_conapo_poblacion`, `stg_endutih_usuarios`, `stg_censo_iter`, `stg_coneval_pobreza`, `stg_mexico_evalua_12_indices`, `stg_endireh_*` | F2, F3, F14, F15, F16, F17 |
 | `fact_consumo_musical` | `slv_charts_mes`, `slv_pesos_trends` | `stg_kworb_mx_semanal`, `stg_trends_*` | F4, F11; F3 y F16 para el peso; F5 valida |
 | `fact_violencia` | `slv_violencia_mes` | `stg_sesnsp_delitos`, `stg_sesnsp_victimas`, `stg_rnpdno` | F1, F13 |
 
@@ -559,6 +559,11 @@ conversión de tipos corresponde a silver. La descripción de cada tabla indica 
 | `stg_misongyny` | [F6](fuentes/f06_misongyny.qmd) | Canciones de TRAIN/TEST; el TEST mostrado contiene etiquetas nulas; conteo pendiente | Esquema y vista previa |
 | `stg_naturalearth_mx` | [F18](fuentes/f18_naturalearth.qmd) | Datos geográficos de México; encabezado corregido; conteo pendiente | Esquema y vista previa actualizada |
 | `stg_kworb_catalogo_canciones` | [F4](fuentes/f04_kworb.qmd) | Catálogo de artista y título por `track_id`; 300 registros validados en Colab; BigQuery reportó 301 antes de la corrección pendiente de confirmar | Esquema, vista previa y comprobación final pendiente |
+| `stg_endutih_usuarios` | [F16](fuentes/f16_endutih.qmd) | Usuarios ENDUTIH 2024 completos: 58,080 filas y 232 columnas; 32 entidades | Comparación de dimensiones contra DBF original, CSV y BigQuery; esquema y vista previa |
+| `stg_censo_iter` | [F14](fuentes/f14_censo_iter.qmd) | ITER 2020 nacional completo: 195,662 filas y 286 columnas; sustituyó carga inicial de 675 filas | Conteo de CSV original y carga temporal BigQuery; esquema y vista previa de tabla definitiva |
+| `stg_rnpdno` | [F13](fuentes/f13_rnpdno.qmd) | 116,945 filas y ocho columnas en CSV preparado; nombres y apellidos excluidos por minimización | Esquema y vista previa; cotejo independiente con CSV original aún no documentado |
+| `stg_musicbrainz_tags` | [F8](fuentes/f08_musicbrainz.qmd) | Búsquedas por nombres de artista del catálogo Kworb y respuestas JSON sin depurar | Esquema y vista previa; conteo y errores por comprobar en BigQuery |
+| `stg_mexico_evalua_12_indices` | [F17](fuentes/f17_mexico_evalua.qmd) | 314 filas y 12 índices extraídos del informe por delito y entidad | Validación estructural del CSV y capturas de esquema y vista; conteo de BigQuery por verificar |
 
 
 ![Conteo de filas y canciones de `stg_kworb_mx_semanal`](img/bq_stg_kworb_mx_semanal_conteo.png){width=65% fig-align="center"}
@@ -596,11 +601,29 @@ conversión de tipos corresponde a silver. La descripción de cada tabla indica 
 
 ![Validación de `stg_kaggle_charts_mx`: 448,832 filas, 6,515 títulos, ninguna fila fuera de México, fechas 2017-01-01 a 2021-12-31](img/bq_stg_kaggle_charts_mx_validacion.png){width=85% fig-align="center"}
 
-### Cargas nuevas de staging
+### Evidencia de las incorporaciones a Bronze
 
 Las capturas siguientes comprueban la existencia y la estructura visible de las nuevas tablas. La extracción del catálogo de Kworb se validó en Colab con 300 IDs únicos, 112 textos distintos de artista, sin títulos ni artistas vacíos. En BigQuery se observó inicialmente una carga de 301 filas y 113 artistas, compatible con un encabezado cargado como dato; aún falta una nueva consulta `COUNT(*)` para confirmar su eliminación. No se atribuye a las tablas un conteo no verificado.
 
-![Vista del dataset `misoginia_staging` con once tablas](img/bq_staging_tablas_11.png){width=85% fig-align="center"}
+![Listado previo del dataset `misoginia_staging` con once tablas](img/bq_staging_tablas_11.png){width=85% fig-align="center"}
+
+**Estado actualizado (10 de octubre de 2026).** El dataset contiene las 16 tablas de staging previstas. La creación y el esquema de las tres cargas finales se evidencian mediante capturas; los conteos de esas tablas aún requieren una consulta de control en BigQuery.
+Las capturas de ENDUTIH e ITER documentan sus esquemas y vistas previas. Para ITER,
+Colab confirmó 195,662 registros del CSV original y 195,662 en la carga completa temporal;
+la tabla definitiva `stg_censo_iter` se muestra después de su sustitución.
+La carga de las 16 fuentes completa la fase de incorporación inicial a Bronze; la comprobación de calidad e integración se realizará durante la preparación Silver.
+
+![Listado actualizado de las 13 tablas en `misoginia_staging`](img/bq_staging_tablas_13.png){width=85% fig-align="center"}
+
+![Esquema de `stg_endutih_usuarios`, con columnas STRING](img/bq_stg_endutih_usuarios_esquema.png){width=85% fig-align="center"}
+
+![Vista previa de ENDUTIH 2024 usuarios, con identificadores conservados como texto](img/bq_stg_endutih_usuarios_vista.png){width=85% fig-align="center"}
+
+![Validación de ENDUTIH: 58,080 registros y 32 entidades en BigQuery](img/bq_stg_endutih_usuarios_conteo.png){width=85% fig-align="center"}
+
+![Esquema de `stg_censo_iter`, con sus campos conservados como STRING](img/bq_stg_censo_iter_esquema.png){width=85% fig-align="center"}
+
+![Vista previa del ITER 2020, con claves de entidad `00`, `01` y totales](img/bq_stg_censo_iter_vista.png){width=85% fig-align="center"}
 
 ![Esquema de `stg_coneval_pobreza` con columnas de texto](img/bq_stg_coneval_pobreza_esquema.png){width=85% fig-align="center"}
 
@@ -630,6 +653,27 @@ La consulta de conteos generales que se intentó ejecutar todavía no sirve como
 
 <!-- Al cargar otra tabla de staging: agregar su fila a la tabla de arriba y sus capturas debajo,
      con el nombre img/bq_stg_<tabla>_<conteo|esquema|descripcion>.png -->
+
+
+### RNPDNO, MusicBrainz y México Evalúa: evidencia de carga
+
+Las capturas corresponden a las tablas efectivamente creadas en el dataset. Los esquemas presentan campos de tipo `STRING`; las vistas previas son comprobaciones de estructura y no deben confundirse con auditorías completas de calidad o cobertura.
+
+![Esquema de `stg_rnpdno`: ocho columnas después de excluir tres identificadores directos](img/bq_final_rn_esquema.png){width=85% fig-align="center"}
+
+![Vista de `stg_rnpdno`: valores textuales, faltantes de edad y categorías que se revisarán en Silver](img/bq_final_rn_vista.png){width=85% fig-align="center"}
+
+![Esquema de `stg_musicbrainz_tags`: nombre consultado y respuesta JSON](img/bq_final_mb_esquema.png){width=85% fig-align="center"}
+
+![Vista de búsquedas de MusicBrainz; la respuesta aún requiere resolución de homónimos](img/bq_final_mb_vista.png){width=85% fig-align="center"}
+
+![Esquema de `stg_mexico_evalua_12_indices` con nueve columnas de trazabilidad](img/bq_final_mx_esquema.png){width=85% fig-align="center"}
+
+![Vista de México Evalúa: delito, entidad, año, porcentaje y unidad del índice](img/bq_final_mx_vista.png){width=85% fig-align="center"}
+
+Los 12 índices del informe *Hallazgos 2023* suman **314 observaciones en el archivo generado**. Conservamos las ausencias de cobertura señaladas en el PDF y la referencia a la página de extracción. Este indicador caracteriza el desempeño institucional, no el nivel de violencia registrado ni la probabilidad de denuncia.
+
+Para reproducir esta extracción se proporcionan [`extraer_hallazgos_2023_completo.py`](datos/staging/extraer_hallazgos_2023_completo.py) y el [`CSV extraído`](datos/staging/stg_mexico_evalua_12_indices.csv). Las doce series se verificaron mediante controles estructurales y comprobación de los valores nacionales. Adicionalmente, se realizó un cotejo manual, entrada por entrada, de los 314 registros con las gráficas originales del informe para corroborar la correspondencia entre entidad, delito y porcentaje.
 
 ### Cómo se integrarán los datos en Silver
 
@@ -702,7 +746,7 @@ for fila in soup.select("tr"):
         "titulo": enlace_cancion.get_text(" ", strip=True)})
 ```
 
-**Pendientes con bloque disponible:** el mismo script contiene RNPDNO (bloque C, retiro de columnas de nombres y revisión adicional de privacidad), Censo ITER (bloque D, muestra que conserva totales), ENDUTIH (bloque E, conversión DBF a CSV) y MusicBrainz (bloque I, *muestra técnica de doce artistas*, no cobertura definitiva). **México Evalúa todavía requiere** localizar el indicador estatal pertinente en el informe y verificar sus valores antes de preparar el CSV. Estos procedimientos no se presentan como cargas ya realizadas.
+**Estado de los bloques:** ITER (D) y ENDUTIH (E) se incorporaron sin muestreo; RNPDNO (C) se cargó con exclusión documentada de tres columnas personales; MusicBrainz (I) emplea la relación de textos de artistas obtenidos del catálogo Kworb; México Evalúa (J) contiene la extracción documentada de los doce indicadores del reporte. La existencia de tablas en Bronze no sustituye la validación de contenido, tipos, cobertura y correspondencias, que se realizará en Silver.
 
 ## Análisis de integración
 

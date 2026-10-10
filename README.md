@@ -81,3 +81,8 @@ Esto genera el sitio estático en `docs/`, que es la carpeta que sirve GitHub Pa
 
 
 Para publicar modificaciones de Quarto en GitHub Pages: ejecutar `quarto render` en la raíz del repositorio antes de `git add -A`, porque Pages publica los HTML de `docs/`.
+
+
+### E1 — Cierre de las fuentes de staging (octubre de 2026)
+
+La arquitectura y las fichas documentan las 16 tablas creadas en `misoginia_staging`. El material reproducible de preparación se encuentra en `entregas/E1_arquitectura_dw/datos/staging/`: notebook de Colab, script de extracción de doce índices de *Hallazgos 2023*, CSV derivado y consultas de verificación. Se distingue la creación de una tabla de la validación definitiva de la calidad de todos sus registros.

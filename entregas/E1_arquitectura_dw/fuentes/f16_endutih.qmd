@@ -22,6 +22,10 @@ Encuesta sobre disponibilidad y uso de internet y otras tecnologías en los hoga
 ![Vista previa de la tabla de usuarios](../img/vista_endutih.png){width=85% fig-align="center"}
 
 
+## Verificación de la carga
+
+Se comprobó directamente la tabla `tic_2024_usuarios.dbf`: **58,080 filas y 232 columnas**, idénticas dimensiones a las del CSV preparado y la tabla BigQuery `stg_endutih_usuarios`. Se representan las 32 entidades; no se aplicó muestreo ni eliminación de columnas. Esta validación no implica una comparación campo por campo. El notebook se actualizó para eliminar cualquier reducción condicional por tamaño.
+
 ## Problemas anticipados para la integración
 
 - Los microdatos solo están disponibles en un formato distinto al del resto de las fuentes.
