@@ -523,19 +523,41 @@ LEFT JOIN endireh AS n ON n.tipo_lgamvlv = tp.tipo_lgamvlv;
 
 ## Evidencia en BigQuery {#evidencia}
 
-Las capturas se guardan en `img/` con estos nombres:
+Las capturas muestran el estado real de las capas en BigQuery. En la consola se usa la vista previa en lugar de
+`SELECT *`, porque BigQuery cobra por los datos que lee. Las capturas no muestran llaves ni credenciales.
 
-| Evidencia | Archivo |
-|---|---|
-| Los tres datasets en la ubicación US | `img/bq_datasets.png` |
-| Trabajo de carga de una tabla de staging | `img/bq_carga_staging.png` |
-| Esquema y vista previa de cada tabla de staging | `img/bq_stg_<tabla>.png` |
-| DDL ejecutado | `img/bq_ddl.png` |
-| Esquema de cada tabla del DW | `img/bq_dw_<tabla>.png` |
-| Cada vista del DataMart validada en el editor | `img/bq_mart_<vista>.png` |
+### DataMart y DW
 
-En la consola se usa la vista previa en lugar de `SELECT *`, porque BigQuery cobra por los datos que lee. Las
-capturas no deben mostrar llaves ni credenciales.
+En el explorador de la izquierda se ven las siete tablas del DW (`dim_` y `fact_`) en `misoginia_dw` y las siete
+vistas del DataMart (`p1_` a `p4_`) en `misoginia_mart`. Al abrir una vista, BigQuery muestra su esquema, lo que
+confirma que la consulta se creó sin errores.
+
+![Esquema de la vista `p2_panel_entidad_anio` del DataMart](img/bq_mart_p2_panel_entidad_anio.png){width=70% fig-align="center"}
+
+![Esquema de la vista `p2_serie_mensual_nacional` del DataMart](img/bq_mart_p2_serie_mensual_nacional.png){width=70% fig-align="center"}
+
+### Staging cargado
+
+Cada tabla de staging se carga con todos sus campos como texto (`STRING`), tal como viene de la fuente; la
+conversión de tipos corresponde a silver. La descripción de cada tabla indica la fuente y la fecha de carga.
+
+| Tabla | Fuente | Contenido cargado | Comprobación |
+|---|---|---|---|
+| `stg_kworb_mx_semanal` | [F4](fuentes/f04_kworb.qmd) | 42,417 filas de 300 canciones, con las filas `Total` y `Peak` de cada una | `COUNT(*)` y `COUNT(DISTINCT track_id)` |
+| `stg_trends_regueton_tema_2021` | [F11](fuentes/f11_google_trends.qmd) | 32 estados, tema Reguetón, año 2021 | `COUNT(*)` |
+
+![Conteo de filas y canciones de `stg_kworb_mx_semanal`](img/bq_stg_kworb_mx_semanal_conteo.png){width=65% fig-align="center"}
+
+![Esquema de `stg_kworb_mx_semanal`](img/bq_stg_kworb_mx_semanal_esquema.png){width=55% fig-align="center"}
+
+![Descripción de `stg_kworb_mx_semanal`: fuente, fecha de descarga y advertencia sobre la última semana](img/bq_stg_kworb_mx_semanal_descripcion.png){width=65% fig-align="center"}
+
+![Conteo de estados de `stg_trends_regueton_tema_2021`](img/bq_stg_trends_regueton_tema_2021_conteo.png){width=55% fig-align="center"}
+
+![Descripción de `stg_trends_regueton_tema_2021`](img/bq_stg_trends_regueton_tema_2021_descripcion.png){width=55% fig-align="center"}
+
+<!-- Al cargar otra tabla de staging: agregar su fila a la tabla de arriba y sus capturas debajo,
+     con el nombre img/bq_stg_<tabla>_<conteo|esquema|descripcion>.png -->
 
 ## Análisis de integración
 

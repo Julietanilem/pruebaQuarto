@@ -239,7 +239,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#linaje" id="toc-linaje" class="nav-link" data-scroll-target="#linaje">Linaje: de cada tabla gold a su fuente</a></li>
   </ul></li>
   <li><a href="#gold-datamart" id="toc-gold-datamart" class="nav-link" data-scroll-target="#gold-datamart">Gold · DataMart</a></li>
-  <li><a href="#evidencia" id="toc-evidencia" class="nav-link" data-scroll-target="#evidencia">Evidencia en BigQuery</a></li>
+  <li><a href="#evidencia" id="toc-evidencia" class="nav-link" data-scroll-target="#evidencia">Evidencia en BigQuery</a>
+  <ul class="collapse">
+  <li><a href="#datamart-y-dw" id="toc-datamart-y-dw" class="nav-link" data-scroll-target="#datamart-y-dw">DataMart y DW</a></li>
+  <li><a href="#staging-cargado" id="toc-staging-cargado" class="nav-link" data-scroll-target="#staging-cargado">Staging cargado</a></li>
+  </ul></li>
   <li><a href="#análisis-de-integración" id="toc-análisis-de-integración" class="nav-link" data-scroll-target="#análisis-de-integración">Análisis de integración</a>
   <ul class="collapse">
   <li><a href="#llaves-de-unión" id="toc-llaves-de-unión" class="nav-link" data-scroll-target="#llaves-de-unión">Llaves de unión</a></li>
@@ -1074,46 +1078,87 @@ flowchart LR
 </section>
 <section id="evidencia" class="level2">
 <h2 class="anchored" data-anchor-id="evidencia">Evidencia en BigQuery</h2>
-<p>Las capturas se guardan en <code>img/</code> con estos nombres:</p>
+<p>Las capturas muestran el estado real de las capas en BigQuery. En la consola se usa la vista previa en lugar de <code>SELECT *</code>, porque BigQuery cobra por los datos que lee. Las capturas no muestran llaves ni credenciales.</p>
+<section id="datamart-y-dw" class="level3">
+<h3 class="anchored" data-anchor-id="datamart-y-dw">DataMart y DW</h3>
+<p>En el explorador de la izquierda se ven las siete tablas del DW (<code>dim_</code> y <code>fact_</code>) en <code>misoginia_dw</code> y las siete vistas del DataMart (<code>p1_</code> a <code>p4_</code>) en <code>misoginia_mart</code>. Al abrir una vista, BigQuery muestra su esquema, lo que confirma que la consulta se creó sin errores.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/bq_mart_p2_panel_entidad_anio.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<figcaption>Esquema de la vista <code>p2_panel_entidad_anio</code> del DataMart</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/bq_mart_p2_serie_mensual_nacional.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<figcaption>Esquema de la vista <code>p2_serie_mensual_nacional</code> del DataMart</figcaption>
+</figure>
+</div>
+</section>
+<section id="staging-cargado" class="level3">
+<h3 class="anchored" data-anchor-id="staging-cargado">Staging cargado</h3>
+<p>Cada tabla de staging se carga con todos sus campos como texto (<code>STRING</code>), tal como viene de la fuente; la conversión de tipos corresponde a silver. La descripción de cada tabla indica la fuente y la fecha de carga.</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
 </colgroup>
 <thead>
 <tr class="header">
-<th>Evidencia</th>
-<th>Archivo</th>
+<th>Tabla</th>
+<th>Fuente</th>
+<th>Contenido cargado</th>
+<th>Comprobación</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Los tres datasets en la ubicación US</td>
-<td><code>img/bq_datasets.png</code></td>
+<td><code>stg_kworb_mx_semanal</code></td>
+<td><a href="fuentes/f04_kworb.html">F4</a></td>
+<td>42,417 filas de 300 canciones, con las filas <code>Total</code> y <code>Peak</code> de cada una</td>
+<td><code>COUNT(*)</code> y <code>COUNT(DISTINCT track_id)</code></td>
 </tr>
 <tr class="even">
-<td>Trabajo de carga de una tabla de staging</td>
-<td><code>img/bq_carga_staging.png</code></td>
-</tr>
-<tr class="odd">
-<td>Esquema y vista previa de cada tabla de staging</td>
-<td><code>img/bq_stg_&lt;tabla&gt;.png</code></td>
-</tr>
-<tr class="even">
-<td>DDL ejecutado</td>
-<td><code>img/bq_ddl.png</code></td>
-</tr>
-<tr class="odd">
-<td>Esquema de cada tabla del DW</td>
-<td><code>img/bq_dw_&lt;tabla&gt;.png</code></td>
-</tr>
-<tr class="even">
-<td>Cada vista del DataMart validada en el editor</td>
-<td><code>img/bq_mart_&lt;vista&gt;.png</code></td>
+<td><code>stg_trends_regueton_tema_2021</code></td>
+<td><a href="fuentes/f11_google_trends.html">F11</a></td>
+<td>32 estados, tema Reguetón, año 2021</td>
+<td><code>COUNT(*)</code></td>
 </tr>
 </tbody>
 </table>
-<p>En la consola se usa la vista previa en lugar de <code>SELECT *</code>, porque BigQuery cobra por los datos que lee. Las capturas no deben mostrar llaves ni credenciales.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/bq_stg_kworb_mx_semanal_conteo.png" class="img-fluid figure-img" style="width:65.0%"></p>
+<figcaption>Conteo de filas y canciones de <code>stg_kworb_mx_semanal</code></figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/bq_stg_kworb_mx_semanal_esquema.png" class="img-fluid figure-img" style="width:55.0%"></p>
+<figcaption>Esquema de <code>stg_kworb_mx_semanal</code></figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/bq_stg_kworb_mx_semanal_descripcion.png" class="img-fluid figure-img" style="width:65.0%"></p>
+<figcaption>Descripción de <code>stg_kworb_mx_semanal</code>: fuente, fecha de descarga y advertencia sobre la última semana</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/bq_stg_trends_regueton_tema_2021_conteo.png" class="img-fluid figure-img" style="width:55.0%"></p>
+<figcaption>Conteo de estados de <code>stg_trends_regueton_tema_2021</code></figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/bq_stg_trends_regueton_tema_2021_descripcion.png" class="img-fluid figure-img" style="width:55.0%"></p>
+<figcaption>Descripción de <code>stg_trends_regueton_tema_2021</code></figcaption>
+</figure>
+</div>
+</section>
 </section>
 <section id="análisis-de-integración" class="level2">
 <h2 class="anchored" data-anchor-id="análisis-de-integración">Análisis de integración</h2>

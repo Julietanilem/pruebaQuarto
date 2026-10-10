@@ -25,7 +25,7 @@ subtitle: "Búsqueda, criterios de selección y catálogo verificado"
 Una fuente se acepta en el catálogo si cumple los cuatro criterios:
 
 - **C1. Relevancia:** alimenta al menos una pregunta de E0 (P1–P4).
-- **C2. Cobertura temporal** que se cruza con la ventana 2015–2025 y contiene información de México.
+- **C2. Cobertura temporal** que se cruza con la ventana 2017–2025 y contiene información de México.
 - **C3. Llave de integración** explícita: clave INEGI de entidad, fecha, o canción/artista.
 - **C4. Licencia o términos de uso** que permiten el uso académico que requiere el proyecto.
 
